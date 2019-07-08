@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28922.388
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kipon.Excel", "Kipon.Excel\Kipon.Excel.csproj", "{A072A966-284B-4196-A9CF-62033DAA0CD7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kipon.Excel.UnitTests", "Kipon.Excel.UnitTests\Kipon.Excel.UnitTests.csproj", "{FBB4697D-5A2D-4B26-AE12-D2C5B4A4D581}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A072A966-284B-4196-A9CF-62033DAA0CD7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A072A966-284B-4196-A9CF-62033DAA0CD7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A072A966-284B-4196-A9CF-62033DAA0CD7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A072A966-284B-4196-A9CF-62033DAA0CD7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FBB4697D-5A2D-4B26-AE12-D2C5B4A4D581}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FBB4697D-5A2D-4B26-AE12-D2C5B4A4D581}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FBB4697D-5A2D-4B26-AE12-D2C5B4A4D581}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FBB4697D-5A2D-4B26-AE12-D2C5B4A4D581}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {58412C56-0CF4-4370-BB12-FA4B4AD50CCB}
+	EndGlobalSection
+EndGlobal
