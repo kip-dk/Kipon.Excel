@@ -87,6 +87,13 @@ namespace Kipon.Excel.Types
             this._row = new Row(lineNo - 1);
             this._value = value;
         }
+
+        internal Cell(uint column, uint row)
+        {
+            this._column = new Column((int)column);
+            this._row = new Row((int)row);
+            _value = _column.Value + (_row.Value + 1).ToString();
+        }
         #endregion
 
         #region overrides

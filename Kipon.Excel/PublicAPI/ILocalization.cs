@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Kipon.Excel
 {
-    public interface ISpreadsheet
+    public interface ILocalization
     {
-        IEnumerable<ISheet> Sheets { get; }
+        object ToLocal(object value);
     }
 }
