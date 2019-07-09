@@ -8,5 +8,6 @@ namespace Kipon.Excel
 {
     public interface ICell
     {
+        string Text { get; }
     }
 }

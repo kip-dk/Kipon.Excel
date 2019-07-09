@@ -18,6 +18,7 @@ namespace Kipon.Excel
         string Error { get; }
         string PromptTitle { get; }
         string Prompt { get; }
+#warning, validate if on rule can contain more than on range
         Types.Range SequenceOfReferences { get; }
 
     }
