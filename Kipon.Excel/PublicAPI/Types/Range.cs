@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Kipon.Excel.Types
 {
     /// <summary>
-    /// A range represent a range in hte matrix, where From is always the upper left corner and to is always the lower right corner.
+    /// A range represent a range in the matrix, where From is always the upper left corner and To is always the lower right corner.
     /// The consequence of this rule, is that the cells parsed into the constructor of range is not nesserarrly the same as thouse return
     /// from the From and To properties
     /// </summary>
@@ -22,7 +22,7 @@ namespace Kipon.Excel.Types
         #region constructors
         /// <summary>
         /// Create a range from two cell definitions.
-        /// Be aware that cell1 do not nessesarrly beform from, hence cell to might not become to
+        /// Be aware that cell1 do not nessesarrly become From, hence cell to might not become To
         /// </summary>
         /// <param name="cell1">The first cell in the range</param>
         /// <param name="cell2">The second cell in the range</param>
@@ -33,6 +33,12 @@ namespace Kipon.Excel.Types
             this._value = $"{_from.Value.ToString()}:{_to.Value.ToString()}";
         }
 
+
+        /// <summary>
+        /// It is valid to input ranges in wrong order, but the resulting range will be from left upper corner to right lower corner
+        /// hence,  C2:A1 is valid, but will end up with a range defined as A1:C2
+        /// </summary>
+        /// <param name="value">A range string on from A1:C2</param>
         public Range(string value)
         {
             if (value == null) throw new NullReferenceException("value cannot be null");

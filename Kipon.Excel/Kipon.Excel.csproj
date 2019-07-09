@@ -58,7 +58,6 @@
     <Compile Include="PublicAPI\IColumn.cs" />
     <Compile Include="PublicAPI\IDataValidation.cs" />
     <Compile Include="PublicAPI\IOutlineProperties.cs" />
-    <Compile Include="PublicAPI\IRange.cs" />
     <Compile Include="PublicAPI\IRow.cs" />
     <Compile Include="PublicAPI\ISheet.cs" />
     <Compile Include="PublicAPI\ISheetProperties.cs" />

@@ -18,7 +18,7 @@ namespace Kipon.Excel
         string Error { get; }
         string PromptTitle { get; }
         string Prompt { get; }
-        IRange SequenceOfReferences { get; }
+        Types.Range SequenceOfReferences { get; }
 
     }
 }
