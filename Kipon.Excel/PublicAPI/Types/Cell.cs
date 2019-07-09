@@ -173,5 +173,45 @@ namespace Kipon.Excel.Types
             }
         }
         #endregion
+
+        #region internal helper methods
+        internal Cell ToTopLeftRangeCorner(Cell other)
+        {
+            if (this.Value == other.Value) return this;
+
+            int column = this.Column.Index;
+            if (column > other.Column.Index)
+            {
+                column = other.Column.Index;
+            }
+
+            int row = this.Row.Value;
+            if (row > other.Row.Value)
+            {
+                row = other.Row.Value;
+            }
+
+            return new Cell(column, row);
+        }
+
+        internal Cell ToBottomRightRangeCorner(Cell other)
+        {
+            if (this.Value == other.Value) return this;
+
+            int column = this.Column.Index;
+            if (column < other.Column.Index)
+            {
+                column = other.Column.Index;
+            }
+
+            int row = this.Row.Value;
+            if (row < other.Row.Value)
+            {
+                row = other.Row.Value;
+            }
+
+            return new Cell(column, row);
+        }
+        #endregion
     }
 }

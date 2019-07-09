@@ -39,5 +39,18 @@ namespace Kipon.Excel.UnitTests.PublicAPI.Types
             Assert.IsFalse(new Cell("A1") != "A1" );
 
         }
+
+        [TestMethod]
+        public void CellAsPropertyTest()
+        {
+            var t1 = new CellTestClass { Cell = "A1" };
+            Assert.AreEqual("A1", t1.Cell.Value);
+        }
+
+
+        public class CellTestClass
+        {
+            public Cell Cell { get; set; }
+        }
     }
 }

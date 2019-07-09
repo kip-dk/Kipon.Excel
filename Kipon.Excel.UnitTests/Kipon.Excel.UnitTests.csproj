@@ -53,6 +53,7 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PublicAPI\Types\CellTest.cs" />
+    <Compile Include="PublicAPI\Types\RangeTest.cs" />
     <Compile Include="PublicAPI\Types\RowTest.cs" />
     <Compile Include="PublicAPI\Types\ColumnTest.cs" />
   </ItemGroup>
