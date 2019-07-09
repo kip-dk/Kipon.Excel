@@ -63,6 +63,7 @@
     <Compile Include="PublicAPI\ISheet.cs" />
     <Compile Include="PublicAPI\ISheetProperties.cs" />
     <Compile Include="PublicAPI\ISpreadsheet.cs" />
+    <Compile Include="PublicAPI\Types\Cell.cs" />
     <Compile Include="PublicAPI\Types\Column.cs" />
     <Compile Include="PublicAPI\Types\Row.cs" />
   </ItemGroup>
