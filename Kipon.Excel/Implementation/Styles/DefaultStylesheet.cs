@@ -6,7 +6,7 @@ using Kipon.Excel.Types;
 
 namespace Kipon.Excel.Styles
 {
-    public class DefaultStylesheet : Stylesheet, Kipon.Excel.Implementation.Serialization.IStyleResolver
+    internal class DefaultStylesheet : Stylesheet, Kipon.Excel.Implementation.Serialization.IStyleResolver
     {
         #region internal statics
         internal static readonly UInt32Value BOLD_STYLE_INDEX = (UInt32Value)4;

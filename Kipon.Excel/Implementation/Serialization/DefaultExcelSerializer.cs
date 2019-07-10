@@ -7,14 +7,14 @@ using System.Threading.Tasks;
 
 namespace Kipon.Excel.Serialization
 {
-    public class DefaultExcelSerializer<T> : IExcelSerializable<T> where T: new()
+    internal class DefaultExcelSerializer<T> : IExcelSerializable<T> where T: new()
     {
-        public T Deserialize(Stream input)
+        T IExcelSerializable<T>.Deserialize(Stream input)
         {
             throw new NotImplementedException();
         }
 
-        public void Serialize(Stream output, T data)
+        void IExcelSerializable<T>.Serialize(Stream output, T data)
         {
             throw new NotImplementedException();
         }
