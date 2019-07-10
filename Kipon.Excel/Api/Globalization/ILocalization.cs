@@ -8,6 +8,7 @@ namespace Kipon.Excel.Api.Globalization
 {
     public interface ILocalization
     {
-        object ToLocal(object value);
+        string True { get; }
+        string False { get; }
     }
 }

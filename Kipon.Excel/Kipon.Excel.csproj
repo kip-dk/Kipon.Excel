@@ -63,7 +63,7 @@
     <Compile Include="Implementation\Models\Sheet.cs" />
     <Compile Include="Implementation\Models\Spreadsheet.cs" />
     <Compile Include="Implementation\Serialization\IDataTypeResolver.cs" />
-    <Compile Include="Implementation\Serialization\InternalExcelSerializer.cs" />
+    <Compile Include="Implementation\Serialization\ExcelWriter.cs" />
     <Compile Include="Implementation\Serialization\IStyleResolver.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Attributes\ColumnAttribute.cs" />

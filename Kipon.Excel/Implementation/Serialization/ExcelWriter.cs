@@ -12,7 +12,7 @@ using Kipon.Excel.Api.Globalization;
 
 namespace Kipon.Excel.Implementation.Serialization
 {
-    internal class InternalExcelSerializer
+    internal class ExcelWriter
     {
         private ISpreadsheet _spreadsheet;
         private IStyleResolver _styleResolver;
@@ -22,7 +22,7 @@ namespace Kipon.Excel.Implementation.Serialization
         private NumberFormatInfo valueNumberFormatInfo = new NumberFormatInfo() { NumberDecimalSeparator = ".", NumberGroupSeparator = string.Empty };
 
 
-        internal InternalExcelSerializer(ISpreadsheet spreadsheet, IDataTypeResolver datatyperesolver, ILocalization localization = null)
+        internal ExcelWriter(ISpreadsheet spreadsheet, IDataTypeResolver datatyperesolver, ILocalization localization = null)
         {
             this._spreadsheet = spreadsheet;
             this._datatypeResolver = datatyperesolver;
@@ -125,7 +125,8 @@ namespace Kipon.Excel.Implementation.Serialization
                                 {
                                     if (dataCell.Value is bool)
                                     {
-                                        var excelValue = new CellValue(this._localization.ToLocal(dataCell.Value).ToString());
+                                        var txt = (bool)dataCell.Value ? this._localization.True : this._localization.False;
+                                        var excelValue = new CellValue(txt);
                                         excelCell.Append(excelValue);
                                         break;
                                     }
