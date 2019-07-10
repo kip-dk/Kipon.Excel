@@ -2,7 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Kipon.Excel.Api.Types;
 
-namespace Kipon.Excel.UnitTests.PublicAPI.Types
+namespace Kipon.Excel.UnitTests.Api.Types
 {
     [TestClass]
     public class ColumnTest

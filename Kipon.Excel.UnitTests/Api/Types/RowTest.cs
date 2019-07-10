@@ -3,7 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Kipon.Excel.Api.Types;
 using System.Xml.Serialization;
 
-namespace Kipon.Excel.UnitTests.PublicAPI.Types
+namespace Kipon.Excel.UnitTests.Api.Types
 {
     [TestClass]
     public class RowTest

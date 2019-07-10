@@ -52,10 +52,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="PublicAPI\Types\CellTest.cs" />
-    <Compile Include="PublicAPI\Types\RangeTest.cs" />
-    <Compile Include="PublicAPI\Types\RowTest.cs" />
-    <Compile Include="PublicAPI\Types\ColumnTest.cs" />
+    <Compile Include="Api\Types\CellTest.cs" />
+    <Compile Include="Api\Types\RangeTest.cs" />
+    <Compile Include="Api\Types\RowTest.cs" />
+    <Compile Include="Api\Types\ColumnTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
