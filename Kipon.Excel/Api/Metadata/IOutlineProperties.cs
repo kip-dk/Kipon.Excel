@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Kipon.Excel
+namespace Kipon.Excel.Api.Metadata
 {
     public interface IOutlineProperties
     {

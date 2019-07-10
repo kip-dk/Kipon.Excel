@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Kipon.Excel.Api;
 
 namespace Kipon.Excel.Implementation.Models
 {
-    internal class Spreadsheet : Kipon.Excel.ISpreadsheet
+    internal class Spreadsheet : ISpreadsheet
     {
         private List<ISheet> _sheets;
 

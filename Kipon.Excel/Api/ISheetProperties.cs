@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Kipon.Excel
+namespace Kipon.Excel.Api
 {
-    public interface ILocalization
+    public interface ISheetProperties
     {
-        object ToLocal(object value);
+        Metadata.IOutlineProperties OutlineProperties { get; }
     }
 }

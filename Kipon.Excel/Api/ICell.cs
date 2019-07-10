@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Kipon.Excel
+namespace Kipon.Excel.Api
 {
-    public interface IColumns
+    public interface ICell
     {
-        IEnumerable<IColumn> Columns { get; }
+        object Value { get; }
     }
 }

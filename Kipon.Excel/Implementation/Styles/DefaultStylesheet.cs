@@ -2,6 +2,7 @@
 using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Spreadsheet;
 using Kipon.Excel.Implementation.Serialization;
+using Kipon.Excel.Api;
 using Kipon.Excel.Api.Types;
 
 namespace Kipon.Excel.Styles

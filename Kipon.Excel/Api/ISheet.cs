@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Kipon.Excel
+namespace Kipon.Excel.Api
 {
-    public interface ICell
+    public interface ISheet
     {
-        object Value { get; }
+        string Title { get; }
+        IEnumerable<IRow> Rows { get; }
     }
 }

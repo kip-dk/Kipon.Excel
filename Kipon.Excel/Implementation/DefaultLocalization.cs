@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Kipon.Excel.Implementation
 {
-    internal class DefaultLocalization : ILocalization
+    internal class DefaultLocalization : Api.ILocalization
     {
-        object ILocalization.ToLocal(object value)
+        object Api.ILocalization.ToLocal(object value)
         {
             if (value is bool)
             {

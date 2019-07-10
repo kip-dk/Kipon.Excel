@@ -7,6 +7,7 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Kipon.Excel.Api;
 
 namespace Kipon.Excel.Implementation.Serialization
 {
@@ -30,7 +31,7 @@ namespace Kipon.Excel.Implementation.Serialization
                 this._localization = localization;
             } else
             {
-                this._localization = new Implementation.DefaultLocalization();
+                this._localization = new Kipon.Excel.Implementation.DefaultLocalization();
             }
         }
 
