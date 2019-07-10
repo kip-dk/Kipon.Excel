@@ -2,7 +2,7 @@
 using System.Runtime.Serialization;
 using System.Security.Permissions;
 
-namespace Kipon.Excel.Types
+namespace Kipon.Excel.Api.Types
 {
     /// <summary>
     /// A row is basically a simple integer, but limited to the min max rows supported for excel.

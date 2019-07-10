@@ -8,8 +8,8 @@ namespace Kipon.Excel
 {
     public interface IColumn
     {
-        Types.Column Min { get; set; }
-        Types.Column Max { get; set; }
+        Api.Types.Column Min { get; set; }
+        Api.Types.Column Max { get; set; }
         double Width { get; }
         bool Hidden { get; }
     }

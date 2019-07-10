@@ -102,7 +102,7 @@ namespace Kipon.Excel.Implementation.Serialization
                 uint colix = 0;
                 foreach (var dataCell in dataRow.Cells)
                 {
-                    var position = new Types.Cell(colix, rowix);
+                    var position = new Api.Types.Cell(colix, rowix);
 
                     Cell excelCell = new Cell()
                     {

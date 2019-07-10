@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Kipon.Excel.Types
+namespace Kipon.Excel.Api.Types
 {
     /// <summary>
     /// A range represent a range in the matrix, where From is always the upper left corner and To is always the lower right corner.

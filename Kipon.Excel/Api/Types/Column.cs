@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Kipon.Excel.Types
+namespace Kipon.Excel.Api.Types
 {
     /// <summary>
     /// A column is a strong type for handling excel columns. It can be set from both int and strings

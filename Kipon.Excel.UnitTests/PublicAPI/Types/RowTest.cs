@@ -1,6 +1,6 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Kipon.Excel.Types;
+using Kipon.Excel.Api.Types;
 using System.Xml.Serialization;
 
 namespace Kipon.Excel.UnitTests.PublicAPI.Types

@@ -9,7 +9,7 @@ namespace Kipon.Excel.Implementation.Serialization
 {
     internal interface IDataTypeResolver
     {
-        CellValues Resolve(ISheet sheet, Types.Cell cell);
-        int? NumberOfDecimals(ISheet sheet, Types.Cell cell);
+        CellValues Resolve(ISheet sheet, Api.Types.Cell cell);
+        int? NumberOfDecimals(ISheet sheet, Api.Types.Cell cell);
     }
 }
