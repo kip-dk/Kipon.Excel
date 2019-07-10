@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Kipon.Excel.Api;
+using Kipon.Excel.Api.Globalization;
 
 namespace Kipon.Excel.Implementation.Serialization
 {

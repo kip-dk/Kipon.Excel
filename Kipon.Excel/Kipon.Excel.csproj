@@ -73,7 +73,7 @@
     <Compile Include="Api\Metadata\IColumn.cs" />
     <Compile Include="Api\Metadata\IColumns.cs" />
     <Compile Include="Api\Metadata\IDataValidation.cs" />
-    <Compile Include="Api\ILocalization.cs" />
+    <Compile Include="Api\Globalization\ILocalization.cs" />
     <Compile Include="Api\Metadata\IOutlineProperties.cs" />
     <Compile Include="Api\IRow.cs" />
     <Compile Include="Api\ISheet.cs" />
