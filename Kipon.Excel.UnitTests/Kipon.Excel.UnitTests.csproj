@@ -51,6 +51,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Fake\Data\ValueProperty.cs" />
+    <Compile Include="Linq\LinqReaderInterfaceTest.cs" />
+    <Compile Include="Linq\LinqWriterInterfaceTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Api\Types\CellTest.cs" />
     <Compile Include="Api\Types\RangeTest.cs" />
