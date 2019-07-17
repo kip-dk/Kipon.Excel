@@ -9,7 +9,7 @@ namespace Kipon.Excel.Api.Types
     /// <summary>
     /// A cell represent a reference to a cell in a sheet by its name. It is by nature build from a column and a row reference, and as such it
     /// simply points into coordinate of the sheet.
-    /// The upper left value of a cell is A1, corresponding to a column A, and a row index 0. Hince, a cell has it natual name.
+    /// The upper left value of a cell is A1, corresponding to a column A (index=0), and a row value 1, (index 0). Hince, a cell has it natual name.
     /// </summary>
     public struct Cell
     {
@@ -25,37 +25,18 @@ namespace Kipon.Excel.Api.Types
         /// </summary>
         /// <param name="column">column name, ex. A</param>
         /// <param name="row">ZERO based row, ex 0</param>
-        public Cell(Column column, Row row)
+        private static Cell CellFromCR(Column column, Row row)
         {
             if (column == null) throw new NullReferenceException("column cannot be null");
-            _column = column;
-            _row = row;
-            _value = _column.Value + (_row.Value + 1).ToString();
-        }
 
-        /// <summary>
-        /// Creates a Cell reference from its name and line number. Be aware, first line is 1.
-        /// </summary>
-        /// <param name="column">column name, ex. A</param>
-        /// <param name="line">Natural line number, first line is 1</param>
-        public Cell(string column, int line)
-        {
-            if (column == null) throw new NullReferenceException("column cannot be null");
-            if (column.Length < 1) throw new ArgumentException("column length must be at least 1");
-            if (column.Length > 3) throw new ArgumentException("column length must be at most 3");
-
-            if (line < 1) throw new ArgumentOutOfRangeException("line cannot be less than 1");
-
-            this._column = new Column(column);
-            this._row = new Row(line - 1);
-            this._value = _column.Value.ToString() + line.ToString();
+            return column.Value + (row.Value + 1).ToString();
         }
 
         /// <summary>
         /// Create a Cell reference from its natural name
         /// </summary>
         /// <param name="value">Natural name of cell,  ex A1 for the first cell in the sheet</param>
-        public Cell(string value)
+        private Cell(string value)
         {
             if (value == null) throw new NullReferenceException("value cannot be null");
             if (value.Length < 2) throw new ArgumentException("length of value cannot be less than 2");
@@ -88,6 +69,7 @@ namespace Kipon.Excel.Api.Types
             this._value = value;
         }
 
+#warning dirty method due to wrong ISheet api
         internal Cell(uint column, uint row)
         {
             this._column = new Column((int)column);
@@ -124,9 +106,17 @@ namespace Kipon.Excel.Api.Types
         #endregion
 
         #region operators
+#warning caching directly here is not pretty, we need a garbage collection mechanims to cleanup when no excel writing is going one
+        private static readonly Dictionary<string, Cell> cells = new Dictionary<string, Cell>();
         public static implicit operator Cell(string v)
         {
-            return new Cell(v);
+            if (v == null) throw new NullReferenceException();
+            lock (cells)
+            {
+                if (cells.ContainsKey(v)) return cells[v];
+                cells[v] = new Cell(v);
+                return cells[v];
+            }
         }
 
         public static implicit operator string(Cell v)
@@ -198,7 +188,7 @@ namespace Kipon.Excel.Api.Types
                 row = other.Row.Value;
             }
 
-            return new Cell(column, row);
+            return CellFromCR(column, row);
         }
 
         internal Cell ToBottomRightRangeCorner(Cell other)
@@ -217,7 +207,7 @@ namespace Kipon.Excel.Api.Types
                 row = other.Row.Value;
             }
 
-            return new Cell(column, row);
+            return CellFromCR(column, row);
         }
         #endregion
     }

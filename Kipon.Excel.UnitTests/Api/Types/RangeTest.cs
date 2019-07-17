@@ -12,7 +12,7 @@ namespace Kipon.Excel.UnitTests.Api.Types
         public void ConstructorTest()
         {
             Assert.AreEqual(new Range("A1:B2"), new Range("B2:A1"));
-            Assert.AreEqual(new Range("A1", "B2"), new Range(new Cell("B2"), new Cell("A1")));
+            Assert.AreEqual(new Range("A1", "B2"), new Range("B2", "A1"));
 
             Assert.ThrowsException<NullReferenceException>(() => new Range(null));
             Assert.ThrowsException<FormatException>(() => new Range("FEJL"));

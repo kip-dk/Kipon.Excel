@@ -44,8 +44,8 @@ namespace Kipon.Excel.Api.Types
             if (value == null) throw new NullReferenceException("value cannot be null");
             var spl = value.Split(':');
             if (spl.Length != 2) throw new FormatException("value is not in correct format, expected two cell reference on form A1:B2");
-            var c1 = new Cell(spl[0]);
-            var c2 = new Cell(spl[1]);
+            Cell c1 = spl[0];
+            Cell c2 = spl[1];
             this._from = c1.ToTopLeftRangeCorner(c2);
             this._to = c2.ToBottomRightRangeCorner(c1);
             this._value = $"{_from.Value.ToString()}:{_to.Value.ToString()}";
