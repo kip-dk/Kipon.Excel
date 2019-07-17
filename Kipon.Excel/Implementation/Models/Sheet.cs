@@ -9,7 +9,7 @@ namespace Kipon.Excel.Implementation.Models
 {
     internal class Sheet : ISheet
     {
-        private List<IRow> _rows;
+        private IEnumerable<ICell> _cell;
         public Sheet()
         {
 
@@ -17,20 +17,20 @@ namespace Kipon.Excel.Implementation.Models
 
         public string Title { get; set; }
 
-        public IEnumerable<IRow> Rows
+        public IEnumerable<ICell> Cells
         {
             get
             {
-                if (_rows == null)
+                if (_cell == null)
                 {
-                    return new IRow[0];
+                    return new ICell[0];
                 }
-                return _rows;
+                return _cell;
             }
             set
             {
-                if (value == null) throw new NullReferenceException("value og Rows cannot be null");
-                this._rows = value.ToList();
+                if (value == null) throw new NullReferenceException("value og Cells cannot be null");
+                this._cell = value;
             }
         }
     }

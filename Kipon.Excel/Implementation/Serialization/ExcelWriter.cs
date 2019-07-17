@@ -83,6 +83,21 @@ namespace Kipon.Excel.Implementation.Serialization
 
         private void generateWorksheetPartContent(WorksheetPart worksheetPart, ISheet sheet)
         {
+            var rows = (from c in sheet.Cells
+                        group c by c.Name.Column.Index into grp
+                        select new
+                        {
+                            Row = grp.First().Name.Row,
+                            Cells = grp.ToArray(),
+                            HasDub =(from g in grp
+                                     group g by g.Name.Value into cellGroup
+                                     select new
+                                     {
+                                         ame = cellGroup.Key,
+                                         Count = cellGroup.Count()
+                                     }).Where(r => r.Count > 1).Any()
+                        }).ToArray();
+
             Worksheet worksheet = new Worksheet()
             {
                 SheetProperties = new SheetProperties()
@@ -94,7 +109,7 @@ namespace Kipon.Excel.Implementation.Serialization
             SheetData sheetData = new SheetData();
 
             uint rowix = 0;
-            foreach (var dataRow in sheet.Rows)
+            foreach (var dataRow in rows)
             {
                 Row excelRow = new Row()
                 {

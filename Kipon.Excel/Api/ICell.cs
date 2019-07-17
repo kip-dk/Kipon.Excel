@@ -8,6 +8,7 @@ namespace Kipon.Excel.Api
 {
     public interface ICell
     {
+        Types.Cell Name { get; }
         object Value { get; }
     }
 }

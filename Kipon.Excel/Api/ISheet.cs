@@ -9,6 +9,6 @@ namespace Kipon.Excel.Api
     public interface ISheet
     {
         string Title { get; }
-        IEnumerable<IRow> Rows { get; }
+        IEnumerable<ICell> Cells { get; }
     }
 }
