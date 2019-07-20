@@ -83,19 +83,19 @@ namespace Kipon.Excel.Implementation.Serialization
 
         private void generateWorksheetPartContent(WorksheetPart worksheetPart, ISheet sheet)
         {
-            var rows = (from c in sheet.Cells
-                        group c by c.Name.Column.Index into grp
+            var tmpRows = (from c in sheet.Cells
                         select new
                         {
-                            Row = grp.First().Name.Row,
-                            Cells = grp.ToArray(),
-                            HasDub =(from g in grp
-                                     group g by g.Name.Value into cellGroup
-                                     select new
-                                     {
-                                         ame = cellGroup.Key,
-                                         Count = cellGroup.Count()
-                                     }).Where(r => r.Count > 1).Any()
+                            OpenxmlCell = new Implementation.OpenXml.Types.Cell(System.Convert.ToUInt32(c.Coordinate.Point.First()), System.Convert.ToUInt32(c.Coordinate.Point.Last())),
+                            Value = c.Value
+                        }).ToArray();
+
+            var rows = (from r in tmpRows
+                        group r by r.OpenxmlCell.Row.Value into grp
+                        select new
+                        {
+                            Index = grp.Key,
+                            Cells = grp.ToArray()
                         }).ToArray();
 
             Worksheet worksheet = new Worksheet()
@@ -119,7 +119,7 @@ namespace Kipon.Excel.Implementation.Serialization
                 uint colix = 0;
                 foreach (var dataCell in dataRow.Cells)
                 {
-                    var position = new Api.Types.Cell(colix, rowix);
+                    var position = new Implementation.OpenXml.Types.Cell(colix, rowix);
 
                     Cell excelCell = new Cell()
                     {

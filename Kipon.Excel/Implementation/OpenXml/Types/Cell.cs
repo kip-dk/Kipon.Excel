@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Kipon.Excel.Api.Types
+namespace Kipon.Excel.Implementation.OpenXml.Types
 {
     /// <summary>
     /// A cell represent a reference to a cell in a sheet by its name. It is by nature build from a column and a row reference, and as such it

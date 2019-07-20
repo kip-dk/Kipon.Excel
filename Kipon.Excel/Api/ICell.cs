@@ -8,7 +8,7 @@ namespace Kipon.Excel.Api
 {
     public interface ICell
     {
-        Types.Cell Name { get; }
+        ICoordinate Coordinate { get; }
         object Value { get; }
     }
 }

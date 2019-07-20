@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Kipon.Excel.Api.Metadata
 {
-    public interface IColumns
+    internal interface IColumns
     {
         IEnumerable<IColumn> Columns { get; }
     }

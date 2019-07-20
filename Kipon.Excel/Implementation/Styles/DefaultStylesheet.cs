@@ -3,7 +3,7 @@ using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Spreadsheet;
 using Kipon.Excel.Implementation.Serialization;
 using Kipon.Excel.Api;
-using Kipon.Excel.Api.Types;
+using Kipon.Excel.Implementation.OpenXml.Types;
 
 namespace Kipon.Excel.Styles
 {
@@ -93,7 +93,7 @@ namespace Kipon.Excel.Styles
         }
 
         #region impl and hide style resolver
-        uint IStyleResolver.Resolve(ISheet sheet, Api.Types.Cell cell)
+        uint IStyleResolver.Resolve(ISheet sheet, Implementation.OpenXml.Types.Cell cell)
         {
             if (cell.Row.Value == 0) return BOLD_STYLE_INDEX;
             if (cell.Row.Value % 2 == 0) return EVEN_STYLE_INDEX_UNLOCKED;

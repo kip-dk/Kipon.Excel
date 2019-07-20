@@ -10,7 +10,7 @@ namespace Kipon.Excel.Implementation.Models
     internal class Cell : ICell
     {
 
-        public Kipon.Excel.Api.Types.Cell Name { get; set; }
+        public Kipon.Excel.Api.ICoordinate Coordinate { get; set; }
 
         public object Value
         {

@@ -1,8 +1,8 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Kipon.Excel.Api.Types;
+using Kipon.Excel.Implementation.OpenXml.Types;
 
-namespace Kipon.Excel.UnitTests.Api.Types
+namespace Kipon.Excel.UnitTests.Implementation.OpenXml.Types
 {
     [TestClass]
     public class ColumnTest

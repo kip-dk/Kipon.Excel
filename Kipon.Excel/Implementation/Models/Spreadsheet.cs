@@ -9,23 +9,21 @@ namespace Kipon.Excel.Implementation.Models
 {
     internal class Spreadsheet : ISpreadsheet
     {
-        private List<ISheet> _sheets;
+        private IEnumerable<ISheet> _sheets;
+
+        internal Spreadsheet(IEnumerable<ISheet> sheets)
+        {
+            if (sheets == null) throw new ArgumentNullException("sheets cannot be null");
+            if (sheets.Count() < 1) throw new ArgumentOutOfRangeException("sheets must have a least one instance");
+            this._sheets = sheets;
+        }
+
 
         public IEnumerable<ISheet> Sheets
         {
             get
             {
-                if (_sheets == null)
-                {
-                    return new ISheet[0];
-                }
-
                 return this._sheets;
-            }
-            set
-            {
-                if (value == null) throw new NullReferenceException("value of property Sheets cannot be set to null");
-                this._sheets = value.ToList();
             }
         }
     }

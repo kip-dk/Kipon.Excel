@@ -53,15 +53,22 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Api\Types\Cell.cs" />
-    <Compile Include="Api\Types\Column.cs" />
-    <Compile Include="Api\Types\Range.cs" />
-    <Compile Include="Api\Types\Row.cs" />
+    <Compile Include="Implementation\Factories\AbstractBaseResolver.cs" />
+    <Compile Include="Implementation\Factories\IPopulator.cs" />
+    <Compile Include="Implementation\Factories\IResolver.cs" />
+    <Compile Include="Implementation\Factories\SheetResolver.cs" />
+    <Compile Include="Implementation\Factories\SpreadsheetResolver.cs" />
+    <Compile Include="Implementation\Factories\TypeCachedResolver.cs" />
+    <Compile Include="Implementation\Models\Sheets.cs" />
+    <Compile Include="Implementation\OpenXml\Types\Cell.cs" />
+    <Compile Include="Implementation\OpenXml\Types\Column.cs" />
+    <Compile Include="Api\ICoordinate.cs" />
+    <Compile Include="Implementation\OpenXml\Types\Range.cs" />
+    <Compile Include="Implementation\OpenXml\Types\Row.cs" />
     <Compile Include="Exceptions\ExcelBaseException.cs" />
     <Compile Include="Exceptions\UnsupportedTypeException.cs" />
     <Compile Include="Implementation\DefaultLocalization.cs" />
     <Compile Include="Implementation\Models\Cell.cs" />
-    <Compile Include="Implementation\Models\Row.cs" />
     <Compile Include="Implementation\Models\Sheet.cs" />
     <Compile Include="Implementation\Models\Spreadsheet.cs" />
     <Compile Include="Implementation\Serialization\IDataTypeResolver.cs" />
@@ -79,7 +86,6 @@
     <Compile Include="Api\Metadata\IDataValidation.cs" />
     <Compile Include="Api\Globalization\ILocalization.cs" />
     <Compile Include="Api\Metadata\IOutlineProperties.cs" />
-    <Compile Include="Api\IRow.cs" />
     <Compile Include="Api\ISheet.cs" />
     <Compile Include="Api\ISheetProperties.cs" />
     <Compile Include="Api\ISpreadsheet.cs" />

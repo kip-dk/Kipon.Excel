@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Kipon.Excel.Api.Metadata
 {
-    interface IDataValidation
+    internal interface IDataValidation
     {
         DataValidationValues Type { get; }
         DataValidationOperatorValues Operator { get; }
@@ -19,7 +19,7 @@ namespace Kipon.Excel.Api.Metadata
         string PromptTitle { get; }
         string Prompt { get; }
 #warning, validate if on rule can contain more than on range
-        Api.Types.Range SequenceOfReferences { get; }
+        Implementation.OpenXml.Types.Range SequenceOfReferences { get; }
 
     }
 }

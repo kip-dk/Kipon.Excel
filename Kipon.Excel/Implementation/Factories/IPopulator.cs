@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Kipon.Excel.Api
+namespace Kipon.Excel.Implementation.Factories
 {
-    public interface IRow
+    internal interface IPopulator<I>
     {
-        IEnumerable<ICell> Cells { get; }
+        void Populate(I instance);
     }
 }
