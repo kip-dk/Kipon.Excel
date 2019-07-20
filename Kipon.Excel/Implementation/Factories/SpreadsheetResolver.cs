@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 namespace Kipon.Excel.Implementation.Factories
 {
     public class SpreadsheetResolver<T, I> : BaseResolver<Kipon.Excel.Api.ISpreadsheet, I> 
-        where T:  Kipon.Excel.Api.ISpreadsheet
     {
         public override Kipon.Excel.Api.ISpreadsheet Resolve(I instance)
         {
