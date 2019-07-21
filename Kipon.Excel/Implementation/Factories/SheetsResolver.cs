@@ -13,10 +13,10 @@ namespace Kipon.Excel.Implementation.Factories
     /// <typeparam name="T">T is the interface to be resolved</typeparam>
     /// <typeparam name="I">I is the instance to resolve from</typeparam>
     /// <typeparam name="J">J is the actual implementation of T. It must have a constructor that take 0 arguments</typeparam>
-    internal class SheetsResolver<T,I,J> : TypeCachedResolver<IEnumerable<ISheet>,I, Models.Sheets<I>>
-        where J : T, IPopulator<I>
+    internal class SheetsResolver<T,J> : TypeCachedResolver<IEnumerable<ISheet>, Models.Sheets>
+        where J : T, IPopulator
     {
-        protected override Models.Sheets<I> ResolveType(I instance) 
+        protected override Models.Sheets ResolveType(object instance) 
         {
             var type = instance.GetType();
             if (type.IsArray)
@@ -24,7 +24,7 @@ namespace Kipon.Excel.Implementation.Factories
                 var elementType = type.GetElementType();
                 if (elementType is Kipon.Excel.Api.ISheet)
                 {
-                    return new Models.Sheets<I>();
+                    return new Models.Sheets();
                 }
             }
 

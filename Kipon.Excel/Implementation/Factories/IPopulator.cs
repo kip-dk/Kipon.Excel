@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Kipon.Excel.Implementation.Factories
 {
-    internal interface IPopulator<I>
+    internal interface IPopulator
     {
-        void Populate(I instance);
+        void Populate(object instance);
     }
 }

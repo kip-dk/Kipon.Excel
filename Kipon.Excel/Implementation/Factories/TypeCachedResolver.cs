@@ -14,13 +14,13 @@ namespace Kipon.Excel.Implementation.Factories
     /// <typeparam name="T">the interface to resolve to</typeparam>
     /// <typeparam name="I">The instance to resolve from</typeparam>
     /// <typeparam name="J">J is the actual implementation of T. It need to impl.IPopolator to allow the typed based cache of T to parse the data provided, and it need to have a public constructor to allow the cache to create an instance</typeparam>
-    internal abstract class TypeCachedResolver<T,I,J> : BaseResolver<T,I> 
+    internal abstract class TypeCachedResolver<T,J> : AbstractBaseResolver<T> 
         where T: class 
-        where J:T, IPopulator<I>
+        where J:T, IPopulator
     {
         private static Dictionary<string, System.Reflection.ConstructorInfo> typeCache = new Dictionary<string, System.Reflection.ConstructorInfo>();
 
-        public sealed override T Resolve(I instance)
+        public sealed override T Resolve(object instance)
         {
             var result = base.Resolve(instance);
             if (result != null)
@@ -28,10 +28,10 @@ namespace Kipon.Excel.Implementation.Factories
                 return result;
             }
 
-            var key = typeof(I).FullName + "|" + typeof(T).FullName;
+            var key = instance.GetType().FullName + "|" + typeof(T).FullName;
             if (typeCache.ContainsKey(key))
             {
-                var impl = typeCache[key].Invoke(new object[0]) as IPopulator<I>;
+                var impl = typeCache[key].Invoke(new object[0]) as IPopulator;
                 impl.Populate(instance);
                 return (T)impl;
             }
@@ -52,6 +52,6 @@ namespace Kipon.Excel.Implementation.Factories
         /// <typeparam name="J">Return the first time new() of an implementation of T, represented by J</typeparam>
         /// <param name="instance">The instance to resolve from</param>
         /// <returns></returns>
-        protected abstract J ResolveType(I instance);
+        protected abstract J ResolveType(object instance);
     }
 }

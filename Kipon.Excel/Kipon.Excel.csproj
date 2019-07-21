@@ -74,6 +74,7 @@
     <Compile Include="Implementation\Serialization\IDataTypeResolver.cs" />
     <Compile Include="Implementation\Serialization\ExcelWriter.cs" />
     <Compile Include="Implementation\Serialization\IStyleResolver.cs" />
+    <Compile Include="Implementation\UnittestVisability.cs" />
     <Compile Include="Linq\LinqReaderInterface.cs" />
     <Compile Include="Linq\LinqWriterInterface.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

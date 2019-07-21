@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Kipon.Excel.Implementation.Models
 {
-    internal class Sheets<I> : List<Kipon.Excel.Api.ISheet>, Kipon.Excel.Implementation.Factories.IPopulator<I>
+    internal class Sheets : List<Kipon.Excel.Api.ISheet>, Kipon.Excel.Implementation.Factories.IPopulator
     {
-        public void Populate(I instance)
+        public void Populate(object instance)
         {
             throw new NotImplementedException();
         }

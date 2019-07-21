@@ -52,6 +52,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Fake\Data\ValueProperty.cs" />
+    <Compile Include="Implementation\Factories\AbstractBaseResolverTest.cs" />
     <Compile Include="Linq\LinqReaderInterfaceTest.cs" />
     <Compile Include="Linq\LinqWriterInterfaceTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -10,12 +10,12 @@ namespace Kipon.Excel.Implementation.Factories
     /// Base class for resolving types, where I actualy is an instance of T, it will simply return I as a T
     /// If I is not a T, default(T) will be returned, indicating that it was unable to do anything relevant
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <typeparam name="I"></typeparam>
+    /// <typeparam name="T">An implemenation of T</typeparam>
+    /// <typeparam name="I">The instance to resolve from</typeparam>
 
-    public class BaseResolver<T, I> : IResolver<T, I> where T : class
+    internal abstract class AbstractBaseResolver<T> : IResolver<T> where T : class
     {
-        public virtual T Resolve(I instance) 
+        public virtual T Resolve(object instance) 
         {
             if (instance is T)
             {

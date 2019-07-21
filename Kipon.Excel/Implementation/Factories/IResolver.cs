@@ -7,14 +7,13 @@ using System.Threading.Tasks;
 namespace Kipon.Excel.Implementation.Factories
 {
     /// <summary>
-    // Interface to resolve an instance I to its needed implementation T. 
+    // Interface to resolve an object instance to its needed implementation T. 
     /// Classes impl. this interface must resolve a type T from the instance I, and populate
-    /// all information in the result prior to return.
+    /// all information in the result prior to return based on data int the input I.
     /// </summary>
     /// <typeparam name="T">The expected return type</typeparam>
-    /// <typeparam name="I">The instance that need to be transformed into T somehow</typeparam>
-    internal interface IResolver<T, I>  where T : class
+    internal interface IResolver<T>  where T : class
     {
-        T Resolve(I instance);
+        T Resolve(object instance);
     }
 }
