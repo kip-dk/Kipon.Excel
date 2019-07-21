@@ -7,17 +7,18 @@ using System.Threading.Tasks;
 namespace Kipon.Excel.Implementation.Factories
 {
     /// <summary>
-    /// The purpose of this is to separate resolving actual type of I from populating it.
-    /// This will enable caching of needed types, so "expesive analyse of data" based on reflection
+    /// The purpose of this is to separate resolving actual type T from I from populating the result T with values from I.
+    /// This will enable caching of needed types, so "expesive analyse of data" ex. based on reflection
     /// only need to be performed once.
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <typeparam name="I"></typeparam>
+    /// <typeparam name="T">the interface to resolve to</typeparam>
+    /// <typeparam name="I">The instance to resolve from</typeparam>
+    /// <typeparam name="J">J is the actual implementation of T. It need to impl.IPopolator to allow the typed based cache of T to parse the data provided, and it need to have a public constructor to allow the cache to create an instance</typeparam>
     internal abstract class TypeCachedResolver<T,I,J> : BaseResolver<T,I> 
         where T: class 
-        where J:T, IPopulator<I>, new()
+        where J:T, IPopulator<I>
     {
-        private static Dictionary<string, Type> typeCache = new Dictionary<string, Type>();
+        private static Dictionary<string, System.Reflection.ConstructorInfo> typeCache = new Dictionary<string, System.Reflection.ConstructorInfo>();
 
         public sealed override T Resolve(I instance)
         {
@@ -30,13 +31,15 @@ namespace Kipon.Excel.Implementation.Factories
             var key = typeof(I).FullName + "|" + typeof(T).FullName;
             if (typeCache.ContainsKey(key))
             {
-                var impl = new J();
+                var impl = typeCache[key].Invoke(new object[0]) as IPopulator<I>;
                 impl.Populate(instance);
-                return impl;
+                return (T)impl;
             }
             else
             {
                 var impl = this.ResolveType(instance);
+                typeCache.Add(key, impl.GetType().GetConstructor(new Type[0]));
+
                 impl.Populate(instance);
                 return impl;
             }
