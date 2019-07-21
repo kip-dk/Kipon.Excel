@@ -59,8 +59,7 @@
     <Compile Include="Implementation\Factories\SheetsResolver.cs" />
     <Compile Include="Implementation\Factories\SpreadsheetResolver.cs" />
     <Compile Include="Implementation\Factories\TypeCachedResolver.cs" />
-    <Compile Include="Implementation\Models\Sheets\AbstractBaseSheets.cs" />
-    <Compile Include="Implementation\Models\Sheets\ArrayOfISheet.cs" />
+    <Compile Include="Implementation\Models\Sheets.cs" />
     <Compile Include="Implementation\OpenXml\Types\Cell.cs" />
     <Compile Include="Implementation\OpenXml\Types\Column.cs" />
     <Compile Include="Api\ICoordinate.cs" />
