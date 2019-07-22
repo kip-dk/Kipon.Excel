@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 
 namespace Kipon.Excel.Implementation.Models.Sheets
 {
+    /// <summary>
+    /// An implementation of IEnumable&lt;ISheet&gt; base on the object having sub-sheets represented in public properties, such as implementation of ISheet,
+    /// or classed decorated with ColumnAttribute, or finally public properties looking like simple data columns, 
+    /// </summary>
     internal class PropertySheets : AbstractBaseSheets
     {
         private static Dictionary<Type, SheetMeta[]> propertyCache = new Dictionary<Type, SheetMeta[]>();
@@ -50,6 +54,20 @@ namespace Kipon.Excel.Implementation.Models.Sheets
                 {
                     title = prop.Name;
                 }
+                sheetMetas.Add(new SheetMeta { title = title, order = order, Property = prop });
+            }
+            propertyCache[type] = sheetMetas.OrderBy(r => r.order).ToArray();
+        }
+
+        internal void AddUndecoratedProperties(Type type, System.Reflection.PropertyInfo[] properties)
+        {
+            var sheetMetas = new List<SheetMeta>();
+
+            var ix = 0;
+            foreach (var prop in properties.OrderBy(r => r.Name))
+            {
+                var order = ix++;
+                var title = prop.Name;
                 sheetMetas.Add(new SheetMeta { title = title, order = order, Property = prop });
             }
             propertyCache[type] = sheetMetas.OrderBy(r => r.order).ToArray();

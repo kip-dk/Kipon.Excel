@@ -63,6 +63,7 @@
     <Compile Include="Implementation\OpenXml\Types\RowTest.cs" />
     <Compile Include="Implementation\OpenXml\Types\ColumnTest.cs" />
     <Compile Include="TempTests\GenericTypeNames.cs" />
+    <Compile Include="TempTests\PrimitiveTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

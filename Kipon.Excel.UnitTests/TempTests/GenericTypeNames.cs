@@ -19,7 +19,6 @@ namespace Kipon.Excel.UnitTests.TempTests
 
         }
 
-
         public class Data
         {
             public string Noget { get; set; }

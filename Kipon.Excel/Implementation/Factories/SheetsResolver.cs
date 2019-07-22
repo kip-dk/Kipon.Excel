@@ -22,7 +22,7 @@ namespace Kipon.Excel.Implementation.Factories
             var properties = instanceType.GetProperties(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance);
 
             // Do we have sheet properties, then they are the most important to resolve sheets
-            #region sheetsattribute decorated
+            #region sheetsattribute decorated properties
             {
                 List<System.Reflection.PropertyInfo> decorated = new List<System.Reflection.PropertyInfo>();
                 foreach (var prop in properties)
@@ -37,6 +37,33 @@ namespace Kipon.Excel.Implementation.Factories
                 {
                     var result = new Models.Sheets.PropertySheets();
                     result.AddSheetAttributeDecoratedProperties(instanceType, decorated.ToArray());
+                    return result;
+                }
+            }
+            #endregion
+
+            #region ok, no decorations to help us, lets see if we have anything indicating this is a multi sheet thing
+            {
+                List<System.Reflection.PropertyInfo> sheetProperties = new List<System.Reflection.PropertyInfo>();
+                var sheetResolver = new SheetResolver();
+                foreach (var prop in properties)
+                {
+                    if (typeof(Kipon.Excel.Api.ISheet).IsAssignableFrom(prop.PropertyType))
+                    {
+                        sheetProperties.Add(prop);
+                        continue;
+                    }
+
+                    if (sheetResolver.IsSheet(prop.PropertyType))
+                    {
+                        sheetProperties.Add(prop);
+                        continue;
+                    }
+                }
+                if (sheetProperties.Count > 0)
+                {
+                    var result = new Models.Sheets.PropertySheets();
+                    result.AddUndecoratedProperties(instanceType, sheetProperties.ToArray());
                     return result;
                 }
             }
