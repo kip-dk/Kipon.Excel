@@ -8,25 +8,39 @@ using System.Threading.Tasks;
 namespace Kipon.Excel.Implementation.Factories
 {
     /// <summary>
-    /// From an instance I, create an implementaton J that implements T, where T is IEnumerable<ISheet>
+    /// From an object instance, resolve the implementation of IEnumable<ISheet> that is relevant
     /// </summary>
-    /// <typeparam name="T">T is the interface to be resolved</typeparam>
-    /// <typeparam name="I">I is the instance to resolve from</typeparam>
-    /// <typeparam name="J">J is the actual implementation of T. It must have a constructor that take 0 arguments</typeparam>
-    internal class SheetsResolver<T,J> : TypeCachedResolver<IEnumerable<ISheet>, Models.Sheets>
-        where J : T, IPopulator
+    /// <typeparam name="J">J is the actual implementation of IEnumerable<ISheet>. It must have a constructor that take 0 arguments</typeparam>
+    internal class SheetsResolver<J> : TypeCachedResolver<IEnumerable<ISheet>, Models.Sheets.AbstractBaseSheets>
+        where J : IPopulator
     {
-        protected override Models.Sheets ResolveType(object instance) 
+        protected override Models.Sheets.AbstractBaseSheets ResolveType(Type instanceType) 
         {
-            var type = instance.GetType();
-            if (type.IsArray)
+            // We know for sure that instance IS NOT and IEnumerable<ISheet>, because the AbstractBaseResolver would have returned
+            // such instance before hitting this place. So we need to look more into details on what we have
+
+            var properties = instanceType.GetProperties(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance);
+
+            // Do we have sheet properties, then they are the most important to resolve sheets
+            #region sheetsattribute decorated
             {
-                var elementType = type.GetElementType();
-                if (elementType is Kipon.Excel.Api.ISheet)
+                List<System.Reflection.PropertyInfo> decorated = new List<System.Reflection.PropertyInfo>();
+                foreach (var prop in properties)
                 {
-                    return new Models.Sheets();
+                    var attr = prop.GetCustomAttributes(typeof(Kipon.Excel.Attributes.SheetAttribute), true);
+                    if (attr != null && attr.Length > 0)
+                    {
+                        decorated.Add(prop);
+                    }
+                }
+                if (decorated.Count > 0)
+                {
+                    var result = new Models.Sheets.PropertySheets();
+                    result.AddSheetAttributeDecoratedProperties(instanceType, decorated.ToArray());
+                    return result;
                 }
             }
+            #endregion
 
             return null;
         }

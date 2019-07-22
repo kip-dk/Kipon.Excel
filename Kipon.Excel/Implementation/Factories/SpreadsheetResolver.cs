@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Kipon.Excel.Implementation.Factories
 {
-    internal class SpreadsheetResolver<T> : AbstractBaseResolver<Kipon.Excel.Api.ISpreadsheet> 
+    internal class SpreadsheetResolver : AbstractBaseResolver<Kipon.Excel.Api.ISpreadsheet> 
     {
         public override Kipon.Excel.Api.ISpreadsheet Resolve(object instance)
         {
@@ -17,7 +17,7 @@ namespace Kipon.Excel.Implementation.Factories
                 return def;
             }
 
-            var sheetResolver = new SheetsResolver<IEnumerable<ISheet>, Models.Sheets>();
+            var sheetResolver = new SheetsResolver<Models.Sheets.AbstractBaseSheets>();
 
             var sheets = sheetResolver.Resolve(instance);
             var spreadsheet = new Models.Spreadsheet(sheets);

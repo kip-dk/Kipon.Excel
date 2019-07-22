@@ -56,10 +56,14 @@
     <Compile Include="Implementation\Factories\AbstractBaseResolver.cs" />
     <Compile Include="Implementation\Factories\IPopulator.cs" />
     <Compile Include="Implementation\Factories\IResolver.cs" />
+    <Compile Include="Implementation\Factories\SheetResolver.cs" />
     <Compile Include="Implementation\Factories\SheetsResolver.cs" />
     <Compile Include="Implementation\Factories\SpreadsheetResolver.cs" />
     <Compile Include="Implementation\Factories\TypeCachedResolver.cs" />
-    <Compile Include="Implementation\Models\Sheets.cs" />
+    <Compile Include="Implementation\Models\Sheets\AbstractBaseSheets.cs" />
+    <Compile Include="Implementation\Models\Sheets\PropertySheets.cs" />
+    <Compile Include="Implementation\Models\Sheet\AbstractBaseSheet.cs" />
+    <Compile Include="Implementation\Models\Sheet\PropertySheet.cs" />
     <Compile Include="Implementation\OpenXml\Types\Cell.cs" />
     <Compile Include="Implementation\OpenXml\Types\Column.cs" />
     <Compile Include="Api\ICoordinate.cs" />
@@ -69,7 +73,6 @@
     <Compile Include="Exceptions\UnsupportedTypeException.cs" />
     <Compile Include="Implementation\DefaultLocalization.cs" />
     <Compile Include="Implementation\Models\Cell.cs" />
-    <Compile Include="Implementation\Models\Sheet.cs" />
     <Compile Include="Implementation\Models\Spreadsheet.cs" />
     <Compile Include="Implementation\Serialization\IDataTypeResolver.cs" />
     <Compile Include="Implementation\Serialization\ExcelWriter.cs" />
@@ -97,5 +100,6 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

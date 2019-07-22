@@ -37,7 +37,7 @@ namespace Kipon.Excel.Implementation.Factories
             }
             else
             {
-                var impl = this.ResolveType(instance);
+                var impl = this.ResolveType(instance.GetType());
                 typeCache.Add(key, impl.GetType().GetConstructor(new Type[0]));
 
                 impl.Populate(instance);
@@ -52,6 +52,6 @@ namespace Kipon.Excel.Implementation.Factories
         /// <typeparam name="J">Return the first time new() of an implementation of T, represented by J</typeparam>
         /// <param name="instance">The instance to resolve from</param>
         /// <returns></returns>
-        protected abstract J ResolveType(object instance);
+        protected abstract J ResolveType(Type instanceType);
     }
 }

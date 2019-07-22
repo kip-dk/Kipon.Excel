@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Kipon.Excel.Implementation.Models
+namespace Kipon.Excel.Implementation.Models.Sheet
 {
-    internal class Sheets : List<Kipon.Excel.Api.ISheet>, Kipon.Excel.Implementation.Factories.IPopulator
+    internal class PropertySheet : AbstractBaseSheet
     {
-        public void Populate(object instance)
+        public override void Populate(object instance)
         {
             throw new NotImplementedException();
         }
