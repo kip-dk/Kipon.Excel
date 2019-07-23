@@ -9,24 +9,6 @@ namespace Kipon.Excel.Implementation.Factories
 {
     internal class SheetResolver : TypeCachedResolver<Kipon.Excel.Api.ISheet, Models.Sheet.AbstractBaseSheet>
     {
-        private static readonly Type[] SUPPORTED_SHEET_PROPERTY_TYPES = new Type[]
-        {
-            typeof(System.Int16),
-            typeof(System.Int32),
-            typeof(System.Int64),
-            typeof(System.IntPtr),
-            typeof(System.UInt16),
-            typeof(System.UInt32),
-            typeof(System.UInt64),
-            typeof(System.UIntPtr),
-            typeof(System.Boolean),
-            typeof(System.Decimal),
-            typeof(System.Double),
-            typeof(System.Enum),
-            typeof(System.String),
-            typeof(System.DateTime)
-        };
-
         protected override AbstractBaseSheet ResolveType(Type instanceType)
         {
             throw new NotImplementedException();
@@ -61,23 +43,20 @@ namespace Kipon.Excel.Implementation.Factories
                 return false;
             }
 
+            var cellsResolver = new Kipon.Excel.Implementation.Factories.CellsResolver();
+
             foreach (var prop in publicProperties)
             {
-                if (SUPPORTED_SHEET_PROPERTY_TYPES.Contains(prop.PropertyType))
-                {
-                    return true;
-                }
-
-                if (prop.PropertyType.IsGenericType && prop.PropertyType.GetGenericTypeDefinition() == typeof(Nullable<>))
+                if (prop.PropertyType.IsGenericType && prop.PropertyType.GetGenericTypeDefinition() == typeof(IEnumerable<>))
                 {
                     var innerType = prop.PropertyType.GetGenericArguments()[0];
-                    if (SUPPORTED_SHEET_PROPERTY_TYPES.Contains(innerType))
+                    if (cellsResolver.HasCells(innerType))
                     {
                         return true;
                     }
                 }
             }
-            return true;
+            return false;
         }
     }
 }

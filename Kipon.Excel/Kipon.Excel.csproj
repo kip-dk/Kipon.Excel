@@ -54,12 +54,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Implementation\Factories\AbstractBaseResolver.cs" />
+    <Compile Include="Implementation\Factories\CellsResolver.cs" />
     <Compile Include="Implementation\Factories\IPopulator.cs" />
     <Compile Include="Implementation\Factories\IResolver.cs" />
     <Compile Include="Implementation\Factories\SheetResolver.cs" />
     <Compile Include="Implementation\Factories\SheetsResolver.cs" />
     <Compile Include="Implementation\Factories\SpreadsheetResolver.cs" />
     <Compile Include="Implementation\Factories\TypeCachedResolver.cs" />
+    <Compile Include="Implementation\Models\Cells\AbstractBaseCells.cs" />
     <Compile Include="Implementation\Models\Sheets\AbstractBaseSheets.cs" />
     <Compile Include="Implementation\Models\Sheets\PropertySheets.cs" />
     <Compile Include="Implementation\Models\Sheet\AbstractBaseSheet.cs" />

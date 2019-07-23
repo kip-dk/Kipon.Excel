@@ -17,7 +17,7 @@ namespace Kipon.Excel.Implementation.Factories
                 return def;
             }
 
-            var sheetResolver = new SheetsResolver<Models.Sheets.AbstractBaseSheets>();
+            var sheetResolver = new SheetsResolver();
 
             var sheets = sheetResolver.Resolve(instance);
             var spreadsheet = new Models.Spreadsheet(sheets);

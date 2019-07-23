@@ -16,7 +16,7 @@ namespace Kipon.Excel.UnitTests.Implementation.Factories
         {
             var sheets = new DecoratedSheets();
 
-            var resolver = new Kipon.Excel.Implementation.Factories.SheetsResolver<Kipon.Excel.Implementation.Models.Sheets.AbstractBaseSheets>();
+            var resolver = new Kipon.Excel.Implementation.Factories.SheetsResolver();
             var impl = resolver.Resolve(sheets);
             Assert.IsInstanceOfType(impl, typeof(IEnumerable<Kipon.Excel.Api.ISheet>));
             Assert.AreEqual(2, impl.Count());

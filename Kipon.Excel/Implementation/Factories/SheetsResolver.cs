@@ -10,9 +10,7 @@ namespace Kipon.Excel.Implementation.Factories
     /// <summary>
     /// From an object instance, resolve the implementation of IEnumable<ISheet> that is relevant
     /// </summary>
-    /// <typeparam name="J">J is the actual implementation of IEnumerable<ISheet>. It must have a constructor that take 0 arguments</typeparam>
-    internal class SheetsResolver<J> : TypeCachedResolver<IEnumerable<ISheet>, Models.Sheets.AbstractBaseSheets>
-        where J : IPopulator
+    internal class SheetsResolver : TypeCachedResolver<IEnumerable<ISheet>, Models.Sheets.AbstractBaseSheets>
     {
         protected override Models.Sheets.AbstractBaseSheets ResolveType(Type instanceType) 
         {
