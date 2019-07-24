@@ -59,6 +59,12 @@ namespace Kipon.Excel.Implementation.Models.Sheets
             propertyCache[type] = sheetMetas.OrderBy(r => r.order).ToArray();
         }
 
+
+        /// <summary>
+        /// Populate metadata based on duck type sheet properties
+        /// </summary>
+        /// <param name="type"></param>
+        /// <param name="properties"></param>
         internal void AddUndecoratedProperties(Type type, System.Reflection.PropertyInfo[] properties)
         {
             var sheetMetas = new List<SheetMeta>();

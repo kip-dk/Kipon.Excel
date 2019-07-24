@@ -10,7 +10,8 @@ namespace Kipon.Excel.Implementation.Models.Sheet
     {
         public override void Populate(object instance)
         {
-            throw new NotImplementedException();
+#warning impl. transform of instance into sheet data
+            // throw new NotImplementedException();
         }
     }
 }

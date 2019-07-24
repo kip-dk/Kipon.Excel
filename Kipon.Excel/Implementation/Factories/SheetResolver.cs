@@ -11,7 +11,20 @@ namespace Kipon.Excel.Implementation.Factories
     {
         protected override AbstractBaseSheet ResolveType(Type instanceType)
         {
-            throw new NotImplementedException();
+            if (instanceType.IsArray)
+            {
+                var result = new Kipon.Excel.Implementation.Models.Sheet.PropertySheet();
+#warning find relevant properties and parse it to the PropertySheet instance
+                return result;
+            }
+
+            if (instanceType.IsGenericType && typeof(System.Collections.IEnumerable).IsAssignableFrom(instanceType))
+            {
+                var result = new Kipon.Excel.Implementation.Models.Sheet.PropertySheet();
+#warning find relevant properties and parse it to the PropertySheet instance
+                return result;
+            }
+            return null;
         }
 
         /// <summary>
@@ -36,26 +49,19 @@ namespace Kipon.Excel.Implementation.Factories
                 return false;
             }
 
-
-            var publicProperties = type.GetProperties(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance);
-            if (publicProperties == null || publicProperties.Length == 0)
-            {
-                return false;
-            }
-
             var cellsResolver = new Kipon.Excel.Implementation.Factories.CellsResolver();
-
-            foreach (var prop in publicProperties)
+            if (type.IsArray)
             {
-                if (prop.PropertyType.IsGenericType && prop.PropertyType.GetGenericTypeDefinition() == typeof(IEnumerable<>))
-                {
-                    var innerType = prop.PropertyType.GetGenericArguments()[0];
-                    if (cellsResolver.HasCells(innerType))
-                    {
-                        return true;
-                    }
-                }
+                var innerType = type.GetElementType();
+                return cellsResolver.HasCells(innerType);
             }
+
+            if (type.IsGenericType && typeof(System.Collections.IEnumerable).IsAssignableFrom(type))
+            {
+                var innerType = type.GetGenericArguments()[0];
+                return cellsResolver.HasCells(innerType);
+            }
+
             return false;
         }
     }
