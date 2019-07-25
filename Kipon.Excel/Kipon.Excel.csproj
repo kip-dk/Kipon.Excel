@@ -64,6 +64,7 @@
     <Compile Include="Implementation\Models\Cells\AbstractBaseCells.cs" />
     <Compile Include="Implementation\Models\Sheets\AbstractBaseSheets.cs" />
     <Compile Include="Implementation\Models\Sheets\PropertySheets.cs" />
+    <Compile Include="Implementation\Models\Sheets\SingleSheets.cs" />
     <Compile Include="Implementation\Models\Sheet\AbstractBaseSheet.cs" />
     <Compile Include="Implementation\Models\Sheet\PropertySheet.cs" />
     <Compile Include="Implementation\OpenXml\Types\Cell.cs" />
