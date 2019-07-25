@@ -57,6 +57,19 @@ namespace Kipon.Excel.UnitTests.Implementation.Factories
         }
         #endregion
 
+        #region single list duck type test
+        [TestMethod]
+        public void SingleSheetDuckListTest()
+        {
+            var data = new List<DuckSheet>();
+            var resolver = new Kipon.Excel.Implementation.Factories.SheetsResolver();
+            var impl = resolver.Resolve(data);
+            Assert.IsInstanceOfType(impl, typeof(IEnumerable<Kipon.Excel.Api.ISheet>));
+            Assert.AreEqual(1, impl.Count());
+            Assert.AreEqual(nameof(DuckSheet), impl.First().Title);
+        }
+        #endregion
+
         #region helper impl
         public class DecoratedSheets
         {
