@@ -14,6 +14,14 @@ namespace Kipon.Excel.Implementation.Factories
     {
         protected override Models.Sheets.AbstractBaseSheets ResolveType(Type instanceType) 
         {
+
+            #region instance is a single ISheet, simply wrap it in a single sheet
+            if (typeof(Kipon.Excel.Api.ISheet).IsAssignableFrom(instanceType))
+            {
+                return new Kipon.Excel.Implementation.Models.Sheets.SingleSheets();
+            }
+            #endregion
+
             // We know for sure that instance IS NOT and IEnumerable<ISheet>, because the AbstractBaseResolver would have returned
             // such instance before hitting this place. So we need to look more into details on what we have
 

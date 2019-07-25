@@ -70,6 +70,31 @@ namespace Kipon.Excel.UnitTests.Implementation.Factories
         }
         #endregion
 
+        #region single ISheet actual implementation
+        [TestMethod]
+        public void SingleSheetImplementingISheet()
+        {
+            var data = new TestSheet("Test sheet");
+
+            var resolver = new Kipon.Excel.Implementation.Factories.SheetsResolver();
+            var impl = resolver.Resolve(data);
+            Assert.IsInstanceOfType(impl, typeof(IEnumerable<Kipon.Excel.Api.ISheet>));
+            Assert.AreEqual(1, impl.Count());
+            Assert.AreEqual("Test sheet", impl.First().Title);
+
+        }
+        #endregion
+
+        #region exception test
+        [TestMethod]
+        public void UnresolveableTypeExceptionTest()
+        {
+            var x = new object();
+            var resolver = new Kipon.Excel.Implementation.Factories.SheetsResolver();
+            Assert.ThrowsException<Kipon.Excel.Exceptions.UnresolveableTypeException>(() => resolver.Resolve(x));
+        }
+        #endregion
+
         #region helper impl
         public class DecoratedSheets
         {

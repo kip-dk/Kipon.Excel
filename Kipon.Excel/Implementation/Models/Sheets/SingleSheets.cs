@@ -6,10 +6,20 @@ using System.Threading.Tasks;
 
 namespace Kipon.Excel.Implementation.Models.Sheets
 {
+
+    /// <summary>
+    /// An implementation i IEnuabrable&lt;ISeets&gt; based on a single list or array, mapping to a single sheet.
+    /// </summary>
     internal class SingleSheets : AbstractBaseSheets
     {
         public override void Populate(object instance)
         {
+            if (instance is Kipon.Excel.Api.ISheet)
+            {
+                this.Add((Kipon.Excel.Api.ISheet)instance);
+                return;
+            }
+
             var sheetResolver = new Kipon.Excel.Implementation.Factories.SheetResolver();
 
             var sheet = sheetResolver.Resolve(instance);
