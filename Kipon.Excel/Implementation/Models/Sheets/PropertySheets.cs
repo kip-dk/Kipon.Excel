@@ -24,6 +24,11 @@ namespace Kipon.Excel.Implementation.Models.Sheets
                 if (nextSheet != null)
                 {
                     var sheet = sheetResolver.Resolve(nextSheet);
+                    var propertySheet = sheet as Kipon.Excel.Implementation.Models.Sheet.AbstractBaseSheet;
+                    if (propertySheet != null)
+                    {
+                        propertySheet.Title = meta.title;
+                    }
                     this.Add(sheet);
                 }
             }

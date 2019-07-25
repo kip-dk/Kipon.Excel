@@ -19,10 +19,15 @@ namespace Kipon.Excel.UnitTests.Implementation.Factories
 
             var resolver = new Kipon.Excel.Implementation.Factories.SheetsResolver();
             var impl = resolver.Resolve(sheets);
+
             Assert.IsInstanceOfType(impl, typeof(IEnumerable<Kipon.Excel.Api.ISheet>));
             Assert.AreEqual(2, impl.Count());
+            Assert.AreEqual("First sheet", impl.First().Title);
+            Assert.AreEqual("Last sheet", impl.Last().Title);
         }
+        #endregion
 
+        #region multi sheet, duck type
         [TestMethod]
         public void DuckSheetsTest()
         {
@@ -32,23 +37,51 @@ namespace Kipon.Excel.UnitTests.Implementation.Factories
             var impl = resolver.Resolve(sheets);
             Assert.IsInstanceOfType(impl, typeof(IEnumerable<Kipon.Excel.Api.ISheet>));
             Assert.AreEqual(3, impl.Count());
-        }
 
-        public class DecoratedSheets
-        {
-            [Kipon.Excel.Attributes.Sheet(1)]
-            public TestSheet Sheet1 => new TestSheet();
-
-            [Kipon.Excel.Attributes.Sheet(2)]
-            public TestSheet Sheet2 => new TestSheet();
-
-            public object NotDecorated => throw new NotImplementedException();
+            Assert.AreEqual(nameof(DuckSheets.FirstSheet), impl.First().Title);
+            Assert.AreEqual(nameof(DuckSheets.SecondSheet), impl.Skip(1).First().Title);
+            Assert.AreEqual("Sheet title", impl.Last().Title);
         }
         #endregion
 
+        #region single array duck type test
+        [TestMethod]
+        public void SingleSheetDuckArrayTest()
+        {
+            var data = new DuckSheet[0];
+            var resolver = new Kipon.Excel.Implementation.Factories.SheetsResolver();
+            var impl = resolver.Resolve(data);
+            Assert.IsInstanceOfType(impl, typeof(IEnumerable<Kipon.Excel.Api.ISheet>));
+            Assert.AreEqual(1, impl.Count());
+            Assert.AreEqual(nameof(DuckSheet), impl.First().Title);
+        }
+        #endregion
+
+        #region helper impl
+        public class DecoratedSheets
+        {
+            [Kipon.Excel.Attributes.Sheet(1)]
+            public TestSheet Sheet1 => new TestSheet("First sheet");
+
+            [Kipon.Excel.Attributes.Sheet(2)]
+            public TestSheet Sheet2 => new TestSheet("Last sheet");
+
+            public object NotDecorated => throw new NotImplementedException();
+        }
+
         public class TestSheet : Kipon.Excel.Api.ISheet
         {
-            public string Title => throw new NotImplementedException();
+            private string _title;
+            public TestSheet()
+            {
+            }
+
+            public TestSheet(string title)
+            {
+                this._title = title;
+            }
+
+            public string Title => this._title;
 
             public IEnumerable<ICell> Cells => throw new NotImplementedException();
         }
@@ -58,7 +91,7 @@ namespace Kipon.Excel.UnitTests.Implementation.Factories
             public List<DuckSheet> FirstSheet => new List<DuckSheet>();
             public DuckSheet[] SecondSheet => new DuckSheet[0];
 
-            public TestSheet ThirdSheet => new TestSheet();
+            public TestSheet ThirdSheet => new TestSheet("Sheet title");
 
             public string IgnoreString { get; set; }
             public int IgnoreInt { get; set; }
@@ -69,5 +102,6 @@ namespace Kipon.Excel.UnitTests.Implementation.Factories
             public string Field1 { get; set; }
             public int Field2 { get; set; }
         }
+        #endregion
     }
 }

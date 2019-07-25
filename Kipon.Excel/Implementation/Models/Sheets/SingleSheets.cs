@@ -13,6 +13,26 @@ namespace Kipon.Excel.Implementation.Models.Sheets
             var sheetResolver = new Kipon.Excel.Implementation.Factories.SheetResolver();
 
             var sheet = sheetResolver.Resolve(instance);
+            this.Add(sheet);
+
+            var propertySheet = sheet as Kipon.Excel.Implementation.Models.Sheet.AbstractBaseSheet;
+            if (propertySheet != null)
+            {
+                var type = instance.GetType();
+                if (type.IsArray)
+                {
+                    propertySheet.Title = type.GetElementType().Name;
+                    return;
+                }
+
+                if (typeof(System.Collections.IEnumerable).IsAssignableFrom(type) && type.IsGenericType)
+                {
+                    propertySheet.Title = type.GetGenericArguments()[0].Name;
+                    return;
+                }
+
+                propertySheet.Title = "Sheet 1";
+            }
         }
     }
 }

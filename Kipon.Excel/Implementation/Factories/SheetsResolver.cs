@@ -68,9 +68,20 @@ namespace Kipon.Excel.Implementation.Factories
             #endregion
 
             #region single sheet based on array
+            {
+                if (instanceType.IsArray)
+                {
+                    return new Kipon.Excel.Implementation.Models.Sheets.SingleSheets();
+                }
+
+                if (typeof(System.Collections.IEnumerable).IsAssignableFrom(instanceType) && instanceType.IsGenericType)
+                {
+                    return new Kipon.Excel.Implementation.Models.Sheets.SingleSheets();
+                }
+            }
             #endregion
 
-            return null;
+            throw new Kipon.Excel.Exceptions.UnresolveableTypeException(instanceType, typeof(IEnumerable<ISheet>));
         }
     }
 }
