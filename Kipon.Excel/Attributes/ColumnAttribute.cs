@@ -10,10 +10,20 @@ namespace Kipon.Excel.Attributes
     public class ColumnAttribute : Attribute
     {
         public string Title { get; set; }
-        public int Sort { get; set; } = 0;
-        public bool Hidden { get; set; }
-
+        public int? Sort { get; set; } 
+        public bool IsHidden { get; set; }
+        public bool IsReadonly { get; set; }
         public ColumnAttribute() { }
+
+        public ColumnAttribute(string title)
+        {
+            this.Title = title;
+        }
+
+        public ColumnAttribute(int sort)
+        {
+            this.Sort = sort;
+        }
 
         public ColumnAttribute(string title, int sort)
         {
