@@ -32,6 +32,7 @@ namespace Kipon.Excel.Implementation.Factories
             if (typeCache.ContainsKey(key))
             {
                 var impl = typeCache[key].Invoke(new object[0]) as IPopulator;
+
                 impl.Populate(instance);
                 return (T)impl;
             }

@@ -95,6 +95,15 @@ namespace Kipon.Excel.UnitTests.Implementation.Factories
         }
         #endregion
 
+        #region null instance test
+        [TestMethod]
+        public void NullInstanceExceptionTest()
+        {
+            var resolver = new Kipon.Excel.Implementation.Factories.SheetsResolver();
+            Assert.ThrowsException<Kipon.Excel.Exceptions.NullInstanceException>(() => resolver.Resolve(null));
+        }
+        #endregion
+
         #region helper impl
         public class DecoratedSheets
         {

@@ -53,6 +53,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Exceptions\NullInstanceException.cs" />
     <Compile Include="Exceptions\UnresolveableTypeException.cs" />
     <Compile Include="Implementation\Factories\AbstractBaseResolver.cs" />
     <Compile Include="Implementation\Factories\CellsResolver.cs" />

@@ -8,6 +8,11 @@ namespace Kipon.Excel.Implementation.Models.Cells
 {
     internal class AbstractBaseCells : List<Kipon.Excel.Api.ICell>, Kipon.Excel.Implementation.Factories.IPopulator
     {
+        public void Initialize(Type type)
+        {
+            throw new NotImplementedException();
+        }
+
         public void Populate(object instance)
         {
             throw new NotImplementedException();
