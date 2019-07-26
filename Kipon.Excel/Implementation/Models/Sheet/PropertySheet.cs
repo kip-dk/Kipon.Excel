@@ -15,11 +15,13 @@ namespace Kipon.Excel.Implementation.Models.Sheet
         #endregion
 
         #region fields
-        private System.Collections.IEnumerable rows;
+        private System.Collections.IEnumerator rows;
         private int column = -1;
         private int row = -1;
         private SheetMeta[] sheetMetas;
         private ICell _current;
+        private object _currentRow;
+        private Dictionary<string, ICell> resolvedCells = new Dictionary<string, ICell>();
         #endregion
 
         #region populate impl.
@@ -40,7 +42,7 @@ namespace Kipon.Excel.Implementation.Models.Sheet
                     }
                 }
 
-                this.rows = (System.Collections.IEnumerable)instance;
+                this.rows = ((System.Collections.IEnumerable)instance).GetEnumerator();
                 this.Cells = this;
                 return;
             }
@@ -69,13 +71,53 @@ namespace Kipon.Excel.Implementation.Models.Sheet
 
         public bool MoveNext()
         {
-            throw new NotImplementedException();
+            if (this.column < (this.sheetMetas.Length - 1))
+            {
+                this.column++;
+                this.SetCurrent();
+                return true;
+            }
+
+            this.column = 0;
+            var hasNext = this.rows.MoveNext();
+            if (hasNext)
+            {
+                this._currentRow = this.rows.Current;
+                this.SetCurrent();
+                return true;
+            }
+            return false;
+        }
+
+        private void SetCurrent()
+        {
+            var key = this.column.ToString() + (this.row + 1).ToString();
+            if (this.resolvedCells.ContainsKey(key))
+            {
+                this._current = this.resolvedCells[key];
+                return;
+            }
+
+            if (this.row < 0)
+            {
+                this._current = new Kipon.Excel.Implementation.Models.Cell.Cell(this.column, this.row + 1, this.sheetMetas[this.column].title);
+                this.resolvedCells[key] = this._current;
+                return;
+            }
+
+            {
+                var nextValue = this.sheetMetas[this.column].property.GetValue(this._currentRow);
+                this._current = new Kipon.Excel.Implementation.Models.Cell.Cell(this.column, this.row + 1, nextValue);
+                this.resolvedCells[key] = this._current;
+                return;
+            }
         }
 
         public void Reset()
         {
             this.column = -1;
             this.row = -1;
+            this.rows.Reset();
         }
         #endregion
 

@@ -67,6 +67,8 @@
     <Compile Include="Implementation\Factories\SpreadsheetResolver.cs" />
     <Compile Include="Implementation\Factories\TypeCachedResolver.cs" />
     <Compile Include="Implementation\Models\Cells\AbstractBaseCells.cs" />
+    <Compile Include="Implementation\Models\Cell\Cell.cs" />
+    <Compile Include="Implementation\Models\Coordinate.cs" />
     <Compile Include="Implementation\Models\Sheets\AbstractBaseSheets.cs" />
     <Compile Include="Implementation\Models\Sheets\PropertySheets.cs" />
     <Compile Include="Implementation\Models\Sheets\SingleSheets.cs" />
@@ -80,7 +82,7 @@
     <Compile Include="Exceptions\ExcelBaseException.cs" />
     <Compile Include="Exceptions\UnsupportedTypeException.cs" />
     <Compile Include="Implementation\DefaultLocalization.cs" />
-    <Compile Include="Implementation\Models\Cell.cs" />
+    <Compile Include="Implementation\Models\Cell\AbstractBaseCell.cs" />
     <Compile Include="Implementation\Models\Spreadsheet.cs" />
     <Compile Include="Implementation\Serialization\IDataTypeResolver.cs" />
     <Compile Include="Implementation\Serialization\ExcelWriter.cs" />
