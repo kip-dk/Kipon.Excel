@@ -14,16 +14,63 @@ namespace Kipon.Excel.Implementation.Factories
             if (instanceType.IsArray)
             {
                 var result = new Kipon.Excel.Implementation.Models.Sheet.PropertySheet();
-#warning find relevant properties and parse it to the PropertySheet instance
+                var elementType = instanceType.GetElementType();
+                var elementProperties = this.FindProperties(elementType);
+                result.AddPropertyInfos(elementType, elementProperties);
                 return result;
             }
 
             if (instanceType.IsGenericType && typeof(System.Collections.IEnumerable).IsAssignableFrom(instanceType))
             {
                 var result = new Kipon.Excel.Implementation.Models.Sheet.PropertySheet();
-#warning find relevant properties and parse it to the PropertySheet instance
+                var elementType = instanceType.GetGenericArguments()[0];
+                var elementProperties = this.FindProperties(elementType);
+                result.AddPropertyInfos(elementType, elementProperties);
                 return result;
             }
+
+            throw new Kipon.Excel.Exceptions.UnresolveableTypeException(instanceType, typeof(Kipon.Excel.Api.ISheet));
+        }
+
+        private System.Reflection.PropertyInfo[] FindProperties(Type t)
+        {
+            var properties = t.GetProperties(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance);
+            List<System.Reflection.PropertyInfo> result = new List<System.Reflection.PropertyInfo>();
+
+            #region column decorated properties
+            {
+                foreach (var prop in properties)
+                {
+                    var columnAttr = prop.GetCustomAttributes(typeof(Kipon.Excel.Attributes.ColumnAttribute), true);
+                    if (columnAttr != null && columnAttr.Length > 0)
+                    {
+                        result.Add(prop);
+                    }
+                }
+                if (result.Count > 0)
+                {
+                    return result.ToArray();
+                }
+            }
+            #endregion
+
+            #region duck type properties
+            {
+                var cellsResolver = new Kipon.Excel.Implementation.Factories.CellsResolver();
+                foreach (var prop in properties)
+                {
+                    if (cellsResolver.IsCell(prop.PropertyType))
+                    {
+                        result.Add(prop);
+                    }
+                }
+                if (result.Count > 0)
+                {
+                    return result.ToArray();
+                }
+            }
+            #endregion
+
             return null;
         }
 

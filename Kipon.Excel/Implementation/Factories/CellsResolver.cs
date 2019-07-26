@@ -35,7 +35,32 @@ namespace Kipon.Excel.Implementation.Factories
 
         internal bool HasCells(Type type)
         {
-            return true;
+            var properties = type.GetProperties(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance);
+
+            foreach (var prop in properties)
+            {
+                if (this.IsCell(prop.PropertyType))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        internal bool IsCell(Type type)
+        {
+            if (SUPPORTED_SHEET_PROPERTY_TYPES.Contains(type))
+            {
+                return true;
+            }
+
+            var nullableType = Nullable.GetUnderlyingType(type);
+            if (nullableType != null && SUPPORTED_SHEET_PROPERTY_TYPES.Contains(nullableType))
+            {
+                return true;
+            }
+            return false;
         }
     }
 }
