@@ -53,6 +53,7 @@
   <ItemGroup>
     <Compile Include="Fake\Data\ValueProperty.cs" />
     <Compile Include="Implementation\Factories\AbstractBaseResolverTest.cs" />
+    <Compile Include="Implementation\Factories\SheetResolverTest.cs" />
     <Compile Include="Implementation\Factories\SheetsResolverTest.cs" />
     <Compile Include="Implementation\Factories\SpreadsheetResolverTest.cs" />
     <Compile Include="Linq\LinqReaderInterfaceTest.cs" />

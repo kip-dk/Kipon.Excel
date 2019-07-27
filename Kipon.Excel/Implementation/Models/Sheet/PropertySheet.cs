@@ -32,13 +32,23 @@ namespace Kipon.Excel.Implementation.Models.Sheet
                 var elementType = instance.GetType();
                 if (elementType.IsArray)
                 {
-                    this.sheetMetas = metaCache[elementType.GetElementType()];
+                    var eType = elementType.GetElementType();
+                    this.sheetMetas = metaCache[eType];
+                    if (string.IsNullOrEmpty(this.Title))
+                    {
+                        this.Title = eType.Name;
+                    }
                 }
                 else
                 {
                     if (elementType.IsGenericType)
                     {
-                        this.sheetMetas = metaCache[elementType.GetGenericArguments()[0]];
+                        var eType = elementType.GetGenericArguments()[0];
+                        this.sheetMetas = metaCache[eType];
+                        if (string.IsNullOrEmpty(this.Title))
+                        {
+                            this.Title = eType.Name;
+                        }
                     }
                 }
 
@@ -92,7 +102,7 @@ namespace Kipon.Excel.Implementation.Models.Sheet
 
         private void SetCurrent()
         {
-            var key = this.column.ToString() + (this.row + 1).ToString();
+            var key = this.column.ToString() + ":" + (this.row + 1).ToString();
             if (this.resolvedCells.ContainsKey(key))
             {
                 this._current = this.resolvedCells[key];
@@ -145,7 +155,8 @@ namespace Kipon.Excel.Implementation.Models.Sheet
                 title = prop.Name,
                 sort = ix,
                 isHidden = false,
-                isReadonly = prop.GetSetMethod() == null
+                isReadonly = prop.GetSetMethod() == null,
+                property = prop
             };
 
             var columnAttr = (Kipon.Excel.Attributes.ColumnAttribute)prop.GetCustomAttributes(typeof(Kipon.Excel.Attributes.ColumnAttribute), true).FirstOrDefault();
@@ -157,9 +168,9 @@ namespace Kipon.Excel.Implementation.Models.Sheet
                     sheetMeta.title = columnAttr.Title;
                 }
 
-                if (columnAttr.Sort != null)
+                if (columnAttr.Sort != int.MinValue)
                 {
-                    sheetMeta.sort = columnAttr.Sort.Value;
+                    sheetMeta.sort = columnAttr.Sort;
                 }
 
                 if (columnAttr.IsHidden)
