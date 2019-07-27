@@ -82,6 +82,7 @@ namespace Kipon.Excel.Implementation.Models.Sheet
             var hasNext = this.rows.MoveNext();
             if (hasNext)
             {
+                row++;
                 this._currentRow = this.rows.Current;
                 this.SetCurrent();
                 return true;
