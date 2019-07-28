@@ -7,7 +7,7 @@ using Kipon.Excel.Api;
 
 namespace Kipon.Excel.Implementation.Models
 {
-    internal abstract class AbstractBaseCell : ICell
+    internal abstract class AbstractBaseCell : ICell, Kipon.Excel.Api.Cell.IHidden, Kipon.Excel.Api.Cell.IReadonly
     {
         private Coordinate _coordinate;
         private int column;
@@ -23,6 +23,10 @@ namespace Kipon.Excel.Implementation.Models
         public Kipon.Excel.Api.ICoordinate Coordinate => this._coordinate;
 
         public abstract object Value { get; }
+
+        public bool IsHidden { get; set; }
+
+        public bool IsReadonly { get; set; }
 
         public override string ToString()
         {

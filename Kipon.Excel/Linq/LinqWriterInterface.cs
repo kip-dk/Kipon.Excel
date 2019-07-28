@@ -20,7 +20,14 @@ namespace Kipon.Excel.Linq
         /// <returns></returns>
         public static void ToExcel<T>(this T data, System.IO.Stream excel)
         {
-            throw new NotImplementedException();
+            if (data == null)
+            {
+                throw new Kipon.Excel.Exceptions.NullInstanceException(typeof(T));
+            }
+
+            var spreadsheetResolver = new Kipon.Excel.Implementation.Factories.SpreadsheetResolver();
+            var spreadsheet = spreadsheetResolver.Resolve(data);
+
         }
 
         /// <summary>

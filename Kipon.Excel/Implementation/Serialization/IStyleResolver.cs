@@ -9,6 +9,6 @@ namespace Kipon.Excel.Implementation.Serialization
 {
     internal interface IStyleResolver
     {
-        uint Resolve(ISheet sheet, Implementation.OpenXml.Types.Cell cell);
+        uint Resolve(Kipon.Excel.Api.ICell cell);
     }
 }

@@ -1,11 +1,12 @@
 ﻿using System;
+using System.Linq;
 using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Spreadsheet;
 using Kipon.Excel.Implementation.Serialization;
 using Kipon.Excel.Api;
 using Kipon.Excel.Implementation.OpenXml.Types;
 
-namespace Kipon.Excel.Styles
+namespace Kipon.Excel.Implementation.OpenXml.Styles
 {
     internal class DefaultStylesheet : Stylesheet, Kipon.Excel.Implementation.Serialization.IStyleResolver
     {
@@ -72,9 +73,8 @@ namespace Kipon.Excel.Styles
             CellFormat oddFontLocked = new CellFormat() { NumberFormatId = (UInt32Value)0U, FontId = (UInt32Value)0U, FillId = (UInt32Value)2U, BorderId = (UInt32Value)0U, FormatId = (UInt32Value)0U };
             oddFontLocked.Append(new Protection { Locked = true });
 
-
             CellFormat boldFormat = new CellFormat() { NumberFormatId = (UInt32Value)0U, FontId = (UInt32Value)1U, FillId = (UInt32Value)3U, BorderId = (UInt32Value)0U, FormatId = (UInt32Value)0U, ApplyFont = true };
-
+            boldFormat.Append(new Protection { Locked = true });
 
             CellFormats cellFormats = new CellFormats() { Count = (UInt32Value)3U };
 
@@ -93,11 +93,35 @@ namespace Kipon.Excel.Styles
         }
 
         #region impl and hide style resolver
-        uint IStyleResolver.Resolve(ISheet sheet, Implementation.OpenXml.Types.Cell cell)
+        uint IStyleResolver.Resolve(Kipon.Excel.Api.ICell cell)
         {
-            if (cell.Row.Value == 0) return BOLD_STYLE_INDEX;
-            if (cell.Row.Value % 2 == 0) return EVEN_STYLE_INDEX_UNLOCKED;
-            return ODD_STYLE_INDEX_UNLOCKED;
+            var row = cell.Coordinate.Point.Last();
+
+            if (row == 0) return BOLD_STYLE_INDEX;
+
+            var isreadonly = false;
+            var readonlyimpl = cell as Kipon.Excel.Api.Cell.IReadonly;
+            if (readonlyimpl != null)
+            {
+                isreadonly = readonlyimpl.IsReadonly;
+            }
+
+            if (row % 2 == 0 && !isreadonly)
+            {
+                return EVEN_STYLE_INDEX_UNLOCKED;
+            }
+
+            if (row % 2 == 0 && isreadonly)
+            {
+                return EVEN_STYLE_INDEX_LOCKED;
+            }
+
+            if (!isreadonly)
+            {
+                return ODD_STYLE_INDEX_UNLOCKED;
+            }
+
+            return ODD_STYLE_INDEX_LOCKED;
         }
         #endregion
         #endregion

@@ -111,14 +111,22 @@ namespace Kipon.Excel.Implementation.Models.Sheet
 
             if (this.row < 0)
             {
-                this._current = new Kipon.Excel.Implementation.Models.Cell.Cell(this.column, this.row + 1, this.sheetMetas[this.column].title);
+                var cell = new Kipon.Excel.Implementation.Models.Cell.Cell(this.column, this.row + 1, this.sheetMetas[this.column].title);
+                cell.IsHidden = this.sheetMetas[this.column].isHidden;
+                cell.IsReadonly = true;
+
+                this._current = cell;
                 this.resolvedCells[key] = this._current;
                 return;
             }
 
             {
                 var nextValue = this.sheetMetas[this.column].property.GetValue(this._currentRow);
-                this._current = new Kipon.Excel.Implementation.Models.Cell.Cell(this.column, this.row + 1, nextValue);
+                var cell = new Kipon.Excel.Implementation.Models.Cell.Cell(this.column, this.row + 1, nextValue);
+                cell.IsHidden = this.sheetMetas[this.column].isHidden;
+                cell.IsReadonly = this.sheetMetas[this.column].isReadonly;
+
+                this._current = cell;
                 this.resolvedCells[key] = this._current;
                 return;
             }

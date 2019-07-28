@@ -9,23 +9,22 @@ using System.Text;
 using System.Threading.Tasks;
 using Kipon.Excel.Api;
 using Kipon.Excel.Api.Globalization;
+using Kipon.Excel.Implementation.Serialization;
 
-namespace Kipon.Excel.Implementation.Serialization
+namespace Kipon.Excel.Implementation.OpenXml
 {
-    internal class ExcelWriter
+    internal class OpenXmlWriter
     {
         private ISpreadsheet _spreadsheet;
         private IStyleResolver _styleResolver;
-        private IDataTypeResolver _datatypeResolver;
         private ILocalization _localization;
 
         private NumberFormatInfo valueNumberFormatInfo = new NumberFormatInfo() { NumberDecimalSeparator = ".", NumberGroupSeparator = string.Empty };
 
 
-        internal ExcelWriter(ISpreadsheet spreadsheet, IDataTypeResolver datatyperesolver, ILocalization localization = null)
+        internal OpenXmlWriter(ISpreadsheet spreadsheet, ILocalization localization = null)
         {
             this._spreadsheet = spreadsheet;
-            this._datatypeResolver = datatyperesolver;
 
             if (localization != null)
             {
@@ -50,7 +49,7 @@ namespace Kipon.Excel.Implementation.Serialization
             generateWorkbookPartContent(workbookPart);
 
             WorkbookStylesPart workbookStylesPart = workbookPart.AddNewPart<WorkbookStylesPart>("rId" + (this._spreadsheet.Sheets.Count() + 1).ToString());
-            workbookStylesPart.Stylesheet = new Kipon.Excel.Styles.DefaultStylesheet();
+            workbookStylesPart.Stylesheet = new Kipon.Excel.Implementation.OpenXml.Styles.DefaultStylesheet();
             this._styleResolver = (IStyleResolver)workbookStylesPart.Stylesheet;
 
             var ix = 1;
@@ -83,11 +82,18 @@ namespace Kipon.Excel.Implementation.Serialization
 
         private void generateWorksheetPartContent(WorksheetPart worksheetPart, ISheet sheet)
         {
+            var _datatypeResolver = sheet as Kipon.Excel.Implementation.Serialization.IDataTypeResolver;
+            if (_datatypeResolver == null)
+            {
+#warning create a default datatype resolver
+            }
+
             var tmpRows = (from c in sheet.Cells
                         select new
                         {
                             OpenxmlCell = new Implementation.OpenXml.Types.Cell(System.Convert.ToUInt32(c.Coordinate.Point.First()), System.Convert.ToUInt32(c.Coordinate.Point.Last())),
-                            Value = c.Value
+                            Value = c.Value,
+                            Cell = c
                         }).ToArray();
 
             var rows = (from r in tmpRows
@@ -124,9 +130,9 @@ namespace Kipon.Excel.Implementation.Serialization
                     Cell excelCell = new Cell()
                     {
                         CellReference = position.ToString(),
-                        StyleIndex = this._styleResolver.Resolve(sheet, position),
-                        DataType = this._datatypeResolver.Resolve(sheet, position)
-                    };
+                        StyleIndex = this._styleResolver.Resolve(dataCell.Cell),
+                        DataType = _datatypeResolver.Resolve(dataCell.Cell)
+                };
 
                     if (dataCell.Value != null)
                     {
@@ -168,7 +174,7 @@ namespace Kipon.Excel.Implementation.Serialization
 
                                     if (dataCell.Value is double || dataCell.Value is decimal || dataCell.Value is float)
                                     {
-                                        var decimals = this._datatypeResolver.NumberOfDecimals(sheet, position);
+                                        var decimals = _datatypeResolver.NumberOfDecimals(dataCell.Cell);
                                         var format = "{ 0:0.####################}";
                                         if (decimals != null)
                                         {

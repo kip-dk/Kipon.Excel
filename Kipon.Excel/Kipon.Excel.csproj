@@ -53,6 +53,8 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Api\Cell\IHidden.cs" />
+    <Compile Include="Api\Cell\IReadonly.cs" />
     <Compile Include="Attributes\HiddenAttribute.cs" />
     <Compile Include="Attributes\ReadonlyAttribute.cs" />
     <Compile Include="Attributes\SortAttribute.cs" />
@@ -85,7 +87,7 @@
     <Compile Include="Implementation\Models\Cell\AbstractBaseCell.cs" />
     <Compile Include="Implementation\Models\Spreadsheet.cs" />
     <Compile Include="Implementation\Serialization\IDataTypeResolver.cs" />
-    <Compile Include="Implementation\Serialization\ExcelWriter.cs" />
+    <Compile Include="Implementation\OpenXml\OpenXmlWriter.cs" />
     <Compile Include="Implementation\Serialization\IStyleResolver.cs" />
     <Compile Include="Implementation\UnittestVisability.cs" />
     <Compile Include="Linq\LinqReaderInterface.cs" />
@@ -105,7 +107,7 @@
     <Compile Include="Api\ISpreadsheet.cs" />
     <Compile Include="Implementation\Serialization\DefaultExcelSerializer.cs" />
     <Compile Include="Serialization\IExcelSerializable.cs" />
-    <Compile Include="Implementation\Styles\DefaultStylesheet.cs" />
+    <Compile Include="Implementation\OpenXml\Styles\DefaultStylesheet.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
