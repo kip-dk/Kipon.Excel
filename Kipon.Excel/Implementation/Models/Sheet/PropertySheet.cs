@@ -109,11 +109,13 @@ namespace Kipon.Excel.Implementation.Models.Sheet
                 return;
             }
 
+            var meta = this.sheetMetas[this.column];
             if (this.row < 0)
             {
-                var cell = new Kipon.Excel.Implementation.Models.Cell.Cell(this.column, this.row + 1, this.sheetMetas[this.column].title);
-                cell.IsHidden = this.sheetMetas[this.column].isHidden;
+                var cell = new Kipon.Excel.Implementation.Models.Cell.Cell(this.column, this.row + 1, meta.title);
+                cell.IsHidden = meta.isHidden;
                 cell.IsReadonly = true;
+                cell.ValueType = typeof(string);
 
                 this._current = cell;
                 this.resolvedCells[key] = this._current;
@@ -121,10 +123,11 @@ namespace Kipon.Excel.Implementation.Models.Sheet
             }
 
             {
-                var nextValue = this.sheetMetas[this.column].property.GetValue(this._currentRow);
+                var nextValue = meta.property.GetValue(this._currentRow);
                 var cell = new Kipon.Excel.Implementation.Models.Cell.Cell(this.column, this.row + 1, nextValue);
-                cell.IsHidden = this.sheetMetas[this.column].isHidden;
-                cell.IsReadonly = this.sheetMetas[this.column].isReadonly;
+                cell.IsHidden = meta.isHidden;
+                cell.IsReadonly = meta.isReadonly;
+                cell.ValueType = meta.property.PropertyType;
 
                 this._current = cell;
                 this.resolvedCells[key] = this._current;
@@ -190,6 +193,11 @@ namespace Kipon.Excel.Implementation.Models.Sheet
                 {
                     sheetMeta.isReadonly = true;
                 }
+
+                if (columnAttr.Decimals != null)
+                {
+                    sheetMeta.decimals = columnAttr.Decimals.Value;
+                }
             }
 
             if (sheetMeta.isReadonly == false)
@@ -210,12 +218,19 @@ namespace Kipon.Excel.Implementation.Models.Sheet
                 }
             }
 
-            if (columnAttr == null || columnAttr.Sort == null)
             {
                 var sortAttr = (Kipon.Excel.Attributes.SortAttribute)prop.GetCustomAttributes(typeof(Kipon.Excel.Attributes.SortAttribute), true).FirstOrDefault();
                 if (sortAttr != null)
                 {
                     sheetMeta.sort = sortAttr.Value;
+                }
+            }
+
+            {
+                var decAttr = (Kipon.Excel.Attributes.DecimalsAttribute)prop.GetCustomAttributes(typeof(Kipon.Excel.Attributes.DecimalsAttribute), true).FirstOrDefault();
+                if (decAttr != null)
+                {
+                    sheetMeta.sort = decAttr.Value;
                 }
             }
             return sheetMeta;
@@ -229,6 +244,7 @@ namespace Kipon.Excel.Implementation.Models.Sheet
             internal int sort { get; set; }
             internal bool isReadonly { get; set; }
             internal bool isHidden { get; set; }
+            internal int? decimals { get; set; }
             internal System.Reflection.PropertyInfo property { get; set; }
         }
         #endregion

@@ -13,6 +13,7 @@ namespace Kipon.Excel.Attributes
         public int Sort { get; set; } = int.MinValue;
         public bool IsHidden { get; set; }
         public bool IsReadonly { get; set; }
+        public int? Decimals { get; set; }
         public ColumnAttribute() { }
     }
 }

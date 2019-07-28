@@ -53,8 +53,11 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Api\Cell\IDataType.cs" />
+    <Compile Include="Api\Cell\IDecimals.cs" />
     <Compile Include="Api\Cell\IHidden.cs" />
     <Compile Include="Api\Cell\IReadonly.cs" />
+    <Compile Include="Attributes\DecimalsAttribute.cs" />
     <Compile Include="Attributes\HiddenAttribute.cs" />
     <Compile Include="Attributes\ReadonlyAttribute.cs" />
     <Compile Include="Attributes\SortAttribute.cs" />
@@ -76,6 +79,7 @@
     <Compile Include="Implementation\Models\Sheets\SingleSheets.cs" />
     <Compile Include="Implementation\Models\Sheet\AbstractBaseSheet.cs" />
     <Compile Include="Implementation\Models\Sheet\PropertySheet.cs" />
+    <Compile Include="Implementation\OpenXml\DataTypeResolver.cs" />
     <Compile Include="Implementation\OpenXml\Types\Cell.cs" />
     <Compile Include="Implementation\OpenXml\Types\Column.cs" />
     <Compile Include="Api\ICoordinate.cs" />
