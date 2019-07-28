@@ -15,7 +15,7 @@ namespace Kipon.Excel.Implementation.Factories
 
     internal abstract class AbstractBaseResolver<T> : IResolver<T> where T : class
     {
-        public virtual T Resolve(object instance) 
+        public virtual T Resolve<I>(I instance) 
         {
             if (instance == null)
             {

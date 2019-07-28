@@ -20,7 +20,7 @@ namespace Kipon.Excel.Implementation.Factories
     {
         private static Dictionary<string, System.Reflection.ConstructorInfo> typeCache = new Dictionary<string, System.Reflection.ConstructorInfo>();
 
-        public sealed override T Resolve(object instance)
+        public sealed override T Resolve<I>(I instance)
         {
             var result = base.Resolve(instance);
             if (result != null)

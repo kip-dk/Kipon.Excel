@@ -14,7 +14,17 @@ namespace Kipon.Excel.UnitTests.Implementation.Factories
         public void DecoratedSheetTest()
         {
             var sheetResolver = new Kipon.Excel.Implementation.Factories.SheetResolver();
+
             /*
+            {
+                DecoratedSheet[] data = null;
+                var sheet = sheetResolver.Resolve(data);
+                Assert.AreEqual("DecoratedSheet", sheet.Title);
+                Assert.AreEqual(3, sheet.Cells.Count());
+            }
+            */
+
+            // empty array te
             {
                 var data = new DecoratedSheet[0];
 
@@ -22,8 +32,8 @@ namespace Kipon.Excel.UnitTests.Implementation.Factories
                 Assert.AreEqual("DecoratedSheet", sheet.Title);
                 Assert.AreEqual(3, sheet.Cells.Count());
             }
-            */
 
+            // single row array test
             {
                 var data = new DecoratedSheet[]
                 {

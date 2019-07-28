@@ -100,7 +100,8 @@ namespace Kipon.Excel.UnitTests.Implementation.Factories
         public void NullInstanceExceptionTest()
         {
             var resolver = new Kipon.Excel.Implementation.Factories.SheetsResolver();
-            Assert.ThrowsException<Kipon.Excel.Exceptions.NullInstanceException>(() => resolver.Resolve(null));
+            object x = null;
+            Assert.ThrowsException<Kipon.Excel.Exceptions.NullInstanceException>(() => resolver.Resolve(x));
         }
         #endregion
 

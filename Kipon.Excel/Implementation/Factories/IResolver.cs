@@ -14,6 +14,6 @@ namespace Kipon.Excel.Implementation.Factories
     /// <typeparam name="T">The expected return type</typeparam>
     internal interface IResolver<T>  where T : class
     {
-        T Resolve(object instance);
+        T Resolve<I>(I instance);
     }
 }
