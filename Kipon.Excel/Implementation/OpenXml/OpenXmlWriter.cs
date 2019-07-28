@@ -18,6 +18,7 @@ namespace Kipon.Excel.Implementation.OpenXml
         private ISpreadsheet _spreadsheet;
         private IStyleResolver _styleResolver;
         private ILocalization _localization;
+        private IDataTypeResolver _datatypeResolver;
 
         private NumberFormatInfo valueNumberFormatInfo = new NumberFormatInfo() { NumberDecimalSeparator = ".", NumberGroupSeparator = string.Empty };
 
@@ -33,6 +34,8 @@ namespace Kipon.Excel.Implementation.OpenXml
             {
                 this._localization = new Kipon.Excel.Implementation.DefaultLocalization();
             }
+
+            this._datatypeResolver = new Kipon.Excel.Implementation.OpenXml.DataTypeResolver();
         }
 
         internal void Serialize(System.IO.Stream stream)
@@ -82,12 +85,6 @@ namespace Kipon.Excel.Implementation.OpenXml
 
         private void generateWorksheetPartContent(WorksheetPart worksheetPart, ISheet sheet)
         {
-            var _datatypeResolver = sheet as Kipon.Excel.Implementation.Serialization.IDataTypeResolver;
-            if (_datatypeResolver == null)
-            {
-#warning create a default datatype resolver
-            }
-
             var tmpRows = (from c in sheet.Cells
                         select new
                         {
