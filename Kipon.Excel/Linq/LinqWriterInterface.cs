@@ -28,11 +28,13 @@ namespace Kipon.Excel.Linq
             var spreadsheetResolver = new Kipon.Excel.Implementation.Factories.SpreadsheetResolver();
             var spreadsheet = spreadsheetResolver.Resolve(data);
 
+            var openXmlWriter = new Kipon.Excel.Implementation.OpenXml.OpenXmlWriter(spreadsheet, null);
+            openXmlWriter.Serialize(excel);
         }
 
         /// <summary>
         /// Transform information in T into excel sheet, and return the openxml document as byte array 
-        /// This method is using an im memory strategy so be carefull on size
+        /// This method is using an in memory strategy so be carefull on size
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="data"></param>
