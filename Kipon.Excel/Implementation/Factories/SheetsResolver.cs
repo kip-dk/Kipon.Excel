@@ -14,7 +14,6 @@ namespace Kipon.Excel.Implementation.Factories
     {
         protected override Models.Sheets.AbstractBaseSheets ResolveType(Type instanceType) 
         {
-
             #region instance is a single ISheet, simply wrap it in a single sheet
             if (typeof(Kipon.Excel.Api.ISheet).IsAssignableFrom(instanceType))
             {
