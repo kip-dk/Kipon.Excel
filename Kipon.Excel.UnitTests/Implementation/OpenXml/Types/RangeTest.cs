@@ -43,7 +43,7 @@ namespace Kipon.Excel.UnitTests.Implementation.OpenXml.Types
 
         public class RangeTestClass
         {
-            public Range Range { get; set; }
+            internal Range Range { get; set; }
         }
     }
 }

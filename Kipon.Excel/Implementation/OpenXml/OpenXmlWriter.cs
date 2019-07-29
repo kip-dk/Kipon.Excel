@@ -62,7 +62,6 @@ namespace Kipon.Excel.Implementation.OpenXml
                 generateWorksheetPartContent(worksheetPart, sheet);
                 ix++;
             }
-
         }
 
         private void generateWorkbookPartContent(WorkbookPart workbookPart)
@@ -74,7 +73,7 @@ namespace Kipon.Excel.Implementation.OpenXml
             UInt32 ix = 1;
             foreach (var _sheet in _spreadsheet.Sheets)
             {
-                Sheet sheet = new Sheet() { Name = (_spreadsheet.Sheets.First().Title ?? "Sheet " + ix.ToString()).Replace("/", "-"), SheetId = (UInt32Value)ix, Id = "rId" + ix.ToString() };
+                Sheet sheet = new Sheet() { Name = (_sheet.Title ?? "Sheet " + ix.ToString()).Replace("/", "-"), SheetId = (UInt32Value)ix, Id = "rId" + ix.ToString() };
                 sheets.Append(sheet);
                 ix++;
             }
@@ -152,9 +151,12 @@ namespace Kipon.Excel.Implementation.OpenXml
                                 }
                             case CellValues.Date:
                                 {
+                                    excelCell.DataType = CellValues.Number;
+
                                     if (dataCell.Value is DateTime)
                                     {
-                                        var excelValue = new CellValue((DateTime)dataCell.Value);
+                                        var dateValue = ((DateTime)dataCell.Value).ToOADate();
+                                        var excelValue = new CellValue(dateValue.ToString(CultureInfo.InvariantCulture));
                                         excelCell.Append(excelValue);
                                         break;
                                     }
@@ -172,13 +174,14 @@ namespace Kipon.Excel.Implementation.OpenXml
                                     if (dataCell.Value is double || dataCell.Value is decimal || dataCell.Value is float)
                                     {
                                         var decimals = _datatypeResolver.NumberOfDecimals(dataCell.Cell);
-                                        var format = "{ 0:0.####################}";
+                                        var format = "{0:0.####################}";
                                         if (decimals != null)
                                         {
                                             var zeros = string.Empty.PadLeft(decimals.Value, '0');
                                             format = format.Replace("####################", zeros);
                                         }
-                                        var excelValue = new CellValue(string.Format(valueNumberFormatInfo, format, dataCell.Value));
+                                        var valueString = string.Format(valueNumberFormatInfo, format, dataCell.Value);
+                                        var excelValue = new CellValue(valueString);
                                         excelCell.Append(excelValue);
                                         break;
                                     }
@@ -195,6 +198,16 @@ namespace Kipon.Excel.Implementation.OpenXml
                                     throw new NotSupportedException("type " + excelCell.DataType.Value + " not supported.");
                                 }
                         }
+                    }
+
+                    if (excelCell.DataType != null && excelCell.DataType.Value == CellValues.Date)
+                    {
+                        excelCell.DataType = CellValues.Number;
+                    }
+
+                    if (excelCell.DataType != null && excelCell.DataType.Value == CellValues.Boolean)
+                    {
+                        excelCell.DataType = CellValues.String;
                     }
                     excelRow.Append(excelCell);
                     colix++;

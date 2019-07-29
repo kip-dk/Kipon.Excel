@@ -86,7 +86,6 @@ namespace Kipon.Excel.Implementation.Models.Sheets
 
         private class SheetMeta
         {
-
             internal string title { get; set; }
             internal int order { get; set; }
             internal System.Reflection.PropertyInfo Property { get; set; }

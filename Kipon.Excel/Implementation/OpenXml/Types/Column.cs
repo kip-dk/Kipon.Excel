@@ -14,7 +14,7 @@ namespace Kipon.Excel.Implementation.OpenXml.Types
     /// Created from string, it will calculate the corresponding 0 based index, created from int, it will calculate
     /// the corresponding string name, both exposed as Value and Index, - both immutable
     /// </summary>
-    public struct Column
+    internal struct Column
     {
         #region fields
         public const int EXCEL_TOTAL_MAXCOLUMNS = 16384;

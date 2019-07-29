@@ -25,7 +25,8 @@ namespace Kipon.Excel.Implementation.Factories
             typeof(System.Double),
             typeof(System.Enum),
             typeof(System.String),
-            typeof(System.DateTime)
+            typeof(System.DateTime),
+            typeof(System.Guid)
         };
 
         protected override AbstractBaseCells ResolveType(Type instanceType)

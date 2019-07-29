@@ -11,7 +11,7 @@ namespace Kipon.Excel.Implementation.OpenXml.Types
     /// The consequence of this rule, is that the cells parsed into the constructor of range is not nesserarrly the same as thouse return
     /// from the From and To properties
     /// </summary>
-    public struct Range
+    internal struct Range
     {
         #region fields
         private Cell _from;

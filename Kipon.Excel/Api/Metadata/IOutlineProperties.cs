@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Kipon.Excel.Api.Metadata
 {
-    public interface IOutlineProperties
+    internal interface IOutlineProperties
     {
         bool SummaryBelow { get; }
     }

@@ -11,7 +11,7 @@ namespace Kipon.Excel.Implementation.OpenXml.Types
     /// simply points into coordinate of the sheet.
     /// The upper left value of a cell is A1, corresponding to a column A (index=0), and a row value 1, (index 0). Hince, a cell has it natual name.
     /// </summary>
-    public struct Cell
+    internal struct Cell
     {
         #region fields
         private Column _column;

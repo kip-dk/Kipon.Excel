@@ -70,14 +70,14 @@ namespace Kipon.Excel.UnitTests.Implementation.OpenXml.Types
         public class RowTestClass
         {
             private Row _row;
-            public RowTestClass(Row r)
+            internal RowTestClass(Row r)
             {
                 this._row = r;
             }
 
-            public Row Row { get { return this._row; } }
+            internal Row Row { get { return this._row; } }
 
-            public void Method(Row row)
+            internal void Method(Row row)
             {
             }
         }

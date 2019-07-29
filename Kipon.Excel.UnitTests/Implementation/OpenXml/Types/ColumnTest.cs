@@ -62,7 +62,7 @@ namespace Kipon.Excel.UnitTests.Implementation.OpenXml.Types
 
         public class ColumnTestClass
         {
-            public Column C { get; set; }
+            internal Column C { get; set; }
         }
     }
 }

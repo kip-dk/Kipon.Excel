@@ -12,7 +12,7 @@ namespace Kipon.Excel.Implementation.OpenXml.Types
     /// 
     /// the purpose of the type is to inforce correct line numbers
     /// </summary>
-    public struct Row 
+    internal struct Row 
     {
         #region fields and consts
         public const int EXCEL_TOTAL_MAXROWS = 1048576;

@@ -25,15 +25,15 @@ namespace Kipon.Excel.UnitTests.Implementation.OpenXml.Types
 
         public class CellBox
         {
-            public Cell Cell { get; set; }
+            internal Cell Cell { get; set; }
         }
 
-        public interface IWithCellProperty
+        internal interface IWithCellProperty
         {
             Cell Cell { get; }
         }
 
-        public class WithCellProperty : IWithCellProperty
+        internal class WithCellProperty : IWithCellProperty
         {
             public Cell Cell => "A1";
         }
