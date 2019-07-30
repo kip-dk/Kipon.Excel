@@ -14,6 +14,9 @@ namespace Kipon.Excel.Attributes
         public bool IsHidden { get; set; }
         public bool IsReadonly { get; set; }
         public int? Decimals { get; set; }
+        public int? MaxLength { get; set; }
+        public double? Width { get; set; }
+        public string[] OptionSetValues { get; set; }
         public ColumnAttribute() { }
     }
 }

@@ -59,8 +59,10 @@
     <Compile Include="Api\Cell\IReadonly.cs" />
     <Compile Include="Attributes\DecimalsAttribute.cs" />
     <Compile Include="Attributes\HiddenAttribute.cs" />
+    <Compile Include="Attributes\OptionSetValuesAttribute.cs" />
     <Compile Include="Attributes\ReadonlyAttribute.cs" />
     <Compile Include="Attributes\SortAttribute.cs" />
+    <Compile Include="Attributes\WidthAttribute.cs" />
     <Compile Include="Exceptions\NullInstanceException.cs" />
     <Compile Include="Exceptions\UnresolveableTypeException.cs" />
     <Compile Include="WriterImplementation\Factories\AbstractBaseResolver.cs" />
@@ -90,6 +92,8 @@
     <Compile Include="WriterImplementation\DefaultLocalization.cs" />
     <Compile Include="WriterImplementation\Models\Cell\AbstractBaseCell.cs" />
     <Compile Include="WriterImplementation\Models\Spreadsheet.cs" />
+    <Compile Include="WriterImplementation\Serialization\IColumn.cs" />
+    <Compile Include="WriterImplementation\Serialization\IColumns.cs" />
     <Compile Include="WriterImplementation\Serialization\IDataTypeResolver.cs" />
     <Compile Include="WriterImplementation\OpenXml\OpenXmlWriter.cs" />
     <Compile Include="WriterImplementation\Serialization\IStyleResolver.cs" />
@@ -98,7 +102,7 @@
     <Compile Include="Linq\LinqWriterInterface.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Attributes\ColumnAttribute.cs" />
-    <Compile Include="Attributes\MaxlengthAttribute.cs" />
+    <Compile Include="Attributes\MaxLengthAttribute.cs" />
     <Compile Include="Attributes\SheetAttribute.cs" />
     <Compile Include="Api\ICell.cs" />
     <Compile Include="Api\Metadata\IColumn.cs" />

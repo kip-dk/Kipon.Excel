@@ -5,10 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Kipon.Excel.Api;
+using Kipon.Excel.WriterImplementation.Serialization;
 
 namespace Kipon.Excel.WriterImplementation.Models.Sheet
 {
-    internal class PropertySheet : AbstractBaseSheet, IEnumerable<Kipon.Excel.Api.ICell>, IEnumerator<ICell>
+    internal class PropertySheet : AbstractBaseSheet, IEnumerable<Kipon.Excel.Api.ICell>, IEnumerator<ICell>, Kipon.Excel.WriterImplementation.Serialization.IColumns
     {
         #region metadatacache
         private static Dictionary<Type, SheetMeta[]> metaCache = new Dictionary<Type, SheetMeta[]>();
@@ -147,6 +148,11 @@ namespace Kipon.Excel.WriterImplementation.Models.Sheet
         }
         #endregion
 
+
+        #region icolumns impl
+        IEnumerable<IColumn> IColumns.Columns => this.sheetMetas;
+        #endregion
+
         #region property columns initializer
         internal void AddPropertyInfos(Type type, System.Reflection.PropertyInfo[] properties)
         {
@@ -202,6 +208,10 @@ namespace Kipon.Excel.WriterImplementation.Models.Sheet
                 {
                     sheetMeta.decimals = columnAttr.Decimals.Value;
                 }
+
+                if (columnAttr.MaxLength != null)
+                {
+                }
             }
 
             if (sheetMeta.isReadonly == false)
@@ -237,19 +247,58 @@ namespace Kipon.Excel.WriterImplementation.Models.Sheet
                     sheetMeta.sort = decAttr.Value;
                 }
             }
+
+            {
+                var widthAttr = (Kipon.Excel.Attributes.WidthAttribute)prop.GetCustomAttributes(typeof(Kipon.Excel.Attributes.WidthAttribute), true).FirstOrDefault();
+                if (widthAttr != null)
+                {
+                    sheetMeta.width = widthAttr.Value;
+                }
+            }
+
+            {
+                var maxlengthAttr = (Kipon.Excel.Attributes.MaxLengthAttribute)prop.GetCustomAttributes(typeof(Kipon.Excel.Attributes.MaxLengthAttribute), true).FirstOrDefault();
+                if (maxlengthAttr != null)
+                {
+                    sheetMeta.maxLength = maxlengthAttr.Value;
+                }
+            }
+
+            {
+                var optionvaluesAttr = (Kipon.Excel.Attributes.OptionSetValuesAttribute)prop.GetCustomAttributes(typeof(Kipon.Excel.Attributes.OptionSetValuesAttribute), true).FirstOrDefault();
+                if (optionvaluesAttr != null)
+                {
+                    sheetMeta.optionSetValues = optionvaluesAttr.Value;
+                }
+            }
+
             return sheetMeta;
         }
         #endregion
 
         #region inner classes
-        private class SheetMeta
+        private class SheetMeta : Kipon.Excel.WriterImplementation.Serialization.IColumn
         {
             internal string title { get; set; }
             internal int sort { get; set; }
             internal bool isReadonly { get; set; }
             internal bool isHidden { get; set; }
             internal int? decimals { get; set; }
+
+            internal double? width { get; set; }
+            internal int? maxLength { get; set; }
+            internal string[] optionSetValues { get; set; }
             internal System.Reflection.PropertyInfo property { get; set; }
+
+            #region icolumn impl
+            double? IColumn.Width => this.width;
+
+            int? IColumn.MaxLength => this.maxLength;
+
+            bool? IColumn.Hidden => this.isHidden;
+
+            string[] IColumn.OptionSetValue => this.optionSetValues;
+            #endregion
         }
         #endregion
     }

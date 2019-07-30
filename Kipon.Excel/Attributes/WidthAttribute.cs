@@ -7,22 +7,19 @@ using System.Threading.Tasks;
 namespace Kipon.Excel.Attributes
 {
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = true)]
-
-    public class MaxLengthAttribute : Attribute
+    public class WidthAttribute : Attribute
     {
-        private int _max;
-
-        public MaxLengthAttribute(int maxlen)
+        private double _value;
+        public WidthAttribute(double value)
         {
-            if (maxlen <= 0) throw new ArgumentOutOfRangeException("maxlen cannot be less than or 0");
-            this._max = maxlen;
+            this._value = value;
         }
 
-        public int Value
+        public double Value
         {
             get
             {
-                return this._max;
+                return this._value;
             }
         }
     }
