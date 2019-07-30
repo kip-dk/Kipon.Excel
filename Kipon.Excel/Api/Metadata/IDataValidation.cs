@@ -19,7 +19,7 @@ namespace Kipon.Excel.Api.Metadata
         string PromptTitle { get; }
         string Prompt { get; }
 #warning, validate if on rule can contain more than on range
-        Implementation.OpenXml.Types.Range SequenceOfReferences { get; }
+        WriterImplementation.OpenXml.Types.Range SequenceOfReferences { get; }
 
     }
 }

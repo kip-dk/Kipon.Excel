@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Kipon.Excel.UnitTests.Implementation.Factories
+namespace Kipon.Excel.UnitTests.WriterImplementation.Factories
 {
     [TestClass]
     public class SheetResolverTest
@@ -13,7 +13,7 @@ namespace Kipon.Excel.UnitTests.Implementation.Factories
         [TestMethod]
         public void DecoratedSheetTest()
         {
-            var sheetResolver = new Kipon.Excel.Implementation.Factories.SheetResolver();
+            var sheetResolver = new Kipon.Excel.WriterImplementation.Factories.SheetResolver();
 
             /*
             {

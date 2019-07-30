@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Kipon.Excel.UnitTests.Implementation.Factories
+namespace Kipon.Excel.UnitTests.WriterImplementation.Factories
 {
     [TestClass]
     public class SheetsResolverTest
@@ -17,7 +17,7 @@ namespace Kipon.Excel.UnitTests.Implementation.Factories
         {
             var sheets = new DecoratedSheets();
 
-            var resolver = new Kipon.Excel.Implementation.Factories.SheetsResolver();
+            var resolver = new Kipon.Excel.WriterImplementation.Factories.SheetsResolver();
             var impl = resolver.Resolve(sheets);
 
             Assert.IsInstanceOfType(impl, typeof(IEnumerable<Kipon.Excel.Api.ISheet>));
@@ -33,7 +33,7 @@ namespace Kipon.Excel.UnitTests.Implementation.Factories
         {
             var sheets = new DuckSheets();
 
-            var resolver = new Kipon.Excel.Implementation.Factories.SheetsResolver();
+            var resolver = new Kipon.Excel.WriterImplementation.Factories.SheetsResolver();
             var impl = resolver.Resolve(sheets);
             Assert.IsInstanceOfType(impl, typeof(IEnumerable<Kipon.Excel.Api.ISheet>));
             Assert.AreEqual(3, impl.Count());
@@ -49,7 +49,7 @@ namespace Kipon.Excel.UnitTests.Implementation.Factories
         public void SingleSheetDuckArrayTest()
         {
             var data = new DuckSheet[0];
-            var resolver = new Kipon.Excel.Implementation.Factories.SheetsResolver();
+            var resolver = new Kipon.Excel.WriterImplementation.Factories.SheetsResolver();
             var impl = resolver.Resolve(data);
             Assert.IsInstanceOfType(impl, typeof(IEnumerable<Kipon.Excel.Api.ISheet>));
             Assert.AreEqual(1, impl.Count());
@@ -62,7 +62,7 @@ namespace Kipon.Excel.UnitTests.Implementation.Factories
         public void SingleSheetDuckListTest()
         {
             var data = new List<DuckSheet>();
-            var resolver = new Kipon.Excel.Implementation.Factories.SheetsResolver();
+            var resolver = new Kipon.Excel.WriterImplementation.Factories.SheetsResolver();
             var impl = resolver.Resolve(data);
             Assert.IsInstanceOfType(impl, typeof(IEnumerable<Kipon.Excel.Api.ISheet>));
             Assert.AreEqual(1, impl.Count());
@@ -76,7 +76,7 @@ namespace Kipon.Excel.UnitTests.Implementation.Factories
         {
             var data = new TestSheet("Test sheet");
 
-            var resolver = new Kipon.Excel.Implementation.Factories.SheetsResolver();
+            var resolver = new Kipon.Excel.WriterImplementation.Factories.SheetsResolver();
             var impl = resolver.Resolve(data);
             Assert.IsInstanceOfType(impl, typeof(IEnumerable<Kipon.Excel.Api.ISheet>));
             Assert.AreEqual(1, impl.Count());
@@ -90,7 +90,7 @@ namespace Kipon.Excel.UnitTests.Implementation.Factories
         public void UnresolveableTypeExceptionTest()
         {
             var x = new object();
-            var resolver = new Kipon.Excel.Implementation.Factories.SheetsResolver();
+            var resolver = new Kipon.Excel.WriterImplementation.Factories.SheetsResolver();
             Assert.ThrowsException<Kipon.Excel.Exceptions.UnresolveableTypeException>(() => resolver.Resolve(x));
         }
         #endregion
@@ -99,7 +99,7 @@ namespace Kipon.Excel.UnitTests.Implementation.Factories
         [TestMethod]
         public void NullInstanceExceptionTest()
         {
-            var resolver = new Kipon.Excel.Implementation.Factories.SheetsResolver();
+            var resolver = new Kipon.Excel.WriterImplementation.Factories.SheetsResolver();
             object x = null;
             Assert.ThrowsException<Kipon.Excel.Exceptions.NullInstanceException>(() => resolver.Resolve(x));
         }

@@ -25,10 +25,10 @@ namespace Kipon.Excel.Linq
                 throw new Kipon.Excel.Exceptions.NullInstanceException(typeof(T));
             }
 
-            var spreadsheetResolver = new Kipon.Excel.Implementation.Factories.SpreadsheetResolver();
+            var spreadsheetResolver = new Kipon.Excel.WriterImplementation.Factories.SpreadsheetResolver();
             var spreadsheet = spreadsheetResolver.Resolve(data);
 
-            var openXmlWriter = new Kipon.Excel.Implementation.OpenXml.OpenXmlWriter(spreadsheet, null);
+            var openXmlWriter = new Kipon.Excel.WriterImplementation.OpenXml.OpenXmlWriter(spreadsheet, null);
             openXmlWriter.Serialize(excel);
         }
 

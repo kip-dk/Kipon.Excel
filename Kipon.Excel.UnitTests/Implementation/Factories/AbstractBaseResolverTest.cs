@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Kipon.Excel.UnitTests.Implementation.Factories
+namespace Kipon.Excel.UnitTests.WriterImplementation.Factories
 {
     [TestClass]
     public class AbstractBaseResolverTest
@@ -40,7 +40,7 @@ namespace Kipon.Excel.UnitTests.Implementation.Factories
         }
 
 
-        internal class Resolver<T> : Kipon.Excel.Implementation.Factories.AbstractBaseResolver<T> where T: class
+        internal class Resolver<T> : Kipon.Excel.WriterImplementation.Factories.AbstractBaseResolver<T> where T: class
         {
         }
     }

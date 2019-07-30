@@ -1,9 +1,9 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Kipon.Excel.Implementation.OpenXml.Types;
+using Kipon.Excel.WriterImplementation.OpenXml.Types;
 using System.Xml.Serialization;
 
-namespace Kipon.Excel.UnitTests.Implementation.OpenXml.Types
+namespace Kipon.Excel.UnitTests.WriterImplementation.OpenXml.Types
 {
     [TestClass]
     public class RowTest

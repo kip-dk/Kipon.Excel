@@ -8,8 +8,8 @@ namespace Kipon.Excel.Api.Metadata
 {
     internal interface IColumn
     {
-        Implementation.OpenXml.Types.Column Min { get; set; }
-        Implementation.OpenXml.Types.Column Max { get; set; }
+        WriterImplementation.OpenXml.Types.Column Min { get; set; }
+        WriterImplementation.OpenXml.Types.Column Max { get; set; }
         double Width { get; }
         bool Hidden { get; }
     }
