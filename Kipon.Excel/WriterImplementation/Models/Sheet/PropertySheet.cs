@@ -148,7 +148,6 @@ namespace Kipon.Excel.WriterImplementation.Models.Sheet
         }
         #endregion
 
-
         #region icolumns impl
         IEnumerable<IColumn> IColumns.Columns => this.sheetMetas;
         #endregion
@@ -211,6 +210,17 @@ namespace Kipon.Excel.WriterImplementation.Models.Sheet
 
                 if (columnAttr.MaxLength != null)
                 {
+                    sheetMeta.maxLength = columnAttr.MaxLength;
+                }
+
+                if (columnAttr.Width != null)
+                {
+                    sheetMeta.width = columnAttr.Width;
+                }
+
+                if (columnAttr.OptionSetValues != null)
+                {
+                    sheetMeta.optionSetValues = columnAttr.OptionSetValues;
                 }
             }
 
@@ -271,7 +281,6 @@ namespace Kipon.Excel.WriterImplementation.Models.Sheet
                     sheetMeta.optionSetValues = optionvaluesAttr.Value;
                 }
             }
-
             return sheetMeta;
         }
         #endregion
