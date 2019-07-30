@@ -128,6 +128,10 @@ namespace Kipon.Excel.Implementation.Models.Sheet
                 cell.IsHidden = meta.isHidden;
                 cell.IsReadonly = meta.isReadonly;
                 cell.ValueType = meta.property.PropertyType;
+                if (meta.property.PropertyType.IsGenericType)
+                {
+                    cell.ValueType = meta.property.PropertyType.GetGenericArguments()[0];
+                }
 
                 this._current = cell;
                 this.resolvedCells[key] = this._current;

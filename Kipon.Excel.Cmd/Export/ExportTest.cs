@@ -20,7 +20,7 @@ namespace Kipon.Excel.Cmd.Export
 
             var list = new List<Data>();
             list.AddRange(data);
-            list.Add(new Data { Id = Guid.NewGuid(), Name = "Name 4", Amount = 14.67M, Count = 23, Date = DateTime.Now.AddMonths(-3), Has = true });
+            list.Add(new Data { Id = Guid.NewGuid(), Name = "Name 4", Amount = 14.67M, Count = 23, Date = DateTime.Now.AddMonths(-3), Has = true, SecondDate = System.DateTime.Now });
 
             sheet.Sheet2 = list.ToArray();
 
