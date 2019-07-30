@@ -108,6 +108,8 @@ namespace Kipon.Excel.WriterImplementation.OpenXml
                 }
             };
 
+            this.generateColumnDefinitions(worksheet, sheet);
+
             SheetData sheetData = new SheetData();
 
             uint rowix = 0;
@@ -219,6 +221,80 @@ namespace Kipon.Excel.WriterImplementation.OpenXml
 
             worksheet.Append(sheetData);
             worksheetPart.Worksheet = worksheet;
+        }
+
+        private void generateColumnDefinitions(Worksheet worksheet, ISheet sheet)
+        {
+            var columnDef = sheet as Kipon.Excel.WriterImplementation.Serialization.IColumns;
+            if (columnDef != null)
+            {
+                var sheetColumns = columnDef.Columns != null ? columnDef.Columns.ToArray() : null;
+                if (sheetColumns != null && sheetColumns.Length > 0)
+                {
+                    var columns = new Columns();
+                    var needValidation = (from co in sheetColumns where co.MaxLength != null || (co.OptionSetValue != null && co.OptionSetValue.Length > 0) select co).Count();
+                    var validates = new DataValidations() { Count = System.Convert.ToUInt32(needValidation) };
+
+                    for (int i = 0; i < sheetColumns.Length; i++)
+                    {
+                        var sheetColumn = sheetColumns[i];
+                        var col = new Column { Min = System.Convert.ToUInt32(i + 1), Max = System.Convert.ToUInt32(i + 1) };
+                        if (sheetColumn.Width != null)
+                        {
+                            col.Width = sheetColumn.Width;
+                        }
+
+                        if (sheetColumn.Hidden != null && sheetColumn.Hidden.Value)
+                        {
+                            col.Hidden = true;
+                        }
+                        columns.Append(col);
+
+                        #region append maxlength validations
+                        if (sheetColumn.MaxLength != null && sheetColumn.MaxLength > 0)
+                        {
+                            var columnName = new Kipon.Excel.WriterImplementation.OpenXml.Types.Column(i).Value;
+                            DataValidation dv = new DataValidation()
+                            {
+                                Type = DataValidationValues.TextLength,
+                                Operator = DataValidationOperatorValues.LessThanOrEqual,
+                                AllowBlank = true
+                                ,
+                                ShowInputMessage = true,
+                                ShowErrorMessage = true,
+                                ErrorTitle = "Længden er overskredet",
+                                Error = $"Denne værdi skal indeholde højst {sheetColumn.MaxLength.Value.ToString()} tegn.",
+                                PromptTitle = "Tekst",
+                                Prompt = $"Maksimumlængde: {sheetColumn.MaxLength.Value} tegn.",
+                                SequenceOfReferences = new ListValue<StringValue>() { InnerText = $"{columnName}2:{columnName}1048576" },
+                                Formula1 = new Formula1($"{sheetColumn.MaxLength.Value.ToString()}")
+                            };
+                            validates.Append(dv);
+                            continue;
+                        }
+                        #endregion
+
+                        #region append enum list validations
+                        if (sheetColumn.OptionSetValue != null && sheetColumn.OptionSetValue.Length > 0)
+                        {
+                            var columnName = new Kipon.Excel.WriterImplementation.OpenXml.Types.Column(i).Value;
+                            DataValidation dv = new DataValidation()
+                            {
+                                Type = DataValidationValues.List,
+                                AllowBlank = true,
+                                ShowInputMessage = false,
+                                ShowErrorMessage = false,
+                                SequenceOfReferences = new ListValue<StringValue>() { InnerText = $"{columnName}2:{columnName}1048576" },
+                                Formula1 = new Formula1("\"" + string.Join(",", sheetColumn.OptionSetValue) + "\"")
+                            };
+                            validates.Append(dv);
+                            continue;
+                        }
+                        #endregion
+                    }
+                    worksheet.Append(columns);
+                }
+            }
         }
     }
 }
