@@ -12,5 +12,19 @@ namespace Kipon.Excel.WriterImplementation
         string ILocalization.True => "Yes";
 
         string ILocalization.False => "No";
+
+        string ILocalization.LengthExceededErrorTitle => "Length exceeded";
+
+        string ILocalization.LengthExceededPromptTitle => "Max length";
+
+        string ILocalization.LengthExceededError(int maxlength)
+        {
+            return $"This should contain a string of max length {maxlength}";
+        }
+
+        string ILocalization.LengthExceededPrompt(int maxlength)
+        {
+            return $"Max length {maxlength}";
+        }
     }
 }

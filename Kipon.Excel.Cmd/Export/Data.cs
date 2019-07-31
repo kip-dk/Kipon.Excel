@@ -9,6 +9,7 @@ namespace Kipon.Excel.Cmd.Export
 {
     public class Data
     {
+        [Hidden]
         [Sort(1)]
         public Guid Id { get; set; }
         [Sort(2)]

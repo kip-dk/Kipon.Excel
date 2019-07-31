@@ -10,5 +10,10 @@ namespace Kipon.Excel.Api.Globalization
     {
         string True { get; }
         string False { get; }
+
+        string LengthExceededErrorTitle { get; }
+        string LengthExceededError(int maxlength);
+        string LengthExceededPromptTitle { get; }
+        string LengthExceededPrompt(int maxlength);
     }
 }

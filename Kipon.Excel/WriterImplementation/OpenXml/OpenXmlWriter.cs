@@ -292,10 +292,10 @@ namespace Kipon.Excel.WriterImplementation.OpenXml
                                 ,
                                 ShowInputMessage = true,
                                 ShowErrorMessage = true,
-                                ErrorTitle = "Længden er overskredet",
-                                Error = $"Denne værdi skal indeholde højst {sheetColumn.MaxLength.Value.ToString()} tegn.",
-                                PromptTitle = "Tekst",
-                                Prompt = $"Maksimumlængde: {sheetColumn.MaxLength.Value} tegn.",
+                                ErrorTitle = this._localization.LengthExceededErrorTitle,
+                                Error = this._localization.LengthExceededError(sheetColumn.MaxLength.Value),
+                                PromptTitle = this._localization.LengthExceededPromptTitle,
+                                Prompt = this._localization.LengthExceededPrompt(sheetColumn.MaxLength.Value),
                                 SequenceOfReferences = new ListValue<StringValue>() { InnerText = $"{columnName}2:{columnName}1048576" },
                                 Formula1 = new Formula1($"{sheetColumn.MaxLength.Value.ToString()}")
                             };
