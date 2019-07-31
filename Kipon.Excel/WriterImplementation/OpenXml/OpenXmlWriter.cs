@@ -108,7 +108,7 @@ namespace Kipon.Excel.WriterImplementation.OpenXml
                 }
             };
 
-            this.generateColumnDefinitions(worksheet, sheet);
+            var validates = this.generateColumnDefinitions(worksheet, sheet);
 
             SheetData sheetData = new SheetData();
 
@@ -220,10 +220,37 @@ namespace Kipon.Excel.WriterImplementation.OpenXml
             }
 
             worksheet.Append(sheetData);
+
+            var sheetProtection = new SheetProtection()
+            {
+                Sheet = true,
+                Objects = true,
+                Scenarios = true,
+                FormatCells = false,
+                FormatRows = false,
+                FormatColumns = false,
+                InsertRows = false,
+                DeleteRows = false,
+                Sort = false
+                /*
+                AlgorithmName = "SHA-512",
+                HashValue = "LObiQjq3cB5dG7o09BKWcaYSv5yZM6zvIZNrp0uqAttdaXnL7yLEr6OowSX4luXNDI5eMjtAaoF6qIYbIVKe9w==",
+                SaltValue = "AvT9iRlToC0sfmW2ocVDDQ==",
+                SpinCount = 100000
+                */
+            };
+            worksheet.Append(sheetProtection);
+
+
+            if (validates != null)
+            {
+                worksheet.Append(validates);
+            }
+
             worksheetPart.Worksheet = worksheet;
         }
 
-        private void generateColumnDefinitions(Worksheet worksheet, ISheet sheet)
+        private DataValidations generateColumnDefinitions(Worksheet worksheet, ISheet sheet)
         {
             var columnDef = sheet as Kipon.Excel.WriterImplementation.Serialization.IColumns;
             if (columnDef != null)
@@ -242,6 +269,9 @@ namespace Kipon.Excel.WriterImplementation.OpenXml
                         if (sheetColumn.Width != null)
                         {
                             col.Width = sheetColumn.Width;
+                        } else
+                        {
+                            col.Width = 12d;
                         }
 
                         if (sheetColumn.Hidden != null && sheetColumn.Hidden.Value)
@@ -293,8 +323,14 @@ namespace Kipon.Excel.WriterImplementation.OpenXml
                         #endregion
                     }
                     worksheet.Append(columns);
+
+                    if (needValidation > 0)
+                    {
+                        return validates;
+                    }
                 }
             }
+            return null;
         }
     }
 }
