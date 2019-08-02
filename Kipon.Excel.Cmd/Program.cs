@@ -15,6 +15,11 @@ namespace Kipon.Excel.Cmd
                 Kipon.Excel.Cmd.Export.ExportTest.Run();
                 return;
             }
+
+            if (args.Length == 1 && args[0] == "import")
+            {
+                Kipon.Excel.Cmd.Import.ImportTest.Run();
+            }
         }
     }
 }

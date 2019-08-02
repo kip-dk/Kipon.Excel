@@ -224,7 +224,7 @@ namespace Kipon.Excel.WriterImplementation.Models.Sheet
                 }
             }
 
-            if (sheetMeta.isReadonly == false)
+            if (sheetMeta.isHidden == false)
             {
                 var hiddenAttr = (Kipon.Excel.Attributes.HiddenAttribute)prop.GetCustomAttributes(typeof(Kipon.Excel.Attributes.HiddenAttribute), true).FirstOrDefault();
                 if (hiddenAttr != null)
@@ -254,7 +254,7 @@ namespace Kipon.Excel.WriterImplementation.Models.Sheet
                 var decAttr = (Kipon.Excel.Attributes.DecimalsAttribute)prop.GetCustomAttributes(typeof(Kipon.Excel.Attributes.DecimalsAttribute), true).FirstOrDefault();
                 if (decAttr != null)
                 {
-                    sheetMeta.sort = decAttr.Value;
+                    sheetMeta.decimals = decAttr.Value;
                 }
             }
 
@@ -281,6 +281,15 @@ namespace Kipon.Excel.WriterImplementation.Models.Sheet
                     sheetMeta.optionSetValues = optionvaluesAttr.Value;
                 }
             }
+
+            {
+                var titleAttr = (Kipon.Excel.Attributes.TitleAttribute)prop.GetCustomAttributes(typeof(Kipon.Excel.Attributes.TitleAttribute), true).FirstOrDefault();
+                if (titleAttr != null)
+                {
+                    sheetMeta.title = titleAttr.Value;
+                }
+            }
+
             return sheetMeta;
         }
         #endregion

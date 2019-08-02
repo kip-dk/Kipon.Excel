@@ -27,7 +27,9 @@ namespace Kipon.Excel.Linq
         /// <returns>IEnumerable of T </returns>
         public static IEnumerable<T> ToEnumerable<T>(this System.IO.Stream excel) where T : new()
         {
-            throw new NotImplementedException();
+            var result = new List<T>();
+            result.From(excel);
+            return result;
         }
 
         /// <summary>
@@ -82,9 +84,10 @@ namespace Kipon.Excel.Linq
         /// <param name="t"></param>
         /// <param name="excel"></param>
         /// <returns></returns>
-        public static T From<T>(this T t, System.IO.Stream excel)
+        public static void From<T>(this T t, System.IO.Stream excel)
         {
-            throw new NotImplementedException();
+            var parser = new Kipon.Excel.ReaderImplementation.Converters.SpreadsheetConverter();
+            parser.Convert(t, excel);
         }
         #endregion
 

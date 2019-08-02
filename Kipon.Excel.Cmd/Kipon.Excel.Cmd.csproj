@@ -46,6 +46,7 @@
     <Compile Include="Export\Data.cs" />
     <Compile Include="Export\ExportTest.cs" />
     <Compile Include="Export\Sheets.cs" />
+    <Compile Include="Import\ImportTest.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
