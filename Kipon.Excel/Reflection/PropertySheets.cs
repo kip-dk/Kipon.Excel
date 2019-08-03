@@ -31,6 +31,11 @@ namespace Kipon.Excel.Reflection
 
         internal static bool IsPropertySheets(Type type)
         {
+            if (typeof(Kipon.Excel.Api.ISpreadsheet).IsAssignableFrom(type))
+            {
+                return false;
+            }
+
             var properties = type.GetProperties(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance);
             foreach (var prop in properties)
             {
@@ -59,7 +64,7 @@ namespace Kipon.Excel.Reflection
                 {
                     return null;
                 }
-                return (from p in this.properties where p.Title.ToUpperInvariant() == title.ToUpperInvariant() select p).FirstOrDefault();
+                return (from p in this.properties where p.Title == title select p).FirstOrDefault();
             }
         }
 
@@ -70,6 +75,12 @@ namespace Kipon.Excel.Reflection
             var ix = int.MaxValue - (properties.Length + 1);
             foreach (var property in properties)
             {
+                var ignore = (Kipon.Excel.Attributes.IgnoreAttribute)property.GetCustomAttributes(typeof(Kipon.Excel.Attributes.IgnoreAttribute), true).FirstOrDefault();
+                if (ignore != null)
+                {
+                    continue;
+                }
+
                 var sheetAttr = (Kipon.Excel.Attributes.SheetAttribute)property.GetCustomAttributes(typeof(Kipon.Excel.Attributes.SheetAttribute), true).FirstOrDefault();
                 if (sheetAttr != null)
                 {
@@ -82,7 +93,8 @@ namespace Kipon.Excel.Reflection
                     this.Populate(next);
                 }
             }
-            if (this.properties != null)
+
+            if (this.properties.Count > 0)
             {
                 this.properties = this.properties.OrderBy(r => r.Sort).ToList();
                 return;
@@ -90,6 +102,37 @@ namespace Kipon.Excel.Reflection
 
             foreach (var property in properties)
             {
+                var ignore = (Kipon.Excel.Attributes.IgnoreAttribute)property.GetCustomAttributes(typeof(Kipon.Excel.Attributes.IgnoreAttribute), true).FirstOrDefault();
+                if (ignore != null)
+                {
+                    continue;
+                }
+
+                if (property.PropertyType.IsArray && PropertySheet.IsPropertySheet(property.PropertyType.GetElementType()))
+                {
+                    var next = new SheetsProperty();
+                    next.Title = property.Name;
+                    next.property = property;
+                    this.properties.Add(next);
+                    this.Populate(next);
+                    continue;
+                }
+
+                if (property.PropertyType.IsGenericType && typeof(System.Collections.IEnumerable).IsAssignableFrom(property.PropertyType) && PropertySheet.IsPropertySheet(property.PropertyType.GetGenericArguments()[0]))
+                {
+                    var next = new SheetsProperty();
+                    next.Title = property.Name;
+                    next.property = property;
+                    this.properties.Add(next);
+                    this.Populate(next);
+                    continue;
+                }
+            }
+
+            if (this.properties.Count > 0)
+            {
+                this.properties = this.properties.OrderBy(r => r.Sort).ToList();
+                return;
             }
         }
 

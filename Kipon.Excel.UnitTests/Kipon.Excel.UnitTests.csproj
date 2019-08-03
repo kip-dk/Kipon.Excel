@@ -64,6 +64,7 @@
     <Compile Include="Implementation\OpenXml\Types\RowTest.cs" />
     <Compile Include="Implementation\OpenXml\Types\ColumnTest.cs" />
     <Compile Include="Reflection\PropertyCellTest.cs" />
+    <Compile Include="Reflection\PropertySheetsTest.cs" />
     <Compile Include="Reflection\PropertySheetTest.cs" />
     <Compile Include="TempTests\GenericTypeNames.cs" />
     <Compile Include="TempTests\PrimitiveTest.cs" />
