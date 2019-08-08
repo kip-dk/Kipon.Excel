@@ -65,6 +65,7 @@
     <Compile Include="Attributes\SortAttribute.cs" />
     <Compile Include="Attributes\TitleAttribute.cs" />
     <Compile Include="Attributes\WidthAttribute.cs" />
+    <Compile Include="Exceptions\DefaultConstructorRequiredException.cs" />
     <Compile Include="Exceptions\NullInstanceException.cs" />
     <Compile Include="Exceptions\UnresolveableTypeException.cs" />
     <Compile Include="ReaderImplementation\Converters\SpreadsheetConverter.cs" />

@@ -8,10 +8,30 @@ namespace Kipon.Excel.ReaderImplementation.Converters
 {
     internal class SpreadsheetConverter
     {
-        internal void Convert<T>(T target, System.IO.Stream excelStream)
+        internal T Convert<T>(System.IO.Stream excelStream) where T: class
         {
             var reader = new OpenXml.OpenXmlReader();
             var spreadsheet = reader.Parse(excelStream);
+
+            if (typeof(T).IsAssignableFrom(typeof(Kipon.Excel.Api.ISpreadsheet)))
+            {
+                return spreadsheet as T;
+            }
+
+            var tConstructor = typeof(T).GetConstructor(new Type[0]);
+            if (tConstructor == null)
+            {
+                throw new Kipon.Excel.Exceptions.DefaultConstructorRequiredException(typeof(T));
+            }
+
+            var result = (T)tConstructor.Invoke(new object[0]);
+
+            this.Convert(result, spreadsheet);
+            return result;
+        }
+
+        private void Convert<T>(T target, Models.Spreadsheet spreadsheet)
+        {
 
             var targetType = typeof(T);
 
