@@ -31,7 +31,7 @@ namespace Kipon.Excel.UnitTests.Fake.Data
         {
             this.String = $"Text {data}";
 
-            this.Guid = new Guid(string.Format(EMPTY_GUID_TEMLATE, data.ToString().PadLeft(8)));
+            this.Guid = new Guid(string.Format(EMPTY_GUID_TEMLATE, data.ToString().PadLeft(8,'0')));
             this.GuidNullable = this.Guid;
 
             this.Int16 = data;
@@ -52,8 +52,8 @@ namespace Kipon.Excel.UnitTests.Fake.Data
             this.Enum = (EnumExample)(data % 3);
             this.EnumNullable = (EnumExample)(data % 2);
 
-            this.DateTime = System.DateTime.Now.AddDays(data);
-            this.DateTimeNullable = System.DateTime.Now.AddDays(data).AddHours(data);
+            this.DateTime = System.DateTime.Today.AddDays(data);
+            this.DateTimeNullable = System.DateTime.Today.AddDays(data).AddHours(data).AddMinutes(data).AddSeconds(data);
         }
 
         public string String { get; set; }

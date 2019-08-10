@@ -85,8 +85,13 @@ namespace Kipon.Excel.UnitTests.ReaderImplementation.Converters
             cellConverter.Convert(this.For(nameof(ValueProperty.String)), Get("Some text"));
             Assert.AreEqual("Some text", obj.String);
 
+            var now = System.DateTime.Now.AddMilliseconds(741);
+            cellConverter.Convert(this.For(nameof(ValueProperty.DateTime)), new Cell { Value = now });
+            Assert.AreEqual(now, obj.DateTime);
 
-
+            DateTime? nowNullable = System.DateTime.Now.AddMilliseconds(743);
+            cellConverter.Convert(this.For(nameof(ValueProperty.DateTime)), new Cell { Value = nowNullable });
+            Assert.AreEqual(nowNullable, obj.DateTime);
         }
 
 

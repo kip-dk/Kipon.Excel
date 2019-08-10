@@ -26,6 +26,18 @@ namespace Kipon.Excel.ReaderImplementation.Converters
                 return;
             }
 
+            if (cell.Value.GetType() == sheetProperty.PropertyType)
+            {
+                sheetProperty.property.SetValue(target, cell.Value);
+                return;
+            }
+
+            if (sheetProperty.PropertyType.IsAssignableFrom(cell.Value.GetType()))
+            {
+                sheetProperty.property.SetValue(target, cell.Value);
+                return;
+            }
+
             try
             {
                 if (sheetProperty.PropertyType.IsAssignableFrom(typeof(System.DateTime)))
