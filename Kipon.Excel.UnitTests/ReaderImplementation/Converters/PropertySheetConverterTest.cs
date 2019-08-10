@@ -40,6 +40,7 @@ namespace Kipon.Excel.UnitTests.ReaderImplementation.Converters
 
                 Assert.AreEqual(input.Boolean, output.Boolean);
                 Assert.AreEqual(input.BooleanNullable, output.BooleanNullable);
+
                 Assert.AreEqual(input.DateTime, output.DateTime);
                 Assert.AreEqual(input.DateTimeNullable, output.DateTimeNullable);
 
