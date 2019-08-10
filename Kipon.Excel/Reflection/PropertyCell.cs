@@ -64,7 +64,7 @@ namespace Kipon.Excel.Reflection
                 return true;
             }
 
-            if (nullableType.IsEnum)
+            if (nullableType != null && nullableType.IsEnum)
             {
                 return true;
             }

@@ -48,6 +48,11 @@ namespace Kipon.Excel.ReaderImplementation.Converters
                 var sheetsMeta = Kipon.Excel.Reflection.PropertySheets.ForType(targetType);
                 foreach (var sheetsPropertyMeta in sheetsMeta.Properties)
                 {
+                    if (!sheetsPropertyMeta.property.CanWrite)
+                    {
+                        continue;
+                    }
+
                     var sheet = sheetsPropertyMeta.BestMatch(spreadsheet.Sheets);
 
                     if (sheet != null)
@@ -62,62 +67,29 @@ namespace Kipon.Excel.ReaderImplementation.Converters
                         if (isPropertySheet)
                         {
                             var sheetMeta = Kipon.Excel.Reflection.PropertySheet.ForType(sheetsPropertyMeta.ElementType);
+                            var converter = new Kipon.Excel.ReaderImplementation.Converters.PropertySheetConverter(sheetsPropertyMeta.ElementType, sheetMeta);
+                            var result = converter.Convert(sheet);
+
+                            if (sheetsPropertyMeta.property.PropertyType.IsAssignableFrom(result.GetType()))
+                            {
+                                sheetsPropertyMeta.property.SetValue(target, result);
+                                continue;
+                            }
+
+                            if (sheetsPropertyMeta.property.PropertyType.IsArray)
+                            {
+                                var array = Array.CreateInstance(sheetsPropertyMeta.ElementType, result.Count);
+                                for (var i = 0; i<result.Count; i++)
+                                {
+                                    var v = result[i];
+                                    array.SetValue(v, i);
+                                }
+                                sheetsPropertyMeta.property.SetValue(target, array);
+                                continue;
+                            }
                         }
                     }
                 } 
-            }
-
-            foreach (var sheet in spreadsheet.Sheets)
-            {
-                var rows = (from c in sheet.Cells
-                            group c by c.Coordinate.Point.Last() into row
-                            select new
-                            {
-                                Row = row.Key,
-                                Cells = row.ToArray()
-                            }).OrderBy(r => r.Row).ToArray();
-
-                if (rows.Length < 1)
-                {
-                    continue;
-                }
-
-                System.Collections.IList list = null;
-                Type elementType = null;
-                if (targetType.IsGenericType && targetType.GetGenericTypeDefinition() == typeof(List<>))
-                {
-                    elementType = targetType.GetGenericArguments().First();
-                    list = (System.Collections.IList)target;
-                }
-                else
-                {
-                }
-
-                var headers = rows.First().Cells.Where(r => r.Value != null).Select(r => r.Value.ToString()).ToArray();
-
-                foreach (var row in rows.Skip(1))
-                {
-                    var next = elementType.GetConstructor(new Type[0]).Invoke(new object[0]);
-                    list.Add(next);
-                }
-
-                foreach (var row in rows)
-                {
-                    Console.Write(row.Row.ToString().PadLeft(3, ' ') + ": ");
-                    foreach (var cell in row.Cells)
-                    {
-                        if (cell.Value == null)
-                        {
-                            Console.Write("null");
-                        } else
-                        {
-                            Console.Write(cell.Value.ToString());
-                        }
-                        Console.Write("\t");
-                    }
-                    Console.WriteLine("");
-                }
-                Console.WriteLine("===================================");
             }
         }
     }

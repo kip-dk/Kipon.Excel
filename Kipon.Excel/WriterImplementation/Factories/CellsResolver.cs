@@ -60,7 +60,7 @@ namespace Kipon.Excel.WriterImplementation.Factories
 
             var nullableType = Nullable.GetUnderlyingType(type);
 
-            if (nullableType.IsEnum)
+            if (nullableType != null && nullableType.IsEnum)
             {
                 return true;
             }
