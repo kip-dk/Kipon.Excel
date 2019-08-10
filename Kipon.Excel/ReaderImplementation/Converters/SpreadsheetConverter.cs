@@ -41,55 +41,92 @@ namespace Kipon.Excel.ReaderImplementation.Converters
         {
             var targetType = typeof(T);
 
-            var isPropertySheets = Kipon.Excel.Reflection.PropertySheets.IsPropertySheets(targetType);
-
-            if (isPropertySheets)
             {
-                var sheetsMeta = Kipon.Excel.Reflection.PropertySheets.ForType(targetType);
-                foreach (var sheetsPropertyMeta in sheetsMeta.Properties)
+                Type elementType = null;
+                if (targetType.IsArray)
                 {
-                    if (!sheetsPropertyMeta.property.CanWrite)
+                    elementType = targetType.GetElementType();
+                }
+                else
+                {
+                    if (targetType.IsGenericType && typeof(System.Collections.IEnumerable).IsAssignableFrom(targetType))
                     {
-                        continue;
+                        elementType = targetType.GetGenericArguments()[0];
                     }
+                }
 
-                    var sheet = sheetsPropertyMeta.BestMatch(spreadsheet.Sheets);
-
+                if (elementType != null && Kipon.Excel.Reflection.PropertySheet.IsPropertySheet(elementType))
+                {
+                    var propertySheetMeta = Kipon.Excel.Reflection.PropertySheet.ForType(elementType);
+                    var sheet = propertySheetMeta.BestMatch(spreadsheet.Sheets);
                     if (sheet != null)
                     {
-                        if (sheetsPropertyMeta.property.PropertyType.IsAssignableFrom(typeof(Kipon.Excel.Api.ISheet)))
+                        var converter = new Kipon.Excel.ReaderImplementation.Converters.PropertySheetConverter(elementType, propertySheetMeta);
+                        var result = converter.Convert(sheet);
+
+                        var resultList = target as System.Collections.IList;
+                        for (var i = 0; i < result.Count; i++)
                         {
-                            sheetsPropertyMeta.property.SetValue(target, sheet);
+                            resultList.Add(result[i]);
+                        }
+                        return;
+                    }
+                }
+            }
+
+            {
+                var isPropertySheets = Kipon.Excel.Reflection.PropertySheets.IsPropertySheets(targetType);
+
+                if (isPropertySheets)
+                {
+                    var sheetsMeta = Kipon.Excel.Reflection.PropertySheets.ForType(targetType);
+                    foreach (var sheetsPropertyMeta in sheetsMeta.Properties)
+                    {
+                        if (!sheetsPropertyMeta.property.CanWrite)
+                        {
                             continue;
                         }
 
-                        var isPropertySheet = Kipon.Excel.Reflection.PropertySheet.IsPropertySheet(sheetsPropertyMeta.ElementType);
-                        if (isPropertySheet)
-                        {
-                            var sheetMeta = Kipon.Excel.Reflection.PropertySheet.ForType(sheetsPropertyMeta.ElementType);
-                            var converter = new Kipon.Excel.ReaderImplementation.Converters.PropertySheetConverter(sheetsPropertyMeta.ElementType, sheetMeta);
-                            var result = converter.Convert(sheet);
+                        var sheet = sheetsPropertyMeta.BestMatch(spreadsheet.Sheets);
 
-                            if (sheetsPropertyMeta.property.PropertyType.IsAssignableFrom(result.GetType()))
+                        if (sheet != null)
+                        {
+                            if (sheetsPropertyMeta.property.PropertyType.IsAssignableFrom(typeof(Kipon.Excel.Api.ISheet)))
                             {
-                                sheetsPropertyMeta.property.SetValue(target, result);
+                                sheetsPropertyMeta.property.SetValue(target, sheet);
                                 continue;
                             }
 
-                            if (sheetsPropertyMeta.property.PropertyType.IsArray)
+                            var isPropertySheet = Kipon.Excel.Reflection.PropertySheet.IsPropertySheet(sheetsPropertyMeta.ElementType);
+                            if (isPropertySheet)
                             {
-                                var array = Array.CreateInstance(sheetsPropertyMeta.ElementType, result.Count);
-                                for (var i = 0; i<result.Count; i++)
+                                var sheetMeta = Kipon.Excel.Reflection.PropertySheet.ForType(sheetsPropertyMeta.ElementType);
+                                var converter = new Kipon.Excel.ReaderImplementation.Converters.PropertySheetConverter(sheetsPropertyMeta.ElementType, sheetMeta);
+                                var result = converter.Convert(sheet);
+
+                                if (sheetsPropertyMeta.property.PropertyType.IsAssignableFrom(result.GetType()))
                                 {
-                                    var v = result[i];
-                                    array.SetValue(v, i);
+                                    sheetsPropertyMeta.property.SetValue(target, result);
+                                    continue;
                                 }
-                                sheetsPropertyMeta.property.SetValue(target, array);
-                                continue;
+
+                                if (sheetsPropertyMeta.property.PropertyType.IsArray)
+                                {
+                                    var array = Array.CreateInstance(sheetsPropertyMeta.ElementType, result.Count);
+                                    for (var i = 0; i < result.Count; i++)
+                                    {
+                                        var v = result[i];
+                                        array.SetValue(v, i);
+                                    }
+                                    sheetsPropertyMeta.property.SetValue(target, array);
+                                    continue;
+                                }
                             }
                         }
                     }
-                } 
+
+                    return;
+                }
             }
         }
     }

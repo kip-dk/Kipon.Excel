@@ -16,21 +16,35 @@ namespace Kipon.Excel.UnitTests.ReaderImplementation.Converters
         private PropertySheets sheet;
         private byte[] sheetData;
 
+        private Fake.Data.ValueProperty[] arrayValues;
+        private byte[] arrayValuesData;
+
         private void Setup()
         {
-            this.sheet = new PropertySheets();
-            var numbers1 = new short[] { 1, 2, 4 };
+            {
+                this.sheet = new PropertySheets();
+                var numbers1 = new short[] { 1, 2, 4 };
 
-            sheet.S1 = (from number in numbers1
-                        select new Fake.Data.ValueProperty(number)).ToArray();
+                sheet.S1 = (from number in numbers1
+                            select new Fake.Data.ValueProperty(number)).ToArray();
+            }
 
+            {
+                var numbers2 = new short[] { 7, 9, 12 };
 
-            var numbers2 = new short[] { 7, 9, 12 };
+                sheet.S2 = (from number in numbers2
+                            select new Fake.Data.ValueProperty(number)).ToList();
 
-            sheet.S2 = (from number in numbers2
-                        select new Fake.Data.ValueProperty(number)).ToList();
+                this.sheetData = this.sheet.ToExcel();
+            }
 
-            this.sheetData = this.sheet.ToExcel();
+            {
+                var numbers3 = new short[] { 14, 16, 18, 21 };
+                this.arrayValues = (from number in numbers3
+                                    select new Fake.Data.ValueProperty(number)).ToArray();
+
+                this.arrayValuesData = arrayValues.ToExcel();
+            }
         }
 
         [TestMethod]
@@ -72,6 +86,29 @@ namespace Kipon.Excel.UnitTests.ReaderImplementation.Converters
             }
         }
 
+        [TestMethod]
+        public void ConvertArrayTest()
+        {
+            this.Setup();
+            using (var mem = new System.IO.MemoryStream(arrayValuesData))
+            {
+                var converter = new Kipon.Excel.ReaderImplementation.Converters.SpreadsheetConverter();
+                var result = converter.Convert<List<Kipon.Excel.UnitTests.Fake.Data.ValueProperty>>(mem);
+
+                Assert.AreEqual(arrayValues.Length, result.Count);
+
+                var ix = 0;
+                foreach (var data in result)
+                {
+                    Assert.AreEqual(data.Boolean, arrayValues[ix].Boolean);
+                    Assert.AreEqual(data.BooleanNullable, arrayValues[ix].BooleanNullable);
+
+                    Assert.AreEqual(data.DateTime, arrayValues[ix].DateTime);
+                    Assert.AreEqual(data.DateTimeNullable, arrayValues[ix].DateTimeNullable);
+                    ix++;
+                }
+            }
+        }
 
         public class PropertySheets
         {

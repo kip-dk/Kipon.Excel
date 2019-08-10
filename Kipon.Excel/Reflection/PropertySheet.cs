@@ -31,7 +31,6 @@ namespace Kipon.Excel.Reflection
             }
             return PropertyCell.HasCell(type);
         }
-
         private PropertySheet(Type type)
         {
             var properties = type.GetProperties(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance).OrderBy(r => r.Name).ToArray();
@@ -186,6 +185,31 @@ namespace Kipon.Excel.Reflection
                 return (from t in this.properties where t.title == title select t).FirstOrDefault();
             }
         }
+
+        internal Kipon.Excel.Api.ISheet BestMatch(IEnumerable<Kipon.Excel.Api.ISheet> sheets)
+        {
+            foreach (var sheet in sheets)
+            {
+                var firstRow = (from c in sheet.Cells
+                                where c.Coordinate.Point.Last() == 0
+                                  && c.Value != null
+                                select c.Value.ToString()).ToArray();
+
+                if (firstRow != null && firstRow.Length > 0)
+                {
+                    var j = (from f in firstRow
+                             join p in this.properties on f equals p.title
+                             select f).ToArray();
+                    if (j.Length == firstRow.Length && j.Length == this.properties.Count)
+                    {
+                        // 100% match
+                        return sheet;
+                    }
+                }
+            }
+            return null;
+        }
+
 
         internal class SheetProperty
         {
