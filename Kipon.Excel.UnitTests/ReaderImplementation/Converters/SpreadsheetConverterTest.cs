@@ -12,7 +12,6 @@ namespace Kipon.Excel.UnitTests.ReaderImplementation.Converters
     [TestClass]
     public class SpreadsheetConverterTest
     {
-
         private PropertySheets sheet;
         private byte[] sheetData;
 
