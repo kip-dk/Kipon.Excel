@@ -3,12 +3,13 @@
 ## Version alfa 1.
 The very first alfa version of this library is taken form.
 
+(a NuGet package for .NET 4.7.2 on its way)
+
 The aim for the project is to make it extreamly easy to take any tabular object data in .NET, stream these data to Excel, allow simple editing, and then get the data
 back into .NET code.
 
 Below example on streaming a simply object of type MyObjectData to excel:
 
-(a NuGet package for .NET 4.7.2 on its way)
 
 ```csharp
 using Kipon.Excel.Linq;
