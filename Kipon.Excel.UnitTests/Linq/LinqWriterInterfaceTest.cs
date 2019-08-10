@@ -14,7 +14,7 @@ namespace Kipon.Excel.UnitTests.Linq
         //[TestMethod]
         public void ToExcelKnownArrayTypeTest()
         {
-            var data = new int[] { 1, 2, 3 };
+            var data = new System.Int16[] { 1, 2, 3 };
             
             var exceldata = from d in data
                             select new Kipon.Excel.UnitTests.Fake.Data.ValueProperty(d);

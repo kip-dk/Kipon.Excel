@@ -30,11 +30,42 @@ namespace Kipon.Excel.ReaderImplementation.Converters
             return result;
         }
 
+        internal void ConvertFrom<T>(T instance, System.IO.Stream excelStream)
+        {
+            var reader = new OpenXml.OpenXmlReader();
+            var spreadsheet = reader.Parse(excelStream);
+            this.Convert(instance, spreadsheet);
+        }
+
         private void Convert<T>(T target, Models.Spreadsheet spreadsheet)
         {
-
             var targetType = typeof(T);
 
+            var isPropertySheets = Kipon.Excel.Reflection.PropertySheets.IsPropertySheets(targetType);
+
+            if (isPropertySheets)
+            {
+                var sheetsMeta = Kipon.Excel.Reflection.PropertySheets.ForType(targetType);
+                foreach (var sheetsPropertyMeta in sheetsMeta.Properties)
+                {
+                    var sheet = sheetsPropertyMeta.BestMatch(spreadsheet.Sheets);
+
+                    if (sheet != null)
+                    {
+                        if (sheetsPropertyMeta.property.PropertyType.IsAssignableFrom(typeof(Kipon.Excel.Api.ISheet)))
+                        {
+                            sheetsPropertyMeta.property.SetValue(target, sheet);
+                            continue;
+                        }
+
+                        var isPropertySheet = Kipon.Excel.Reflection.PropertySheet.IsPropertySheet(sheetsPropertyMeta.ElementType);
+                        if (isPropertySheet)
+                        {
+                            var sheetMeta = Kipon.Excel.Reflection.PropertySheet.ForType(sheetsPropertyMeta.ElementType);
+                        }
+                    }
+                } 
+            }
 
             foreach (var sheet in spreadsheet.Sheets)
             {

@@ -63,6 +63,7 @@
     <Compile Include="Implementation\OpenXml\Types\RangeTest.cs" />
     <Compile Include="Implementation\OpenXml\Types\RowTest.cs" />
     <Compile Include="Implementation\OpenXml\Types\ColumnTest.cs" />
+    <Compile Include="ReaderImplementation\Converters\PropertyCellConverterTest.cs" />
     <Compile Include="Reflection\PropertyCellTest.cs" />
     <Compile Include="Reflection\PropertySheetsTest.cs" />
     <Compile Include="Reflection\PropertySheetTest.cs" />

@@ -13,11 +13,9 @@ namespace Kipon.Excel.Reflection
             typeof(System.Int16),
             typeof(System.Int32),
             typeof(System.Int64),
-            typeof(System.IntPtr),
             typeof(System.UInt16),
             typeof(System.UInt32),
             typeof(System.UInt64),
-            typeof(System.UIntPtr),
             typeof(System.Boolean),
             typeof(System.Decimal),
             typeof(System.Double),
@@ -55,8 +53,18 @@ namespace Kipon.Excel.Reflection
                 return true;
             }
 
+            if (type.IsEnum)
+            {
+                return true;
+            }
+
             var nullableType = Nullable.GetUnderlyingType(type);
             if (nullableType != null && SUPPORTED_SHEET_PROPERTY_TYPES.Contains(nullableType))
+            {
+                return true;
+            }
+
+            if (nullableType.IsEnum)
             {
                 return true;
             }

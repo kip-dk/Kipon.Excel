@@ -93,7 +93,7 @@ namespace Kipon.Excel.Reflection
                     var sheetProperty = new SheetProperty();
                     sheetProperty.title = property.Name;
                     sheetProperty.isReadonly = property.GetSetMethod() == null;
-                    sheetProperty.property = property;
+                    sheetProperty.property =  property;
                     this.Populate(sheetProperty);
                     this.properties.Add(sheetProperty);
                 }
@@ -197,7 +197,25 @@ namespace Kipon.Excel.Reflection
             internal int? maxlength { get; set; }
             internal string[] optionSetValues { get; set; }
             internal double? width { get; set; }
-            internal System.Reflection.PropertyInfo property { get; set; }
+            private System.Reflection.PropertyInfo _property;
+            internal System.Reflection.PropertyInfo property
+            {
+                get
+                {
+                    return this._property;
+                }
+                set
+                {
+                    this._property = value;
+                    this.canWrite = this._property.GetSetMethod() != null;
+                    this.PropertyType = Nullable.GetUnderlyingType(this._property.PropertyType) ?? this._property.PropertyType;
+                }
+            }
+
+            internal bool canWrite { get; private set; }
+
+            // returns the flattner type of the property, so if is Nullable<int>, int will be returned
+            internal Type PropertyType { get; private set; }
         }
     }
 }

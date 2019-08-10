@@ -55,7 +55,6 @@ namespace Kipon.Excel.Reflection
 
         internal IEnumerable<SheetsProperty> Properties => this.properties;
 
-
         public SheetsProperty this[string title]
         {
             get
@@ -113,6 +112,7 @@ namespace Kipon.Excel.Reflection
                     var next = new SheetsProperty();
                     next.Title = property.Name;
                     next.property = property;
+                    next.ElementType = property.PropertyType.GetElementType();
                     this.properties.Add(next);
                     this.Populate(next);
                     continue;
@@ -123,6 +123,7 @@ namespace Kipon.Excel.Reflection
                     var next = new SheetsProperty();
                     next.Title = property.Name;
                     next.property = property;
+                    next.ElementType = property.PropertyType.GetGenericArguments()[0];
                     this.properties.Add(next);
                     this.Populate(next);
                     continue;
@@ -160,6 +161,23 @@ namespace Kipon.Excel.Reflection
             internal int Sort { get; set; }
             internal bool IsReadyonly { get; set; }
             internal System.Reflection.PropertyInfo property { get; set; }
+            internal Type ElementType { get; set; }
+
+            internal Kipon.Excel.Api.ISheet BestMatch(IEnumerable<Kipon.Excel.Api.ISheet> sheets)
+            {
+                if (sheets == null)
+                {
+                    return null;
+                }
+
+                var titleMatch = (from t in sheets where t.Title == this.Title select t).ToArray();
+                if (titleMatch.Length == 1)
+                {
+                    return titleMatch[0];
+                }
+
+                return null;
+            }
         }
     }
 }

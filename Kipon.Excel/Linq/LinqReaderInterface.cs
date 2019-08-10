@@ -65,18 +65,22 @@ namespace Kipon.Excel.Linq
         /// <typeparam name="T"></typeparam>
         /// <param name="excel"></param>
         /// <returns></returns>
-        public static T ToObject<T>(this System.IO.Stream excel) where T : new()
+        public static T ToObject<T>(this System.IO.Stream excel) where T : class
         {
             if (typeof(T).IsArray)
             {
                 throw new Kipon.Excel.Exceptions.UnsupportedTypeException(nameof(LinqReaderInterface.ToObject), typeof(T), USE_ToEnumerable_SUGGESTION);
             }
 
-            var result = new T();
-            LinqReaderInterface.From<T>(result, excel);
-            return result;
+            var parser = new Kipon.Excel.ReaderImplementation.Converters.SpreadsheetConverter();
+            return parser.Convert<T>(excel);
         }
 
+        public static Kipon.Excel.Api.ISpreadsheet ToSpreadsheet(this System.IO.Stream excel)
+        {
+            var parser = new Kipon.Excel.ReaderImplementation.Converters.SpreadsheetConverter();
+            return parser.Convert<Kipon.Excel.Api.ISpreadsheet>(excel);
+        }
         /// <summary>
         /// 
         /// </summary>
@@ -87,7 +91,7 @@ namespace Kipon.Excel.Linq
         public static void From<T>(this T t, System.IO.Stream excel)
         {
             var parser = new Kipon.Excel.ReaderImplementation.Converters.SpreadsheetConverter();
-            parser.Convert(t, excel);
+            parser.ConvertFrom(t, excel);
         }
         #endregion
 

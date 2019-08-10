@@ -27,21 +27,70 @@ namespace Kipon.Excel.UnitTests.Fake.Data
         /// Test constructor to create easy to validate values for all properties based on a single number
         /// </summary>
         /// <param name="data"></param>
-        public ValueProperty(int data)
+        public ValueProperty(System.Int16 data)
         {
+            this.String = $"Text {data}";
+
             this.Guid = new Guid(string.Format(EMPTY_GUID_TEMLATE, data.ToString().PadLeft(8)));
             this.GuidNullable = this.Guid;
 
-            this.Int = data;
-            this.IntNullable = data;
+            this.Int16 = data;
+            this.Int16Nullable = data;
+
+            this.Int32 = data + 1000;
+            this.Int32Nullable = data + 1000;
+
+            this.Int64 = data + 100000L;
+            this.Int64Nullable = data + 100000L;
+
+            this.Decimal = data + 1.056M;
+            this.DecimalNullable = data + 1.045M;
+
+            this.Boolean = data % 2 == 0;
+            this.BooleanNullable = data % 2 != 0;
+
+            this.Enum = (EnumExample)(data % 3);
+            this.EnumNullable = (EnumExample)(data % 2);
+
+            this.DateTime = System.DateTime.Now.AddDays(data);
+            this.DateTimeNullable = System.DateTime.Now.AddDays(data).AddHours(data);
         }
+
+        public string String { get; set; }
 
         public Guid Guid { get; set; }
         public Guid? GuidNullable { get; set; }
 
-        public int Int { get; set; }
-        public int? IntNullable { get; set; }
+        public System.Int16 Int16 { get; set; }
+        public System.Int16? Int16Nullable { get; set; }
 
-#warning not all types has been added
+        public System.Int32 Int32 { get; set; }
+        public System.Int32? Int32Nullable { get; set; }
+
+        public System.Int64 Int64 { get; set; }
+        public System.Int64? Int64Nullable { get; set; }
+
+        public System.Double Double { get; set; }
+        public System.Double? DoubleNullable { get; set; }
+
+        public System.Decimal Decimal { get; set; }
+        public System.Decimal? DecimalNullable { get; set; }
+
+        public System.Boolean Boolean { get; set; }
+        public System.Boolean? BooleanNullable { get; set; }
+
+        public EnumExample Enum { get; set; }
+        public EnumExample EnumNullable { get; set; }
+
+        public DateTime DateTime { get; set; }
+        public DateTime? DateTimeNullable { get; set; }
+
+
+        public enum EnumExample
+        {
+            Value1 = 0,
+            Value2 = 1,
+            Value3 = 2
+        }
     }
 }

@@ -30,6 +30,9 @@ namespace Kipon.Excel.UnitTests.Reflection
                 Assert.AreEqual(2, dc1.Properties.Last().Sort);
                 Assert.AreEqual("Sheet1", dc1.Properties.First().Title);
                 Assert.AreEqual("Second sheet", dc1.Properties.Last().Title);
+
+                Assert.AreEqual(typeof(PropertySheetTest.DecoratedSheet), dc1.Properties.First().ElementType);
+                Assert.AreEqual(typeof(PropertySheetTest.DecoratedSheet), dc1.Properties.First().ElementType);
             }
         }
 
@@ -73,7 +76,7 @@ namespace Kipon.Excel.UnitTests.Reflection
 
             [Sort(2)]
             [Title("Second sheet")]
-            public List<PropertySheetTest.DuckSheet> Sheet2 { get; set; }
+            public PropertySheetTest.DuckSheet[] Sheet2 { get; set; }
 
             public List<object> NotASheet { get; set; }
         }
