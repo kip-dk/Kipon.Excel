@@ -76,11 +76,6 @@ namespace Kipon.Excel.Linq
             return parser.Convert<T>(excel);
         }
 
-        public static Kipon.Excel.Api.ISpreadsheet ToSpreadsheet(this System.IO.Stream excel)
-        {
-            var parser = new Kipon.Excel.ReaderImplementation.Converters.SpreadsheetConverter();
-            return parser.Convert<Kipon.Excel.Api.ISpreadsheet>(excel);
-        }
         /// <summary>
         /// 
         /// </summary>
