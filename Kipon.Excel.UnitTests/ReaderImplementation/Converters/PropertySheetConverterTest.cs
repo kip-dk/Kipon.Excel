@@ -49,9 +49,8 @@ namespace Kipon.Excel.UnitTests.ReaderImplementation.Converters
                 Assert.AreEqual(input.Double, output.Double);
                 Assert.AreEqual(input.DoubleNullable, output.DoubleNullable);
 
-#warning enums test is failing
-                //Assert.AreEqual(input.Enum, output.Enum);
-                //Assert.AreEqual(input.EnumNullable, output.EnumNullable);
+                Assert.AreEqual(input.Enum, output.Enum);
+                Assert.AreEqual(input.EnumNullable, output.EnumNullable);
 
                 Assert.AreEqual(input.Guid, output.Guid);
                 Assert.AreEqual(input.GuidNullable, output.GuidNullable);

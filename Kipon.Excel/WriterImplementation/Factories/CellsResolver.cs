@@ -15,15 +15,12 @@ namespace Kipon.Excel.WriterImplementation.Factories
             typeof(System.Int16),
             typeof(System.Int32),
             typeof(System.Int64),
-            typeof(System.IntPtr),
             typeof(System.UInt16),
             typeof(System.UInt32),
             typeof(System.UInt64),
-            typeof(System.UIntPtr),
             typeof(System.Boolean),
             typeof(System.Decimal),
             typeof(System.Double),
-            typeof(System.Enum),
             typeof(System.String),
             typeof(System.DateTime),
             typeof(System.Guid)
@@ -56,7 +53,18 @@ namespace Kipon.Excel.WriterImplementation.Factories
                 return true;
             }
 
+            if (type.IsEnum)
+            {
+                return true;
+            }
+
             var nullableType = Nullable.GetUnderlyingType(type);
+
+            if (nullableType.IsEnum)
+            {
+                return true;
+            }
+
             if (nullableType != null && SUPPORTED_SHEET_PROPERTY_TYPES.Contains(nullableType))
             {
                 return true;
