@@ -91,7 +91,7 @@ namespace Kipon.Excel.Linq
         public static void From<T>(this T t, System.IO.Stream excel)
         {
             var parser = new Kipon.Excel.ReaderImplementation.Converters.SpreadsheetConverter();
-            parser.ConvertFrom(t, excel);
+            parser.ConvertInto(t, excel);
         }
         #endregion
 

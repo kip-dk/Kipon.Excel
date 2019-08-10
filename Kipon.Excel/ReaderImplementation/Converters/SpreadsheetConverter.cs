@@ -30,7 +30,7 @@ namespace Kipon.Excel.ReaderImplementation.Converters
             return result;
         }
 
-        internal void ConvertFrom<T>(T instance, System.IO.Stream excelStream)
+        internal void ConvertInto<T>(T instance, System.IO.Stream excelStream)
         {
             var reader = new OpenXml.OpenXmlReader();
             var spreadsheet = reader.Parse(excelStream);

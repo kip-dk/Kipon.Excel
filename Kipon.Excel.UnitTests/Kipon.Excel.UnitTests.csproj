@@ -65,6 +65,7 @@
     <Compile Include="Implementation\OpenXml\Types\ColumnTest.cs" />
     <Compile Include="ReaderImplementation\Converters\PropertyCellConverterTest.cs" />
     <Compile Include="ReaderImplementation\Converters\PropertySheetConverterTest.cs" />
+    <Compile Include="ReaderImplementation\Converters\SpreadsheetConverterTest.cs" />
     <Compile Include="Reflection\PropertyCellTest.cs" />
     <Compile Include="Reflection\PropertySheetsTest.cs" />
     <Compile Include="Reflection\PropertySheetTest.cs" />
