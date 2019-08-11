@@ -135,7 +135,6 @@
     <Compile Include="Api\ISheet.cs" />
     <Compile Include="Api\ISheetProperties.cs" />
     <Compile Include="Api\ISpreadsheet.cs" />
-    <Compile Include="WriterImplementation\Serialization\DefaultExcelSerializer.cs" />
     <Compile Include="Serialization\IExcelSerializable.cs" />
     <Compile Include="WriterImplementation\OpenXml\Styles\DefaultStylesheet.cs" />
   </ItemGroup>
