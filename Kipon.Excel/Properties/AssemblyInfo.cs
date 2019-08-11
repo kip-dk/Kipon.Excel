@@ -6,9 +6,9 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("Kipon.Excel")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Library for streaming .NET POCO into excel and back (OpenXml)")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Kipon ApS")]
 [assembly: AssemblyProduct("Kipon.Excel")]
 [assembly: AssemblyCopyright("Copyright ©  2019")]
 [assembly: AssemblyTrademark("")]

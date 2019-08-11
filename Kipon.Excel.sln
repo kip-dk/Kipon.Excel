@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kipon.Excel.UnitTests", "Ki
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution items", "Solution items", "{311CD814-D8FC-425C-B62A-BFB8C05D087E}"
 	ProjectSection(SolutionItems) = preProject
+		Kipon.Excel\Kipon.Excel.nuspec = Kipon.Excel\Kipon.Excel.nuspec
+		LICENSE.MD = LICENSE.MD
 		README.MD = README.MD
 	EndProjectSection
 EndProject
