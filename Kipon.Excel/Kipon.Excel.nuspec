@@ -1,18 +1,29 @@
 <?xml version="1.0"?>
 <package >
   <metadata>
-    <id>Kipon.Excel</id>
+    <id>$id$</id>
     <version>1.0.0-alfa</version>
     <title>Stream .NET data to and from Excel (OpenXml)</title>
     <authors>Kjeld Ingemann Poulsen</authors>
     <owners>Kipon ApS</owners>
-    <licenseUrl>http://LICENSE_URL_HERE_OR_DELETE_THIS_LINE</licenseUrl>
+    <license type="file">LICENSE.MD</license>
+    <repository type="git" url="https://github.com/kip-dk/Kipon.Excel" />
     <projectUrl>https://github.com/kip-dk/Kipon.Excel</projectUrl>
-    <iconUrl>http://ICON_URL_HERE_OR_DELETE_THIS_LINE</iconUrl>
-    <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>$description$</description>
-    <releaseNotes>Summary of changes made in this release of the package.</releaseNotes>
+    <iconUrl>https://s.gravatar.com/avatar/48d1270fbf870a670d20844eda19e3bf</iconUrl>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <description>Streaming .NET POCO data into Excel sheets, and back into .NET with a few lines of code</description>
+    <summary>.NET Data to Excel (OpenXml): var excel = data.ToExcel(), Excel to .NET: var data = myExcelStream.ToArray&lt;MyDataType&gt;()</summary>
+    <releaseNotes>First release. Public API pretty fixed, but many scenarios still untested...</releaseNotes>
     <copyright>Copyright 2019</copyright>
-    <tags>Tag1 Tag2</tags>
+    <tags>OpenXml Excel .NET Stream</tags>
+    <dependencies>
+      <dependency id="Kipon.Excel" version="1.0.0.0" />
+    </dependencies>
+    <references>
+      <reference file="Kipon.Excel.dll" />
+    </references>
   </metadata>
+  <files>
+    <file src="..\LICENSE.MD" />
+  </files>
 </package>
