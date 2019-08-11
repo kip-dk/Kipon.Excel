@@ -1,4 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,10 +9,9 @@ using Kipon.Excel.Api;
 
 namespace Kipon.Excel.UnitTests.Reflection
 {
-    [TestClass]
     public class PropertySheetsTest
     {
-        [TestMethod]
+        [Test]
         public void ForTypeTest()
         {
             {
@@ -36,7 +35,7 @@ namespace Kipon.Excel.UnitTests.Reflection
             }
         }
 
-        [TestMethod]
+        [Test]
         public void IsPropertySheetsTest()
         {
             Assert.IsTrue(Kipon.Excel.Reflection.PropertySheets.IsPropertySheets(typeof(DecoratedSheets)));

@@ -1,5 +1,5 @@
-﻿using Kipon.Excel.Api;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using NUnit.Framework;
+using Kipon.Excel.Api;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,13 +9,12 @@ using Kipon.Excel.UnitTests.Fake.Data;
 
 namespace Kipon.Excel.UnitTests.ReaderImplementation.Converters
 {
-    [TestClass]
     public class PropertyCellConverterTest
     {
 
         private Kipon.Excel.Reflection.PropertySheet ps = Kipon.Excel.Reflection.PropertySheet.ForType(typeof(Fake.Data.ValueProperty));
 
-        [TestMethod]
+        [Test]
         public void ConverterTest()
         {
             var obj = new ValueProperty();

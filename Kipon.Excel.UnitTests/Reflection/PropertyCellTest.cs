@@ -1,4 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,10 +7,9 @@ using System.Threading.Tasks;
 
 namespace Kipon.Excel.UnitTests.Reflection
 {
-    [TestClass]
     public class PropertyCellTest
     {
-        [TestMethod]
+        [Test]
         public void HasCellTest()
         {
             Assert.IsTrue(Kipon.Excel.Reflection.PropertyCell.HasCell(typeof(DuckSheet)));
@@ -19,7 +18,7 @@ namespace Kipon.Excel.UnitTests.Reflection
             Assert.IsFalse(Kipon.Excel.Reflection.PropertyCell.HasCell(typeof(object)));
         }
 
-        [TestMethod]
+        [Test]
         public void IsCellTest()
         {
             Assert.IsTrue(Kipon.Excel.Reflection.PropertyCell.IsCell(typeof(int)));

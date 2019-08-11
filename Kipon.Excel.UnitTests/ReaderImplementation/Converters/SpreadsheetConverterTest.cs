@@ -1,4 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +9,6 @@ using Kipon.Excel.Linq;
 
 namespace Kipon.Excel.UnitTests.ReaderImplementation.Converters
 {
-    [TestClass]
     public class SpreadsheetConverterTest
     {
         private PropertySheets sheet;
@@ -46,7 +45,7 @@ namespace Kipon.Excel.UnitTests.ReaderImplementation.Converters
             }
         }
 
-        [TestMethod]
+        [Test]
         public void ConvertPropertySheetTest()
         {
             this.Setup();
@@ -85,7 +84,7 @@ namespace Kipon.Excel.UnitTests.ReaderImplementation.Converters
             }
         }
 
-        [TestMethod]
+        [Test]
         public void ConvertArrayTest()
         {
             this.Setup();

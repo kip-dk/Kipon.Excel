@@ -1,4 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,10 +7,9 @@ using System.Threading.Tasks;
 
 namespace Kipon.Excel.UnitTests.ReaderImplementation.Converters
 {
-    [TestClass]
     public class PropertySheetConverterTest
     {
-        [TestMethod]
+        [Test]
         public void ConvertTest()
         {
             var numbers = new short[] { 1, 2, 3, 4, 5 };

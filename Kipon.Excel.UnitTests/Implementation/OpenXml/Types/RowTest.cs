@@ -1,27 +1,26 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using NUnit.Framework;
+using System;
 using Kipon.Excel.WriterImplementation.OpenXml.Types;
 using System.Xml.Serialization;
 
 namespace Kipon.Excel.UnitTests.WriterImplementation.OpenXml.Types
 {
-    [TestClass]
     public class RowTest
     {
-        [TestMethod]
+        [Test]
         public void RowConstructorTest()
         {
             Assert.AreEqual(new Row(5), 5);
         }
 
-        [TestMethod]
+        [Test]
         public void RowExceptionTest()
         {
-            Assert.ThrowsException<ArgumentOutOfRangeException>(() => new Row(-1));
-            Assert.ThrowsException<ArgumentOutOfRangeException>(() => new Row(Row.EXCEL_TOTAL_MAXROWS + 1));
+            Assert.Throws<ArgumentOutOfRangeException>(() => new Row(-1));
+            Assert.Throws<ArgumentOutOfRangeException>(() => new Row(Row.EXCEL_TOTAL_MAXROWS + 1));
         }
 
-        [TestMethod]
+        [Test]
         public void RowImplicitIntOperatorsTest()
         {
             {
@@ -38,7 +37,7 @@ namespace Kipon.Excel.UnitTests.WriterImplementation.OpenXml.Types
         }
 
 
-        [TestMethod]
+        [Test]
         public void RowImplicitUIntOperatorsTest()
         {
             var t5 = new Row(5);
@@ -46,7 +45,7 @@ namespace Kipon.Excel.UnitTests.WriterImplementation.OpenXml.Types
             //Assert.AreEqual(5, 4); // ADD uint impl. and test
         }
 
-        [TestMethod]
+        [Test]
         public void RowClassPropertyTest()
         {
             var t4 = new Row(4);
@@ -57,14 +56,14 @@ namespace Kipon.Excel.UnitTests.WriterImplementation.OpenXml.Types
                 Assert.AreNotEqual(t4, mytestclass.Row);
             }
 
-            Assert.ThrowsException<ArgumentOutOfRangeException>(() => new RowTestClass(-5));
+            Assert.Throws<ArgumentOutOfRangeException>(() => new RowTestClass(-5));
         }
 
-        [TestMethod]
+        [Test]
         public void RowMethodParameterTest()
         {
             new RowTestClass(4).Method(5);
-            Assert.ThrowsException<ArgumentOutOfRangeException>(() => new RowTestClass(4).Method(-1));
+            Assert.Throws<ArgumentOutOfRangeException>(() => new RowTestClass(4).Method(-1));
         }
 
         public class RowTestClass

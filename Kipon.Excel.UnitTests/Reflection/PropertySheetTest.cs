@@ -1,5 +1,5 @@
-﻿using Kipon.Excel.Api;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using NUnit.Framework;
+using Kipon.Excel.Api;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,10 +9,9 @@ using Kipon.Excel.Attributes;
 
 namespace Kipon.Excel.UnitTests.Reflection
 {
-    [TestClass]
     public class PropertySheetTest
     {
-        [TestMethod]
+        [Test]
         public void ForTypeTest()
         {
             var t1 = Kipon.Excel.Reflection.PropertySheet.ForType(typeof(DuckSheet));
@@ -20,7 +19,7 @@ namespace Kipon.Excel.UnitTests.Reflection
             Assert.AreEqual(t2, t1);
         }
 
-        [TestMethod]
+        [Test]
         public void IsPropertySheetTest()
         {
             Assert.IsTrue(Kipon.Excel.Reflection.PropertySheet.IsPropertySheet(typeof(DuckSheet)));
@@ -30,7 +29,7 @@ namespace Kipon.Excel.UnitTests.Reflection
         }
 
 
-        [TestMethod]
+        [Test]
         public void PropertiesTest()
         {
             var ps = Kipon.Excel.Reflection.PropertySheet.ForType(typeof(DuckSheet));

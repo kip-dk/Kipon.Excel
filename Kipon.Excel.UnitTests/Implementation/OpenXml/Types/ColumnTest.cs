@@ -1,13 +1,12 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using NUnit.Framework;
+using System;
 using Kipon.Excel.WriterImplementation.OpenXml.Types;
 
 namespace Kipon.Excel.UnitTests.WriterImplementation.OpenXml.Types
 {
-    [TestClass]
     public class ColumnTest
     {
-        [TestMethod]
+        [Test]
         public void ColumnConstructorTest()
         {
             // Test int based constructor
@@ -21,8 +20,8 @@ namespace Kipon.Excel.UnitTests.WriterImplementation.OpenXml.Types
             Assert.AreEqual("AOE", new Column(1070).Value);
             Assert.AreEqual("BBW", new Column(1426).Value);
 
-            Assert.ThrowsException<ArgumentOutOfRangeException>(() => new Column(-1));
-            Assert.ThrowsException<ArgumentOutOfRangeException>(() => new Column(Column.EXCEL_TOTAL_MAXCOLUMNS));
+            Assert.Throws<ArgumentOutOfRangeException>(() => new Column(-1));
+            Assert.Throws<ArgumentOutOfRangeException>(() => new Column(Column.EXCEL_TOTAL_MAXCOLUMNS));
 
             // Test string based constructor
             Assert.AreEqual(0, new Column("A").Index);
@@ -35,14 +34,14 @@ namespace Kipon.Excel.UnitTests.WriterImplementation.OpenXml.Types
             Assert.AreEqual(1070, new Column("AOE").Index);
             Assert.AreEqual(1426, new Column("BBW").Index);
 
-            Assert.ThrowsException<NullReferenceException>(() => new Column(null));
-            Assert.ThrowsException<ArgumentException>(() => new Column(string.Empty));
-            Assert.ThrowsException<ArgumentException>(() => new Column("AAAA"));
-            Assert.ThrowsException<ArgumentException>(() => new Column("a"));
-            Assert.ThrowsException<ArgumentOutOfRangeException>(() => new Column("XFE"));
+            Assert.Throws<NullReferenceException>(() => new Column(null));
+            Assert.Throws<ArgumentException>(() => new Column(string.Empty));
+            Assert.Throws<ArgumentException>(() => new Column("AAAA"));
+            Assert.Throws<ArgumentException>(() => new Column("a"));
+            Assert.Throws<ArgumentOutOfRangeException>(() => new Column("XFE"));
         }
 
-        [TestMethod]
+        [Test]
         public void ColumnStringBoxingTest()
         {
             Assert.IsTrue("AAA" == new Column("AAA"));
@@ -51,7 +50,7 @@ namespace Kipon.Excel.UnitTests.WriterImplementation.OpenXml.Types
             Assert.AreEqual(702, ts.C.Index);
         }
 
-        [TestMethod]
+        [Test]
         public void ColumnIntBoxingTest()
         {
             Assert.IsTrue(702 == new Column("AAA"));

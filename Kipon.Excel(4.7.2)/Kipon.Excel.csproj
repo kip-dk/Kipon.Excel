@@ -1,0 +1,147 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{A072A966-284B-4196-A9CF-62033DAA0CD7}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Kipon.Excel</RootNamespace>
+    <AssemblyName>Kipon.Excel</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>Kipon.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="DocumentFormat.OpenXml, Version=2.9.1.0, Culture=neutral, PublicKeyToken=8fb06cb64d019a17, processorArchitecture=MSIL">
+      <HintPath>..\packages\DocumentFormat.OpenXml.2.9.1\lib\net46\DocumentFormat.OpenXml.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.IO.FileSystem.Primitives, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IO.FileSystem.Primitives.4.3.0\lib\net46\System.IO.FileSystem.Primitives.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.IO.Packaging, Version=4.0.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IO.Packaging.4.5.0\lib\net46\System.IO.Packaging.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Api\Cell\IDataType.cs" />
+    <Compile Include="Api\Cell\IDecimals.cs" />
+    <Compile Include="Api\Cell\IHidden.cs" />
+    <Compile Include="Api\Cell\IReadonly.cs" />
+    <Compile Include="Attributes\DecimalsAttribute.cs" />
+    <Compile Include="Attributes\HiddenAttribute.cs" />
+    <Compile Include="Attributes\IgnoreAttribute.cs" />
+    <Compile Include="Attributes\OptionSetValuesAttribute.cs" />
+    <Compile Include="Attributes\ReadonlyAttribute.cs" />
+    <Compile Include="Attributes\SortAttribute.cs" />
+    <Compile Include="Attributes\TitleAttribute.cs" />
+    <Compile Include="Attributes\WidthAttribute.cs" />
+    <Compile Include="Exceptions\DefaultConstructorRequiredException.cs" />
+    <Compile Include="Exceptions\NullInstanceException.cs" />
+    <Compile Include="Exceptions\UnresolveableTypeException.cs" />
+    <Compile Include="ReaderImplementation\Converters\PropertyCellConverter.cs" />
+    <Compile Include="ReaderImplementation\Converters\PropertySheetConverter.cs" />
+    <Compile Include="ReaderImplementation\Converters\SpreadsheetConverter.cs" />
+    <Compile Include="ReaderImplementation\Models\Cell.cs" />
+    <Compile Include="ReaderImplementation\Models\Coordinate.cs" />
+    <Compile Include="ReaderImplementation\Models\Sheet.cs" />
+    <Compile Include="ReaderImplementation\Models\Spreadsheet.cs" />
+    <Compile Include="ReaderImplementation\OpenXml\OpenXmlReader.cs" />
+    <Compile Include="ReaderImplementation\UnittestVisability.cs" />
+    <Compile Include="Reflection\PropertyCell.cs" />
+    <Compile Include="Reflection\PropertySheet.cs" />
+    <Compile Include="Reflection\PropertySheets.cs" />
+    <Compile Include="Reflection\UnittestVisability.cs" />
+    <Compile Include="WriterImplementation\Factories\AbstractBaseResolver.cs" />
+    <Compile Include="WriterImplementation\Factories\CellsResolver.cs" />
+    <Compile Include="WriterImplementation\Factories\IPopulator.cs" />
+    <Compile Include="WriterImplementation\Factories\IResolver.cs" />
+    <Compile Include="WriterImplementation\Factories\SheetResolver.cs" />
+    <Compile Include="WriterImplementation\Factories\SheetsResolver.cs" />
+    <Compile Include="WriterImplementation\Factories\SpreadsheetResolver.cs" />
+    <Compile Include="WriterImplementation\Factories\TypeCachedResolver.cs" />
+    <Compile Include="WriterImplementation\Models\Cells\AbstractBaseCells.cs" />
+    <Compile Include="WriterImplementation\Models\Cell\Cell.cs" />
+    <Compile Include="WriterImplementation\Models\Coordinate.cs" />
+    <Compile Include="WriterImplementation\Models\Sheets\AbstractBaseSheets.cs" />
+    <Compile Include="WriterImplementation\Models\Sheets\PropertySheets.cs" />
+    <Compile Include="WriterImplementation\Models\Sheets\SingleSheets.cs" />
+    <Compile Include="WriterImplementation\Models\Sheet\AbstractBaseSheet.cs" />
+    <Compile Include="WriterImplementation\Models\Sheet\PropertySheet.cs" />
+    <Compile Include="WriterImplementation\OpenXml\DataTypeResolver.cs" />
+    <Compile Include="WriterImplementation\OpenXml\Types\Cell.cs" />
+    <Compile Include="WriterImplementation\OpenXml\Types\Column.cs" />
+    <Compile Include="Api\ICoordinate.cs" />
+    <Compile Include="WriterImplementation\OpenXml\Types\Range.cs" />
+    <Compile Include="WriterImplementation\OpenXml\Types\Row.cs" />
+    <Compile Include="Exceptions\ExcelBaseException.cs" />
+    <Compile Include="Exceptions\UnsupportedTypeException.cs" />
+    <Compile Include="WriterImplementation\DefaultLocalization.cs" />
+    <Compile Include="WriterImplementation\Models\Cell\AbstractBaseCell.cs" />
+    <Compile Include="WriterImplementation\Models\Spreadsheet.cs" />
+    <Compile Include="WriterImplementation\Serialization\IColumn.cs" />
+    <Compile Include="WriterImplementation\Serialization\IColumns.cs" />
+    <Compile Include="WriterImplementation\Serialization\IDataTypeResolver.cs" />
+    <Compile Include="WriterImplementation\OpenXml\OpenXmlWriter.cs" />
+    <Compile Include="WriterImplementation\Serialization\IStyleResolver.cs" />
+    <Compile Include="WriterImplementation\UnittestVisability.cs" />
+    <Compile Include="Linq\LinqReaderInterface.cs" />
+    <Compile Include="Linq\LinqWriterInterface.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Attributes\ColumnAttribute.cs" />
+    <Compile Include="Attributes\MaxLengthAttribute.cs" />
+    <Compile Include="Attributes\SheetAttribute.cs" />
+    <Compile Include="Api\ICell.cs" />
+    <Compile Include="Api\Metadata\IColumn.cs" />
+    <Compile Include="Api\Metadata\IColumns.cs" />
+    <Compile Include="Api\Metadata\IDataValidation.cs" />
+    <Compile Include="Api\Globalization\ILocalization.cs" />
+    <Compile Include="Api\Metadata\IOutlineProperties.cs" />
+    <Compile Include="Api\ISheet.cs" />
+    <Compile Include="Api\ISheetProperties.cs" />
+    <Compile Include="Api\ISpreadsheet.cs" />
+    <Compile Include="Serialization\IExcelSerializable.cs" />
+    <Compile Include="WriterImplementation\OpenXml\Styles\DefaultStylesheet.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Kipon.snk" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

@@ -1,4 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using Kipon.Excel.Linq;
@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 
 namespace Kipon.Excel.UnitTests.Linq
 {
-    [TestClass]
     public class LinqReaderInterfaceTest
     {
         private PropertySheets sheet;
@@ -17,7 +16,8 @@ namespace Kipon.Excel.UnitTests.Linq
         private Fake.Data.ValueProperty[] arrayValues;
         private byte[] arrayValuesData;
 
-        private void Setup()
+        [SetUp]
+        public void SetUp()
         {
             {
                 this.sheet = new PropertySheets();
@@ -45,10 +45,9 @@ namespace Kipon.Excel.UnitTests.Linq
             }
         }
 
-        [TestMethod]
+        [Test]
         public void ToArrayTest()
         {
-            this.Setup();
             using (var mem = new System.IO.MemoryStream(arrayValuesData))
             {
                 var result = mem.ToArray<Fake.Data.ValueProperty>();
@@ -58,10 +57,9 @@ namespace Kipon.Excel.UnitTests.Linq
             }
         }
 
-        [TestMethod]
+        [Test]
         public void ToObjectTest()
         {
-            this.Setup();
             using (var mem = new System.IO.MemoryStream(sheetData))
             {
                 var result = mem.ToObject<PropertySheets>();
@@ -71,10 +69,9 @@ namespace Kipon.Excel.UnitTests.Linq
             }
         }
 
-        [TestMethod]
+        [Test]
         public void ToListTest()
         {
-            this.Setup();
             using (var mem = new System.IO.MemoryStream(arrayValuesData))
             {
                 var result = mem.ToList<Fake.Data.ValueProperty>();

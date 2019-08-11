@@ -1,4 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,10 +7,9 @@ using System.Threading.Tasks;
 
 namespace Kipon.Excel.UnitTests.WriterImplementation.Factories
 {
-    [TestClass]
     public class SheetResolverTest
     {
-        [TestMethod]
+        [Test]
         public void DecoratedSheetTest()
         {
             var sheetResolver = new Kipon.Excel.WriterImplementation.Factories.SheetResolver();

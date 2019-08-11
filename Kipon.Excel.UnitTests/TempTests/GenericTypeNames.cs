@@ -1,4 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,10 +7,9 @@ using System.Threading.Tasks;
 
 namespace Kipon.Excel.UnitTests.TempTests
 {
-    [TestClass]
     public class GenericTypeNames
     {
-        [TestMethod]
+        [Test]
         public void ShowClassName()
         {
             var list = new List<Data>();

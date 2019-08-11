@@ -1,5 +1,5 @@
-﻿using Kipon.Excel.Api;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using NUnit.Framework;
+using Kipon.Excel.Api;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,10 +8,9 @@ using System.Threading.Tasks;
 
 namespace Kipon.Excel.UnitTests.WriterImplementation.Factories
 {
-    [TestClass]
     public class SpreadsheetResolverTest
     {
-        [TestMethod]
+        [Test]
         public void ResolveTest()
         {
             {

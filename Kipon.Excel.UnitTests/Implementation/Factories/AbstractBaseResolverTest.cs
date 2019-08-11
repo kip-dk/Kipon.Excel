@@ -1,4 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,10 +7,9 @@ using System.Threading.Tasks;
 
 namespace Kipon.Excel.UnitTests.WriterImplementation.Factories
 {
-    [TestClass]
     public class AbstractBaseResolverTest
     {
-        [TestMethod]
+        [Test]
         public void ResolveTest()
         {
             // Test than a List impl. of the ienumable request will return the instance it self

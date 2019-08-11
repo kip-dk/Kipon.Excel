@@ -1,4 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,10 +11,9 @@ using DocumentFormat.OpenXml.Validation;
 
 namespace Kipon.Excel.UnitTests.Linq
 {
-    [TestClass]
     public class LinqWriterInterfaceTest
     {
-        [TestMethod]
+        [Test]
         public void ToExcelKnownArrayTypeTest()
         {
             var data = new System.Int16[] { 1, 2, 3 };
@@ -38,7 +37,7 @@ namespace Kipon.Excel.UnitTests.Linq
         }
 
 
-        [TestMethod]
+        [Test]
         public void ToExcelAnnonumousArrayTest()
         {
             var  data = new int[] { 1, 2, 3 };

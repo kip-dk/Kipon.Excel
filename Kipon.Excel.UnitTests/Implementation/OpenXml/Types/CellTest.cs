@@ -1,14 +1,13 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using NUnit.Framework;
+using System;
 using Kipon.Excel.WriterImplementation.OpenXml.Types;
 
 namespace Kipon.Excel.UnitTests.WriterImplementation.OpenXml.Types
 {
-    [TestClass]
 
     public class CellTest
     {
-        [TestMethod]
+        [Test]
         public void ConstructorTest()
         {
             // Test string base constructor
@@ -16,11 +15,11 @@ namespace Kipon.Excel.UnitTests.WriterImplementation.OpenXml.Types
             Assert.IsTrue("A" == new CellBox { Cell = "A2" }.Cell.Column.Value);
             Assert.IsTrue(1 == new CellBox { Cell = "A2" }.Cell.Row.Value);
 
-            Assert.ThrowsException<NullReferenceException>(() => new CellBox { Cell = null });
+            Assert.Throws<NullReferenceException>(() => new CellBox { Cell = null });
 
-            Assert.ThrowsException<ArgumentOutOfRangeException>(() => new CellBox { Cell = "A0" });
-            Assert.ThrowsException<ArgumentException>(() => new CellBox { Cell = "Æ1" });
-            Assert.ThrowsException<ArgumentException>(() => new CellBox { Cell = "1" });
+            Assert.Throws<ArgumentOutOfRangeException>(() => new CellBox { Cell = "A0" });
+            Assert.Throws<ArgumentException>(() => new CellBox { Cell = "Æ1" });
+            Assert.Throws<ArgumentException>(() => new CellBox { Cell = "1" });
         }
 
         public class CellBox
