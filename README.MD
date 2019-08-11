@@ -3,10 +3,21 @@
 ## Version alfa 1.
 The very first alfa version of this library is taken form.
 
-(a NuGet package for .NET 4.7.2 on its way)
-
 The aim for the project is to make it extreamly easy to take any tabular object data in .NET, stream these data to Excel, allow simple editing, and then get the data
 back into .NET code.
+
+
+### Installation (NuGet)
+
+Published via NuGet: 
+
+Kipon.Excel(https://www.nuget.org/packages/Kipon.Excel/)
+
+```console
+PM> Install-Package Kipon.Excel -Version 1.0.1-alpha
+```
+
+### Simple usage
 
 Below example on streaming a simply object of type MyObjectData to excel:
 

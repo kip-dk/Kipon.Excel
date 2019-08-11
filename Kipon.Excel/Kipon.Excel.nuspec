@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>$id$</id>
-    <version>1.0.0-alfa</version>
+    <version>1.0.1-alpha</version>
     <title>Stream .NET data to and from Excel (OpenXml)</title>
     <authors>Kjeld Ingemann Poulsen</authors>
     <owners>Kipon ApS</owners>
@@ -16,12 +16,6 @@
     <releaseNotes>First release. Public API pretty fixed, but many scenarios still untested...</releaseNotes>
     <copyright>Copyright 2019</copyright>
     <tags>OpenXml Excel .NET Stream</tags>
-    <dependencies>
-      <dependency id="Kipon.Excel" version="1.0.0.0" />
-    </dependencies>
-    <references>
-      <reference file="Kipon.Excel.dll" />
-    </references>
   </metadata>
   <files>
     <file src="..\LICENSE.MD" />
