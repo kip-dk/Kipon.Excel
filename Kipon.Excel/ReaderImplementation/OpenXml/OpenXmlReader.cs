@@ -52,11 +52,12 @@ namespace Kipon.Excel.ReaderImplementation.OpenXml
                                 continue;
                             }
 
-                            if (c.DataType != null)
+                            var dataType = c.DataType != null ? c.DataType.Value : CellValues.String;
+
                             {
                                 Kipon.Excel.WriterImplementation.OpenXml.Types.Cell name = c.CellReference.ToString();
 
-                                switch (c.DataType.Value)
+                                switch (dataType)
                                 {
                                     case CellValues.SharedString:
                                         {
