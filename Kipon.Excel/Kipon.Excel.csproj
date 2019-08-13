@@ -14,8 +14,8 @@
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/kip-dk/Kipon.Excel</RepositoryUrl>
     <PackageTags>OpenXml Excel .NET Stream</PackageTags>
-    <PackageReleaseNotes>Now assuming content to be string for cell without datatype.</PackageReleaseNotes>
-    <Version>1.0.3-alpha</Version>
+    <PackageReleaseNotes>SharedText can have null in .Text, using InnerText in such case if it is there.</PackageReleaseNotes>
+    <Version>1.0.4-alpha</Version>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>Kipon.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>

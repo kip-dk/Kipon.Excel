@@ -25,7 +25,17 @@ namespace Kipon.Excel.ReaderImplementation.OpenXml
                     var ix = 0;
                     foreach (var e in shi)
                     {
-                        sharedText[ix] = e.Text.Text.Trim();
+                        if (e.Text != null && e.Text.Text != null)
+                        {
+                            sharedText[ix] = e.Text.Text.Trim();
+                        }
+                        else
+                        {
+                            if (e.InnerText != null)
+                            {
+                                sharedText[ix] = e.InnerText.Trim();
+                            }
+                        }
                         ix++;
                     }
                 }
