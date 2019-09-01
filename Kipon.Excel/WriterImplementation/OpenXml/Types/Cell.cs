@@ -19,6 +19,10 @@ namespace Kipon.Excel.WriterImplementation.OpenXml.Types
         private string _value;
         #endregion
 
+        #region statics
+        private static readonly Dictionary<string, Cell> _cells = new Dictionary<string, Cell>();
+        #endregion
+
         #region constructors
         /// <summary>
         /// Creates a Cell reference from an instance of column and row
@@ -29,7 +33,12 @@ namespace Kipon.Excel.WriterImplementation.OpenXml.Types
         {
             if (column == null) throw new NullReferenceException("column cannot be null");
 
-            return column.Value + (row.Value + 1).ToString();
+            var s = column.Value + (row.Value + 1).ToString();
+            if (_cells.ContainsKey(s))
+            {
+                return _cells[s];
+            }
+            return new Cell(s);
         }
 
         /// <summary>
@@ -64,17 +73,18 @@ namespace Kipon.Excel.WriterImplementation.OpenXml.Types
                 throw new ArgumentException("value must contain a valid row reference after the column name");
             }
 
-            this._column = new Column(columnName.ToString());
-            this._row = new Row(lineNo - 1);
+            this._column = Column.getColumn(columnName.ToString());
+            this._row = Row.getRow(lineNo - 1);
             this._value = value;
+            _cells[this._value] = this;
         }
 
-#warning dirty method due to wrong ISheet api
-        internal Cell(uint column, uint row)
+        internal static Cell getCell(uint column, uint row)
         {
-            this._column = new Column((int)column);
-            this._row = new Row((int)row);
-            _value = _column.Value + (_row.Value + 1).ToString();
+            var c = Column.getColumn((int)column);
+            var r = Row.getRow((int)row);
+
+            return CellFromCR(c, r);
         }
         #endregion
 
@@ -106,17 +116,14 @@ namespace Kipon.Excel.WriterImplementation.OpenXml.Types
         #endregion
 
         #region operators
-#warning caching directly here is not pretty, we need a garbage collection mechanims to cleanup when no excel writing is going one
-        private static readonly Dictionary<string, Cell> cells = new Dictionary<string, Cell>();
         public static implicit operator Cell(string v)
         {
             if (v == null) throw new NullReferenceException();
-            lock (cells)
+            if (_cells.ContainsKey(v))
             {
-                if (cells.ContainsKey(v)) return cells[v];
-                cells[v] = new Cell(v);
-                return cells[v];
+                return _cells[v];
             }
+            return new Cell(v);
         }
 
         public static implicit operator string(Cell v)

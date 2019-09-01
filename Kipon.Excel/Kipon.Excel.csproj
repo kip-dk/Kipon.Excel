@@ -14,10 +14,12 @@
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/kip-dk/Kipon.Excel</RepositoryUrl>
     <PackageTags>OpenXml Excel .NET Stream</PackageTags>
-    <PackageReleaseNotes>SharedText can have null in .Text, using InnerText in such case if it is there.</PackageReleaseNotes>
+    <PackageReleaseNotes>Mem optimization of column and row definitions</PackageReleaseNotes>
     <Version>1.0.4-alpha</Version>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>Kipon.snk</AssemblyOriginatorKeyFile>
+    <AssemblyVersion>1.0.5.0</AssemblyVersion>
+    <FileVersion>1.0.5.0</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>

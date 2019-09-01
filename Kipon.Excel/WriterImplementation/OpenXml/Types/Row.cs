@@ -20,8 +20,23 @@ namespace Kipon.Excel.WriterImplementation.OpenXml.Types
         private int _value;
         #endregion
 
+        #region statics
+        private static readonly System.Collections.Generic.Dictionary<int, Row> _rows = new System.Collections.Generic.Dictionary<int, Row>();
+
+        internal static Row getRow(int value)
+        {
+            if (_rows.ContainsKey(value))
+            {
+                return _rows[value];
+            }
+            var next = new Row(value);
+            _rows[value] = next;
+            return next;
+        }
+        #endregion
+
         #region constructor
-        public Row(int value)
+        private Row(int value)
         {
             if (value < 0) throw new ArgumentOutOfRangeException("value cannot be less than zero");
             if (value >= EXCEL_TOTAL_MAXROWS) throw new ArgumentOutOfRangeException($"value cannot be greater or equal than {EXCEL_TOTAL_MAXROWS}");
@@ -74,12 +89,12 @@ namespace Kipon.Excel.WriterImplementation.OpenXml.Types
         #region int boxing operators
         public static implicit operator Row(int value)
         {
-            return new Row(value);
+            return Row.getRow(value);
         }
 
-        public static implicit operator int(Row column)
+        public static implicit operator int(Row row)
         {
-            return column.Value;
+            return row.Value;
         }
 
         public static bool operator ==(Row row, int intv)

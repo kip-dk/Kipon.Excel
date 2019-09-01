@@ -24,17 +24,21 @@ namespace Kipon.Excel.WriterImplementation.OpenXml.Types
         private int _index;
         #endregion
 
-        #region constructors
-        public Column(int no)
-        {
-            if (no < 0) throw new ArgumentOutOfRangeException("no cannot be less than 0");
-            if (no >= EXCEL_TOTAL_MAXCOLUMNS) throw new ArgumentOutOfRangeException($"no cannot be greater or equal {EXCEL_TOTAL_MAXCOLUMNS}");
+        #region static representation
+        private static System.Collections.Generic.Dictionary<int, Column> _columnIndex = new Dictionary<int, Column>();
 
-            this._value = Column.GetExcelColumnName(no + 1);
-            this._index = no;
+        public static Column getColumn(int ix)
+        {
+            if (_columnIndex.ContainsKey(ix))
+            {
+                return _columnIndex[ix];
+            }
+            var next = new Column(ix);
+            _columnIndex[ix] = next;
+            return next;
         }
 
-        public Column(string v)
+        internal static Column getColumn(string v)
         {
             if (v == null) throw new NullReferenceException("v cannot be null");
             if (v.Length < 1) throw new ArgumentException("length of v must be at least 1");
@@ -48,19 +52,28 @@ namespace Kipon.Excel.WriterImplementation.OpenXml.Types
                 }
             }
 
-            _value = v;
-            this._index = ColumnNameToNumber(v);
+            var ix = ColumnNameToNumber(v);
+            return getColumn(ix);
+        }
+        #endregion
 
-            if (this._index >= EXCEL_TOTAL_MAXCOLUMNS) throw new ArgumentOutOfRangeException($"no cannot be greater or equal {EXCEL_TOTAL_MAXCOLUMNS}");
+        #region constructors
+        private Column(int no)
+        {
+            if (no < 0) throw new ArgumentOutOfRangeException("no cannot be less than 0");
+            if (no >= EXCEL_TOTAL_MAXCOLUMNS) throw new ArgumentOutOfRangeException($"no cannot be greater or equal {EXCEL_TOTAL_MAXCOLUMNS}");
 
+            this._value = Column.GetExcelColumnName(no + 1);
+            this._index = no;
         }
         #endregion
 
         #region int boxing operators
         public static implicit operator Column(int v)
         {
-            return new Column(v);
+            return Column.getColumn(v);
         }
+
         public static implicit operator int(Column v)
         {
             return v.Index;
@@ -90,7 +103,7 @@ namespace Kipon.Excel.WriterImplementation.OpenXml.Types
         #region string boxing
         public static implicit operator Column(string v)
         {
-            return new Column(v);
+            return Column.getColumn(v);
         }
 
         public static implicit operator string(Column v)

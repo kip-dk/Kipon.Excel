@@ -87,7 +87,7 @@ namespace Kipon.Excel.WriterImplementation.OpenXml
             var tmpRows = (from c in sheet.Cells
                         select new
                         {
-                            OpenxmlCell = new WriterImplementation.OpenXml.Types.Cell(System.Convert.ToUInt32(c.Coordinate.Point.First()), System.Convert.ToUInt32(c.Coordinate.Point.Last())),
+                            OpenxmlCell = WriterImplementation.OpenXml.Types.Cell.getCell(System.Convert.ToUInt32(c.Coordinate.Point.First()), System.Convert.ToUInt32(c.Coordinate.Point.Last())),
                             Value = c.Value,
                             Cell = c
                         }).ToArray();
@@ -123,7 +123,7 @@ namespace Kipon.Excel.WriterImplementation.OpenXml
                 uint colix = 0;
                 foreach (var dataCell in dataRow.Cells)
                 {
-                    var position = new WriterImplementation.OpenXml.Types.Cell(colix, rowix);
+                    var position = WriterImplementation.OpenXml.Types.Cell.getCell(colix, rowix);
 
                     Cell excelCell = new Cell()
                     {
@@ -283,7 +283,7 @@ namespace Kipon.Excel.WriterImplementation.OpenXml
                         #region append maxlength validations
                         if (sheetColumn.MaxLength != null && sheetColumn.MaxLength > 0)
                         {
-                            var columnName = new Kipon.Excel.WriterImplementation.OpenXml.Types.Column(i).Value;
+                            var columnName = Kipon.Excel.WriterImplementation.OpenXml.Types.Column.getColumn(i).Value;
                             DataValidation dv = new DataValidation()
                             {
                                 Type = DataValidationValues.TextLength,
@@ -307,7 +307,7 @@ namespace Kipon.Excel.WriterImplementation.OpenXml
                         #region append enum list validations
                         if (sheetColumn.OptionSetValue != null && sheetColumn.OptionSetValue.Length > 0)
                         {
-                            var columnName = new Kipon.Excel.WriterImplementation.OpenXml.Types.Column(i).Value;
+                            var columnName = Kipon.Excel.WriterImplementation.OpenXml.Types.Column.getColumn(i).Value;
                             DataValidation dv = new DataValidation()
                             {
                                 Type = DataValidationValues.List,

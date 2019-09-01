@@ -10,41 +10,41 @@ namespace Kipon.Excel.UnitTests.WriterImplementation.OpenXml.Types
         public void ColumnConstructorTest()
         {
             // Test int based constructor
-            Assert.AreEqual("A", new Column(0).Value);
-            Assert.AreEqual("Z", new Column(25).Value);
+            Assert.AreEqual("A", Column.getColumn(0).Value);
+            Assert.AreEqual("Z", Column.getColumn(25).Value);
 
-            Assert.AreEqual("AA", new Column(26).Value);
-            Assert.AreEqual("ZZ", new Column(701).Value);
+            Assert.AreEqual("AA", Column.getColumn(26).Value);
+            Assert.AreEqual("ZZ", Column.getColumn(701).Value);
 
-            Assert.AreEqual("AAA", new Column(702).Value);
-            Assert.AreEqual("AOE", new Column(1070).Value);
-            Assert.AreEqual("BBW", new Column(1426).Value);
+            Assert.AreEqual("AAA", Column.getColumn(702).Value);
+            Assert.AreEqual("AOE", Column.getColumn(1070).Value);
+            Assert.AreEqual("BBW", Column.getColumn(1426).Value);
 
-            Assert.Throws<ArgumentOutOfRangeException>(() => new Column(-1));
-            Assert.Throws<ArgumentOutOfRangeException>(() => new Column(Column.EXCEL_TOTAL_MAXCOLUMNS));
+            Assert.Throws<ArgumentOutOfRangeException>(() => Column.getColumn(-1));
+            Assert.Throws<ArgumentOutOfRangeException>(() => Column.getColumn(Column.EXCEL_TOTAL_MAXCOLUMNS));
 
             // Test string based constructor
-            Assert.AreEqual(0, new Column("A").Index);
-            Assert.AreEqual(25, new Column("Z").Index);
+            Assert.AreEqual(0, Column.getColumn("A").Index);
+            Assert.AreEqual(25, Column.getColumn("Z").Index);
 
-            Assert.AreEqual(26, new Column("AA").Index);
-            Assert.AreEqual(701, new Column("ZZ").Index);
+            Assert.AreEqual(26, Column.getColumn("AA").Index);
+            Assert.AreEqual(701, Column.getColumn("ZZ").Index);
 
-            Assert.AreEqual(702, new Column("AAA").Index);
-            Assert.AreEqual(1070, new Column("AOE").Index);
-            Assert.AreEqual(1426, new Column("BBW").Index);
+            Assert.AreEqual(702, Column.getColumn("AAA").Index);
+            Assert.AreEqual(1070, Column.getColumn("AOE").Index);
+            Assert.AreEqual(1426, Column.getColumn("BBW").Index);
 
-            Assert.Throws<NullReferenceException>(() => new Column(null));
-            Assert.Throws<ArgumentException>(() => new Column(string.Empty));
-            Assert.Throws<ArgumentException>(() => new Column("AAAA"));
-            Assert.Throws<ArgumentException>(() => new Column("a"));
-            Assert.Throws<ArgumentOutOfRangeException>(() => new Column("XFE"));
+            Assert.Throws<NullReferenceException>(() => Column.getColumn(null));
+            Assert.Throws<ArgumentException>(() => Column.getColumn(string.Empty));
+            Assert.Throws<ArgumentException>(() => Column.getColumn("AAAA"));
+            Assert.Throws<ArgumentException>(() => Column.getColumn("a"));
+            Assert.Throws<ArgumentOutOfRangeException>(() => Column.getColumn("XFE"));
         }
 
         [Test]
         public void ColumnStringBoxingTest()
         {
-            Assert.IsTrue("AAA" == new Column("AAA"));
+            Assert.IsTrue("AAA" == Column.getColumn("AAA"));
 
             var ts = new ColumnTestClass { C = "AAA" };
             Assert.AreEqual(702, ts.C.Index);
@@ -53,7 +53,7 @@ namespace Kipon.Excel.UnitTests.WriterImplementation.OpenXml.Types
         [Test]
         public void ColumnIntBoxingTest()
         {
-            Assert.IsTrue(702 == new Column("AAA"));
+            Assert.IsTrue(702 == Column.getColumn("AAA"));
 
             var ts = new ColumnTestClass { C = 702 };
             Assert.AreEqual(702, ts.C.Index);
