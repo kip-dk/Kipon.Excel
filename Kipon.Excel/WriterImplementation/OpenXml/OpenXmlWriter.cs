@@ -121,13 +121,16 @@ namespace Kipon.Excel.WriterImplementation.OpenXml
                 };
 
                 uint colix = 0;
+
+                var openXmlRow = WriterImplementation.OpenXml.Types.Row.getRow(((int)rowix)+1);
                 foreach (var dataCell in dataRow.Cells)
                 {
-                    var position = WriterImplementation.OpenXml.Types.Cell.getCell(colix, rowix);
+                    var openXmlColumn = WriterImplementation.OpenXml.Types.Column.getColumn((int)colix);
 
+                    var position = openXmlColumn.Value + openXmlRow.Value.ToString();
                     Cell excelCell = new Cell()
                     {
-                        CellReference = position.ToString(),
+                        CellReference = position,
                         StyleIndex = this._styleResolver.Resolve(dataCell.Cell),
                         DataType = _datatypeResolver.Resolve(dataCell.Cell)
                 };

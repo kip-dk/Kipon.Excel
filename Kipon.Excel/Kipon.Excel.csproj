@@ -14,12 +14,12 @@
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/kip-dk/Kipon.Excel</RepositoryUrl>
     <PackageTags>OpenXml Excel .NET Stream</PackageTags>
-    <PackageReleaseNotes>Mem optimization of column and row definitions</PackageReleaseNotes>
-    <Version>1.0.5-alpha</Version>
+    <PackageReleaseNotes>Mem optimization of column and row definitions, continued</PackageReleaseNotes>
+    <Version>1.0.6-alpha</Version>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>Kipon.snk</AssemblyOriginatorKeyFile>
-    <AssemblyVersion>1.0.5.0</AssemblyVersion>
-    <FileVersion>1.0.5.0</FileVersion>
+    <AssemblyVersion>1.0.6.0</AssemblyVersion>
+    <FileVersion>1.0.6.0</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>
