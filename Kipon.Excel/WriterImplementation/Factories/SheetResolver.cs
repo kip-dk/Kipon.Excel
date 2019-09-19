@@ -48,12 +48,12 @@ namespace Kipon.Excel.WriterImplementation.Factories
                         var ignore = prop.GetCustomAttributes(typeof(Kipon.Excel.Attributes.IgnoreAttribute), false).Any();
                         if (ignore)
                         {
-                            throw new Exceptions.InconsistantPropertyException(prop);
+                            throw new Exceptions.InconsistentPropertyException(prop);
                         }
 
                         if (prop.GetGetMethod() == null)
                         {
-                            throw new Exceptions.InconsistantPropertyException(prop);
+                            throw new Exceptions.InconsistentPropertyException(prop);
                         }
 
                         result.Add(prop);
