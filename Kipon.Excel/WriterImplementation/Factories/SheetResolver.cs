@@ -44,6 +44,18 @@ namespace Kipon.Excel.WriterImplementation.Factories
                     var columnAttr = prop.GetCustomAttributes(typeof(Kipon.Excel.Attributes.ColumnAttribute), true);
                     if (columnAttr != null && columnAttr.Length > 0)
                     {
+
+                        var ignore = prop.GetCustomAttributes(typeof(Kipon.Excel.Attributes.IgnoreAttribute), false).Any();
+                        if (ignore)
+                        {
+                            throw new Exceptions.InconsistantPropertyException(prop);
+                        }
+
+                        if (prop.GetGetMethod() == null)
+                        {
+                            throw new Exceptions.InconsistantPropertyException(prop);
+                        }
+
                         result.Add(prop);
                     }
                 }
@@ -59,6 +71,17 @@ namespace Kipon.Excel.WriterImplementation.Factories
                 var cellsResolver = new Kipon.Excel.WriterImplementation.Factories.CellsResolver();
                 foreach (var prop in properties)
                 {
+                    var ignore = prop.GetCustomAttributes(typeof(Kipon.Excel.Attributes.IgnoreAttribute), false).Any();
+                    if (ignore)
+                    {
+                        continue;
+                    }
+
+                    if (prop.GetGetMethod() == null)
+                    {
+                        continue;
+                    }
+
                     if (cellsResolver.IsCell(prop.PropertyType))
                     {
                         result.Add(prop);

@@ -28,6 +28,14 @@ namespace Kipon.Excel.UnitTests.Reflection
             Assert.IsFalse(Kipon.Excel.Reflection.PropertySheet.IsPropertySheet(typeof(object)));
         }
 
+        [Test]
+        public void IgnorePropertyTest()
+        {
+            var duckSheet = Kipon.Excel.Reflection.PropertySheet.ForType(typeof(DuckSheet));
+
+            var ignore = duckSheet.Properties.Where(r => r.title == nameof(DuckSheet.IgnoreMe)).SingleOrDefault();
+            Assert.IsNull(ignore);
+        }
 
         [Test]
         public void PropertiesTest()
@@ -91,6 +99,9 @@ namespace Kipon.Excel.UnitTests.Reflection
             [Title("The null number")]
             [Sort(99)]
             public int? NullNumber { get; set; }
+
+            [Kipon.Excel.Attributes.Ignore]
+            public string IgnoreMe { get; set; }
         }
 
         public class SheetImpl : Kipon.Excel.Api.ISheet

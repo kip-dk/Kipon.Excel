@@ -45,6 +45,17 @@ namespace Kipon.Excel.UnitTests.WriterImplementation.Factories
             }
         }
 
+        [Test]
+        public void IgnorePropertyTest()
+        {
+            var sheetResolver = new Kipon.Excel.WriterImplementation.Factories.SheetResolver();
+            var data = new DuckSheet[] { new DuckSheet() };
+            var result = sheetResolver.Resolve(data);
+
+            var ignore = (from r in result.Cells where r.Value != null && r.Value.ToString() == nameof(DuckSheet.IgnoreMe) select r).FirstOrDefault();
+            Assert.IsNull(ignore);
+        }
+
         public class DecoratedSheet
         {
             [Kipon.Excel.Attributes.Column(Sort = 1)]
@@ -57,6 +68,15 @@ namespace Kipon.Excel.UnitTests.WriterImplementation.Factories
             public bool BoolValue { get; }
 
             public string UndecoratedProperty { get; set; }
+        }
+
+
+        public class DuckSheet
+        {
+            public string FirstAttr { get; set; }
+
+            [Kipon.Excel.Attributes.Ignore]
+            public string IgnoreMe { get; set; }
         }
     }
 }
