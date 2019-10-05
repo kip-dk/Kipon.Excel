@@ -84,12 +84,14 @@ namespace Kipon.Excel.Reflection
                 if (sheetAttr != null)
                 {
                     var next = new SheetsProperty();
-                    next.Title = sheetAttr.Title;
+                    next.Title = sheetAttr.Title ?? property.Name;
                     next.Sort = sheetAttr.Sort ?? ix++;
                     next.property = property;
+                    next.ElementType = property.PropertyType.GetElementType();
                     next.IsReadyonly = property.GetSetMethod() == null;
                     this.properties.Add(next);
                     this.Populate(next);
+                    continue;
                 }
             }
 
@@ -113,6 +115,7 @@ namespace Kipon.Excel.Reflection
                     next.Title = property.Name;
                     next.property = property;
                     next.ElementType = property.PropertyType.GetElementType();
+                    next.IsReadyonly = property.GetSetMethod() == null;
                     this.properties.Add(next);
                     this.Populate(next);
                     continue;
@@ -151,6 +154,13 @@ namespace Kipon.Excel.Reflection
                 if (titleAttr != null)
                 {
                     property.Title = titleAttr.Value;
+                }
+            }
+            {
+                if (property.IsReadyonly == false)
+                {
+                    property.IsReadyonly = property.property.GetCustomAttributes(typeof(Kipon.Excel.Attributes.ReadonlyAttribute), false).Any();
+
                 }
             }
         }

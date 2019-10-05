@@ -18,8 +18,10 @@ namespace Kipon.Excel.UnitTests.Reflection
                 var sh1 = Kipon.Excel.Reflection.PropertySheets.ForType(typeof(DecoratedSheets));
                 var sh2 = Kipon.Excel.Reflection.PropertySheets.ForType(typeof(DecoratedSheets));
                 Assert.AreEqual(sh1, sh2);
-
                 Assert.AreEqual(2, sh1.Properties.Count());
+
+                Assert.AreEqual(nameof(DecoratedSheets.Sheet1), sh1.Properties.First().Title);
+                Assert.AreEqual(nameof(DecoratedSheets.Sheet2), sh1.Properties.Last().Title);
             }
 
             {
