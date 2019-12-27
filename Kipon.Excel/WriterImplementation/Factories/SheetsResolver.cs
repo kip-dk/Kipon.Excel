@@ -29,19 +29,31 @@ namespace Kipon.Excel.WriterImplementation.Factories
             // Do we have sheet properties, then they are the most important to resolve sheets
             #region sheetsattribute decorated properties
             {
-                List<System.Reflection.PropertyInfo> decorated = new List<System.Reflection.PropertyInfo>();
+                List<PropertyInfoContainer> decorated = new List<PropertyInfoContainer>();
+                int index = 100000;
                 foreach (var prop in properties)
                 {
-                    var attr = prop.GetCustomAttributes(typeof(Kipon.Excel.Attributes.SheetAttribute), true);
-                    if (attr != null && attr.Length > 0)
+                    var attr = (Kipon.Excel.Attributes.SheetAttribute)prop.GetCustomAttributes(typeof(Kipon.Excel.Attributes.SheetAttribute), true).FirstOrDefault();
+                    if (attr != null)
                     {
-                        decorated.Add(prop);
+                        var next = new PropertyInfoContainer { PropertyInfo = prop, Sort = attr.Sort ?? index };
+
+                        if (attr.Sort == null)
+                        {
+                            var sort = (Kipon.Excel.Attributes.SortAttribute)prop.GetCustomAttributes(typeof(Kipon.Excel.Attributes.SortAttribute), true).FirstOrDefault();
+                            if (sort != null)
+                            {
+                                next.Sort = sort.Value;
+                            }
+                        }
+                        decorated.Add(next);
                     }
                 }
                 if (decorated.Count > 0)
                 {
                     var result = new Models.Sheets.PropertySheets();
-                    result.AddSheetAttributeDecoratedProperties(instanceType, decorated.ToArray());
+                    var sheets = (from pc in decorated orderby pc.Sort, pc.PropertyInfo.Name select pc.PropertyInfo).ToArray();
+                    result.AddSheetAttributeDecoratedProperties(instanceType, sheets);
                     return result;
                 }
             }
@@ -49,26 +61,46 @@ namespace Kipon.Excel.WriterImplementation.Factories
 
             #region ok, no decorations to help us, lets see if we have anything indicating this is a multi sheet thing
             {
-                List<System.Reflection.PropertyInfo> sheetProperties = new List<System.Reflection.PropertyInfo>();
+                List<PropertyInfoContainer> sheetProperties = new List<PropertyInfoContainer>();
                 var sheetResolver = new SheetResolver();
+                var index = 100000;
                 foreach (var prop in properties)
                 {
-                    if (typeof(Kipon.Excel.Api.ISheet).IsAssignableFrom(prop.PropertyType))
+                    var ignore = (Kipon.Excel.Attributes.IgnoreAttribute)prop.GetCustomAttributes(typeof(Kipon.Excel.Attributes.IgnoreAttribute), true).FirstOrDefault();
+                    if (ignore != null)
                     {
-                        sheetProperties.Add(prop);
                         continue;
                     }
 
-                    if (sheetResolver.IsSheet(prop.PropertyType))
+                    PropertyInfoContainer next = null;
+
+                    if (typeof(Kipon.Excel.Api.ISheet).IsAssignableFrom(prop.PropertyType))
                     {
-                        sheetProperties.Add(prop);
-                        continue;
+                        next = new PropertyInfoContainer { PropertyInfo = prop, Sort = index };
+                        sheetProperties.Add(next);
+                    }
+
+                    if (next == null && sheetResolver.IsSheet(prop.PropertyType))
+                    {
+                        next = new PropertyInfoContainer { PropertyInfo = prop, Sort = index };
+                        sheetProperties.Add(next);
+                    }
+
+                    if (next != null)
+                    {
+                        var sort = (Kipon.Excel.Attributes.SortAttribute)prop.GetCustomAttributes(typeof(Kipon.Excel.Attributes.SortAttribute), true).FirstOrDefault();
+                        if (sort != null)
+                        {
+                            next.Sort = sort.Value;
+                        }
                     }
                 }
+
                 if (sheetProperties.Count > 0)
                 {
                     var result = new Models.Sheets.PropertySheets();
-                    result.AddUndecoratedProperties(instanceType, sheetProperties.ToArray());
+                    var sheets = (from pc in sheetProperties orderby pc.Sort, pc.PropertyInfo.Name select pc.PropertyInfo).ToArray();
+                    result.AddUndecoratedProperties(instanceType, sheets);
                     return result;
                 }
             }
@@ -89,6 +121,13 @@ namespace Kipon.Excel.WriterImplementation.Factories
             #endregion
 
             throw new Kipon.Excel.Exceptions.UnresolveableTypeException(instanceType, typeof(IEnumerable<ISheet>));
+        }
+
+
+        internal class PropertyInfoContainer
+        {
+            internal int Sort { get; set; }
+            internal System.Reflection.PropertyInfo PropertyInfo { get; set; }
         }
     }
 }

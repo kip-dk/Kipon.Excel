@@ -24,6 +24,50 @@ namespace Kipon.Excel.UnitTests.WriterImplementation.Factories
             Assert.AreEqual("First sheet", impl.First().Title);
             Assert.AreEqual("Last sheet", impl.Last().Title);
         }
+
+        public class DecoratedSheets
+        {
+            [Kipon.Excel.Attributes.Sheet(1)]
+            public TestSheet Sheet1 => new TestSheet("First sheet");
+
+            [Kipon.Excel.Attributes.Sheet(2)]
+            public TestSheet Sheet2 => new TestSheet("Last sheet");
+
+            public object NotDecorated => throw new NotImplementedException();
+        }
+        #endregion
+
+        #region sort and ignore test
+
+        [Test]
+        public void SortAndOgnoreSheetsTest()
+        {
+            var sheets = new SortAndOgnoreSheets();
+            var resolver = new Kipon.Excel.WriterImplementation.Factories.SheetsResolver();
+            var impl = resolver.Resolve(sheets);
+
+            Assert.IsInstanceOf<IEnumerable<Kipon.Excel.Api.ISheet>>(impl);
+            Assert.AreEqual(3, impl.Count());
+            Assert.AreEqual("Sheet 3", impl.First().Title);
+            Assert.AreEqual("Sheet 2", impl.Skip(1).First().Title);
+            Assert.AreEqual("Sheet 1", impl.Last().Title);
+
+        }
+
+        public class SortAndOgnoreSheets
+        {
+            [Kipon.Excel.Attributes.Sort(3)]
+            public TestSheet Sheet1 => new TestSheet("Sheet 1");
+            [Kipon.Excel.Attributes.Sort(2)]
+            public TestSheet Sheet2 => new TestSheet("Sheet 2");
+            [Kipon.Excel.Attributes.Sort(1)]
+            public TestSheet Sheet3 => new TestSheet("Sheet 3");
+
+            [Kipon.Excel.Attributes.Ignore]
+            public TestSheet Sheet4 => new TestSheet("Sheet 1");
+
+        }
+
         #endregion
 
         #region multi sheet, duck type
@@ -104,18 +148,7 @@ namespace Kipon.Excel.UnitTests.WriterImplementation.Factories
         }
         #endregion
 
-        #region helper impl
-        public class DecoratedSheets
-        {
-            [Kipon.Excel.Attributes.Sheet(1)]
-            public TestSheet Sheet1 => new TestSheet("First sheet");
-
-            [Kipon.Excel.Attributes.Sheet(2)]
-            public TestSheet Sheet2 => new TestSheet("Last sheet");
-
-            public object NotDecorated => throw new NotImplementedException();
-        }
-
+        #region helper impl0
         public class TestSheet : Kipon.Excel.Api.ISheet
         {
             private string _title;

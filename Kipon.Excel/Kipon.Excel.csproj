@@ -14,12 +14,12 @@
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/kip-dk/Kipon.Excel</RepositoryUrl>
     <PackageTags>OpenXml Excel .NET Stream</PackageTags>
-    <PackageReleaseNotes>Ignore was not respected on export</PackageReleaseNotes>
-    <Version>1.0.7-alpha</Version>
+    <PackageReleaseNotes>Sort and Ignore on Sheet in multi sheet objects now supported</PackageReleaseNotes>
+    <Version>1.0.9-alpha</Version>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>Kipon.snk</AssemblyOriginatorKeyFile>
-    <AssemblyVersion>1.0.7.0</AssemblyVersion>
-    <FileVersion>1.0.7.0</FileVersion>
+    <AssemblyVersion>1.0.9.0</AssemblyVersion>
+    <FileVersion>1.0.9.0</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>

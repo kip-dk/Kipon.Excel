@@ -42,18 +42,12 @@ namespace Kipon.Excel.WriterImplementation.Models.Sheets
         {
             var sheetMetas = new List<SheetMeta>();
 
-            var ix = int.MaxValue - (properties.Length + 1);
-            foreach (var prop in properties.OrderBy(r => r.Name))
+            var ix = 0;
+            foreach (var prop in properties)
             {
-                var order = ix;
-                ix++;
+                var order = ix++;
+
                 var attr = (Kipon.Excel.Attributes.SheetAttribute)prop.GetCustomAttributes(typeof(Kipon.Excel.Attributes.SheetAttribute), true).First();
-
-                if (attr.Sort != null)
-                {
-                    order = attr.Sort.Value;
-                }
-
                 var title = attr.Title;
                 if (string.IsNullOrEmpty(title))
                 {
@@ -75,13 +69,13 @@ namespace Kipon.Excel.WriterImplementation.Models.Sheets
             var sheetMetas = new List<SheetMeta>();
 
             var ix = 0;
-            foreach (var prop in properties.OrderBy(r => r.Name))
+            foreach (var prop in properties)
             {
                 var order = ix++;
                 var title = prop.Name;
                 sheetMetas.Add(new SheetMeta { title = title, order = order, Property = prop });
             }
-            propertyCache[type] = sheetMetas.OrderBy(r => r.order).ToArray();
+            propertyCache[type] = sheetMetas.ToArray();
         }
 
         private class SheetMeta
