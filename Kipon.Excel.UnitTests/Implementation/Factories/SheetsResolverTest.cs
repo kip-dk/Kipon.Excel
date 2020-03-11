@@ -40,9 +40,9 @@ namespace Kipon.Excel.UnitTests.WriterImplementation.Factories
         #region sort and ignore test
 
         [Test]
-        public void SortAndOgnoreSheetsTest()
+        public void SortAndIgnoreSheetsTest()
         {
-            var sheets = new SortAndOgnoreSheets();
+            var sheets = new SortAndIgnoreSheets();
             var resolver = new Kipon.Excel.WriterImplementation.Factories.SheetsResolver();
             var impl = resolver.Resolve(sheets);
 
@@ -54,7 +54,7 @@ namespace Kipon.Excel.UnitTests.WriterImplementation.Factories
 
         }
 
-        public class SortAndOgnoreSheets
+        public class SortAndIgnoreSheets
         {
             [Kipon.Excel.Attributes.Sort(3)]
             public TestSheet Sheet1 => new TestSheet("Sheet 1");
