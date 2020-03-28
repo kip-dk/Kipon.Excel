@@ -10,22 +10,6 @@ namespace Kipon.Excel.WriterImplementation.OpenXml.Styles
 {
     internal class DefaultStylesheet : Stylesheet, Kipon.Excel.WriterImplementation.Serialization.IStyleResolver
     {
-        #region internal statics
-
-        internal static readonly UInt32Value ODD_DATE_LOCKED = (UInt32Value)9;
-        internal static readonly UInt32Value EVEN_DATE_LOCKED = (UInt32Value)8;
-
-        internal static readonly UInt32Value ODD_DATE_UNLOCKED = (UInt32Value)7;
-        internal static readonly UInt32Value EVEN_DATE_UNLOCKED = (UInt32Value)6;
-
-        internal static readonly UInt32Value BOLD_STYLE_INDEX = (UInt32Value)5;
-
-        internal static readonly UInt32Value ODD_STYLE_INDEX_LOCKED = (UInt32Value)4;
-        internal static readonly UInt32Value EVEN_STYLE_INDEX_LOCKED = (UInt32Value)3;
-
-        internal static readonly UInt32Value ODD_STYLE_INDEX_UNLOCKED = (UInt32Value)2;
-        internal static readonly UInt32Value EVEN_STYLE_INDEX_UNLOCKED = (UInt32Value)1;
-        #endregion
 
         #region the stylesheet
         public DefaultStylesheet()
@@ -125,52 +109,7 @@ namespace Kipon.Excel.WriterImplementation.OpenXml.Styles
         uint IStyleResolver.Resolve(Kipon.Excel.Api.ICell cell)
         {
             var row = cell.Coordinate.Point.Last();
-
-            if (row == 0) return BOLD_STYLE_INDEX;
-
-            var isreadonly = false;
-            var readonlyimpl = cell as Kipon.Excel.Api.Cell.IReadonly;
-            if (readonlyimpl != null)
-            {
-                isreadonly = readonlyimpl.IsReadonly;
-            }
-
-            var datatype = cell as Kipon.Excel.Api.Cell.IDataType;
-            if (datatype != null && datatype.ValueType != null && datatype.ValueType == typeof(DateTime))
-            {
-                if (row % 2 == 0 && !isreadonly)
-                {
-                    return EVEN_DATE_UNLOCKED;
-                }
-
-                if (row % 2 == 0 && isreadonly)
-                {
-                    return EVEN_DATE_LOCKED;
-                }
-
-                if (!isreadonly)
-                {
-                    return ODD_DATE_UNLOCKED;
-                }
-                return ODD_DATE_LOCKED;
-            }
-
-            if (row % 2 == 0 && !isreadonly)
-            {
-                return EVEN_STYLE_INDEX_UNLOCKED;
-            }
-
-            if (row % 2 == 0 && isreadonly)
-            {
-                return EVEN_STYLE_INDEX_LOCKED;
-            }
-
-            if (!isreadonly)
-            {
-                return ODD_STYLE_INDEX_UNLOCKED;
-            }
-
-            return ODD_STYLE_INDEX_LOCKED;
+            return Kipon.Excel.Api.Style.Styles.Resolve(cell, row % 2 == 0);
         }
         #endregion
         #endregion

@@ -23,9 +23,10 @@ namespace Kipon.Excel.WriterImplementation.OpenXml
         private NumberFormatInfo valueNumberFormatInfo = new NumberFormatInfo() { NumberDecimalSeparator = ".", NumberGroupSeparator = string.Empty };
 
 
-        internal OpenXmlWriter(ISpreadsheet spreadsheet, ILocalization localization = null)
+        internal OpenXmlWriter(ISpreadsheet spreadsheet, ILocalization localization = null, IStyleResolver styleResolver = null)
         {
             this._spreadsheet = spreadsheet;
+            this._styleResolver = styleResolver;
 
             if (localization != null)
             {
@@ -53,7 +54,10 @@ namespace Kipon.Excel.WriterImplementation.OpenXml
 
             WorkbookStylesPart workbookStylesPart = workbookPart.AddNewPart<WorkbookStylesPart>("rId" + (this._spreadsheet.Sheets.Count() + 1).ToString());
             workbookStylesPart.Stylesheet = new Kipon.Excel.WriterImplementation.OpenXml.Styles.DefaultStylesheet();
-            this._styleResolver = (IStyleResolver)workbookStylesPart.Stylesheet;
+            if (this._styleResolver == null)
+            {
+                this._styleResolver = (IStyleResolver)workbookStylesPart.Stylesheet;
+            }
 
             var ix = 1;
             foreach (var sheet in _spreadsheet.Sheets)
