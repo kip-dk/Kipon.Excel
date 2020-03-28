@@ -17,16 +17,16 @@ namespace Kipon.Excel.WriterImplementation.OpenXml
     {
         private ISpreadsheet _spreadsheet;
         private IStyleResolver _styleResolver;
+        private Kipon.Excel.Api.IStyle _style;
         private ILocalization _localization;
         private IDataTypeResolver _datatypeResolver;
 
         private NumberFormatInfo valueNumberFormatInfo = new NumberFormatInfo() { NumberDecimalSeparator = ".", NumberGroupSeparator = string.Empty };
 
 
-        internal OpenXmlWriter(ISpreadsheet spreadsheet, ILocalization localization = null, IStyleResolver styleResolver = null)
+        internal OpenXmlWriter(ISpreadsheet spreadsheet, ILocalization localization = null, IStyle style = null)
         {
             this._spreadsheet = spreadsheet;
-            this._styleResolver = styleResolver;
 
             if (localization != null)
             {
@@ -37,6 +37,7 @@ namespace Kipon.Excel.WriterImplementation.OpenXml
             }
 
             this._datatypeResolver = new Kipon.Excel.WriterImplementation.OpenXml.DataTypeResolver();
+            this._style = style;
         }
 
         internal void Serialize(System.IO.Stream stream)
@@ -54,10 +55,7 @@ namespace Kipon.Excel.WriterImplementation.OpenXml
 
             WorkbookStylesPart workbookStylesPart = workbookPart.AddNewPart<WorkbookStylesPart>("rId" + (this._spreadsheet.Sheets.Count() + 1).ToString());
             workbookStylesPart.Stylesheet = new Kipon.Excel.WriterImplementation.OpenXml.Styles.DefaultStylesheet();
-            if (this._styleResolver == null)
-            {
-                this._styleResolver = (IStyleResolver)workbookStylesPart.Stylesheet;
-            }
+            this._styleResolver = (IStyleResolver)workbookStylesPart.Stylesheet;
 
             var ix = 1;
             foreach (var sheet in _spreadsheet.Sheets)
@@ -132,10 +130,13 @@ namespace Kipon.Excel.WriterImplementation.OpenXml
                     var openXmlColumn = WriterImplementation.OpenXml.Types.Column.getColumn((int)colix);
 
                     var position = openXmlColumn.Value + openXmlRow.Value.ToString();
+
+                    UInt32Value styleIndex = this._style?.Resolve(dataCell.Cell) ?? this._styleResolver.Resolve(dataCell.Cell);
+
                     Cell excelCell = new Cell()
                     {
                         CellReference = position,
-                        StyleIndex = this._styleResolver.Resolve(dataCell.Cell),
+                        StyleIndex = styleIndex,
                         DataType = _datatypeResolver.Resolve(dataCell.Cell)
                 };
 

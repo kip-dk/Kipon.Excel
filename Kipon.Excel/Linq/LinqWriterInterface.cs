@@ -28,7 +28,10 @@ namespace Kipon.Excel.Linq
             var spreadsheetResolver = new Kipon.Excel.WriterImplementation.Factories.SpreadsheetResolver();
             var spreadsheet = spreadsheetResolver.Resolve(data);
 
-            var openXmlWriter = new Kipon.Excel.WriterImplementation.OpenXml.OpenXmlWriter(spreadsheet, null);
+            var styleResolver = data as Kipon.Excel.Api.IStyle;
+            var lanResolver = data as Kipon.Excel.Api.Globalization.ILocalization;
+
+            var openXmlWriter = new Kipon.Excel.WriterImplementation.OpenXml.OpenXmlWriter(spreadsheet, lanResolver, styleResolver);
             openXmlWriter.Serialize(excel);
         }
 
