@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Kipon.Excel.Extensions.Strings;
 
 namespace Kipon.Excel.ReaderImplementation.Converters
 {
@@ -24,7 +25,12 @@ namespace Kipon.Excel.ReaderImplementation.Converters
 
             var instance = (System.Collections.IList)Activator.CreateInstance(clType);
 
+            var headerRow = sheetMeta.HeaderRow - 1;
+            var headerColumn = sheetMeta.HeaderColumn - 1;
+
             var rows = (from c in sheet.Cells
+                        where c.Coordinate.Point.Last() >= headerRow
+                          && c.Coordinate.Point.First() >= headerColumn
                         group c by c.Coordinate.Point.Last() into r
                         select new
                         {
@@ -43,7 +49,7 @@ namespace Kipon.Excel.ReaderImplementation.Converters
             {
                 if (header.Value != null)
                 {
-                    var property = (from p in sheetMeta.Properties where p.title == header.Value.ToString() select p).FirstOrDefault();
+                    var property = (from p in sheetMeta.Properties where p.title.ToRelaxedName() == header.Value.ToString().ToRelaxedName() select p).FirstOrDefault();
                     if (property != null)
                     {
                         columnIndex.Add(header.Coordinate.Point.First(), property);

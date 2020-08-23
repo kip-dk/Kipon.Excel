@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Kipon.Excel.Extensions.Strings;
 
 namespace Kipon.Excel.Reflection
 {
@@ -11,6 +12,10 @@ namespace Kipon.Excel.Reflection
         private static Dictionary<Type, PropertySheet> sheets = new Dictionary<Type, PropertySheet>();
 
         private List<SheetProperty> properties = new List<SheetProperty>();
+
+        internal int HeaderRow { get; private set; } = 1;
+        internal int HeaderColumn { get; private set; } = 1;
+
 
         internal static PropertySheet ForType(Type type)
         {
@@ -33,6 +38,13 @@ namespace Kipon.Excel.Reflection
         }
         private PropertySheet(Type type)
         {
+            var parser = type.GetCustomAttributes(typeof(Attributes.ParseAttribute), false).FirstOrDefault() as Attributes.ParseAttribute;
+            if (parser != null)
+            {
+                this.HeaderRow = parser.FirstRow;
+                this.HeaderColumn = parser.FirstColumn;
+            }
+
             var properties = type.GetProperties(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance).OrderBy(r => r.Name).ToArray();
 
             var ix = int.MaxValue - (properties.Length + 1);
@@ -188,18 +200,23 @@ namespace Kipon.Excel.Reflection
 
         internal Kipon.Excel.Api.ISheet BestMatch(IEnumerable<Kipon.Excel.Api.ISheet> sheets)
         {
+            var firstRowNumber = this.HeaderRow - 1;
+            var firstColumnNumber = this.HeaderColumn - 1;
+
             foreach (var sheet in sheets)
             {
                 var firstRow = (from c in sheet.Cells
-                                where c.Coordinate.Point.Last() == 0
+                                where c.Coordinate.Point.Last() == firstRowNumber
+                                  && c.Coordinate.Point.First() >= firstColumnNumber
                                   && c.Value != null
                                 select c.Value.ToString()).ToArray();
 
                 if (firstRow != null && firstRow.Length > 0)
                 {
                     var j = (from f in firstRow
-                             join p in this.properties on f equals p.title
+                             join p in this.properties on f.ToRelaxedName() equals p.title.ToRelaxedName()
                              select f).ToArray();
+
                     if (j.Length == firstRow.Length && j.Length == this.properties.Count)
                     {
                         // 100% match
@@ -221,6 +238,7 @@ namespace Kipon.Excel.Reflection
             internal int? maxlength { get; set; }
             internal string[] optionSetValues { get; set; }
             internal double? width { get; set; }
+
             private System.Reflection.PropertyInfo _property;
             internal System.Reflection.PropertyInfo property
             {
