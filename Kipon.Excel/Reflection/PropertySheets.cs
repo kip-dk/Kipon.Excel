@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Kipon.Excel.Extensions.Strings;
 
 namespace Kipon.Excel.Reflection
 {
@@ -184,6 +185,23 @@ namespace Kipon.Excel.Reflection
                 if (titleMatch.Length == 1)
                 {
                     return titleMatch[0];
+                }
+
+                titleMatch = (from t in sheets where t.Title.ToRelaxedName() == this.Title.ToRelaxedName() select t).ToArray();
+                if (titleMatch.Length == 1)
+                {
+                    return titleMatch[0];
+                }
+
+                if (PropertySheet.IsPropertySheet(ElementType))
+                {
+                    var sheet = PropertySheet.ForType(ElementType);
+                    var matchSheet = sheet.BestMatch(sheets);
+
+                    if (matchSheet != null)
+                    {
+                        return matchSheet;
+                    }
                 }
 
                 return null;

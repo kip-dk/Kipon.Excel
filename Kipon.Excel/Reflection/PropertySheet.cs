@@ -8,6 +8,7 @@ using Kipon.Excel.Extensions.Strings;
 using Kipon.Excel.Exceptions;
 using Kipon.Excel.Extensions;
 using System.Reflection;
+using DocumentFormat.OpenXml.Bibliography;
 
 namespace Kipon.Excel.Reflection
 {
@@ -76,6 +77,7 @@ namespace Kipon.Excel.Reflection
                         sheetProperty.sort = columnAttr.Sort > int.MinValue ? columnAttr.Sort : ix++;
                         sheetProperty.width = columnAttr.Width;
                         sheetProperty.maxlength = columnAttr.MaxLength;
+                        sheetProperty.optional = columnAttr.Optional;
                         sheetProperty.property = property;
 
                         sheetProperty.ResolveIndexer(type);
@@ -114,7 +116,7 @@ namespace Kipon.Excel.Reflection
                     sheetProperty.title = property.Name;
                     sheetProperty.isReadonly = property.GetSetMethod() == null;
                     sheetProperty.property =  property;
-
+                    sheetProperty.optional = property.GetCustomAttributes(typeof(Kipon.Excel.Attributes.OptionalAttribute), false).Any();
                     sheetProperty.ResolveIndexer(type);
 
                     this.Populate(sheetProperty);
@@ -284,6 +286,14 @@ namespace Kipon.Excel.Reflection
                         // 100% match
                         return sheet;
                     }
+
+                    var foundfields = firstRow.Select(r => r.ToRelaxedName()).ToArray();
+                    var missings = this.properties.Where(r => !r.optional && !foundfields.Contains(r.title.ToRelaxedName())).Any();
+
+                    if (!missings)
+                    {
+                        return sheet;
+                    }
                 }
             }
             return null;
@@ -300,6 +310,7 @@ namespace Kipon.Excel.Reflection
             internal int? maxlength { get; set; }
             internal string[] optionSetValues { get; set; }
             internal double? width { get; set; }
+            internal bool optional { get; set; }
 
             internal string indexPattern { get; set; }
             internal Type indexType { get; set; }

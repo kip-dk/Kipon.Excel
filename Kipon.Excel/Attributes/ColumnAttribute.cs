@@ -16,6 +16,7 @@ namespace Kipon.Excel.Attributes
         public int? Decimals { get; set; }
         public int? MaxLength { get; set; }
         public double? Width { get; set; }
+        public  bool Optional { get; set; }
         public string[] OptionSetValues { get; set; }
         public ColumnAttribute() { }
     }
