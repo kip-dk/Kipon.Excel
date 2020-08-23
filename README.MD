@@ -14,7 +14,7 @@ Published via NuGet:
 Kipon.Excel(https://www.nuget.org/packages/Kipon.Excel/)
 
 ```console
-PM> Install-Package Kipon.Excel -Version 1.0.11-alpha
+PM> Install-Package Kipon.Excel -Version 1.0.12-alpha
 ```
 
 ### Simple usage

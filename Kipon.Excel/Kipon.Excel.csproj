@@ -16,7 +16,7 @@
     <PackageTags>OpenXml Excel .NET Stream</PackageTags>
     <PackageReleaseNotes>model with multi sheets can not match each sheet using same best match algoritm as simple array/list parse.
 
-In addition and OptionalAttribute has been added to allow a property sheet to have option properties, meaning that the sheet is considered a match even if the column is not in the sheet.</PackageReleaseNotes>
+In addition and OptionalAttribute has been added to allow a property sheet to have optional properties, meaning that the sheet is considered a match even if the column is not in the sheet.</PackageReleaseNotes>
     <Version>1.0.12-alpha</Version>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>Kipon.snk</AssemblyOriginatorKeyFile>
