@@ -81,6 +81,7 @@ namespace Kipon.Excel.Reflection
                         sheetProperty.property = property;
 
                         sheetProperty.ResolveIndexer(type);
+                        sheetProperty.ResolveAlias();
 
                         this.Populate(sheetProperty);
                         this.properties.Add(sheetProperty);
@@ -118,6 +119,7 @@ namespace Kipon.Excel.Reflection
                     sheetProperty.property =  property;
                     sheetProperty.optional = property.GetCustomAttributes(typeof(Kipon.Excel.Attributes.OptionalAttribute), false).Any();
                     sheetProperty.ResolveIndexer(type);
+                    sheetProperty.ResolveAlias();
 
                     this.Populate(sheetProperty);
                     this.properties.Add(sheetProperty);
@@ -267,14 +269,8 @@ namespace Kipon.Excel.Reflection
                     var match = 0;
                     foreach (var f in firstRow)
                     {
-                        var prop = this.properties.Where(p => p.title.ToRelaxedName() == f.ToRelaxedName()).SingleOrDefault();
+                        var prop = this.Match(f);
                         if (prop != null)
-                        {
-                            match++;
-                            continue;
-                        }
-
-                        if (this.GetIndexMatch(f, null) != null)
                         {
                             match++;
                             continue;
@@ -299,6 +295,40 @@ namespace Kipon.Excel.Reflection
             return null;
         }
 
+        internal SheetProperty Match(string name, int? columnIndexNumber = null)
+        {
+            var prop = this.properties.Where(p => p.title == name).SingleOrDefault();
+            if (prop != null)
+            {
+                return prop;
+            }
+
+            prop = this.properties.Where(p => p.title.ToRelaxedName() == name.ToRelaxedName()).SingleOrDefault();
+            if (prop != null)
+            {
+                return prop;
+            }
+
+            prop = this.properties.Where(p => p.Alias != null && p.Alias.Contains(name)).SingleOrDefault();
+            if (prop != null)
+            {
+                return prop;
+            }
+
+            prop = this.properties.Where(p => p.Alias != null && p.Alias.Select(r => r.ToRelaxedName()).Contains(name.ToRelaxedName())).SingleOrDefault();
+            if (prop != null)
+            {
+                return prop;
+            }
+
+            prop = this.GetIndexMatch(name, columnIndexNumber);
+            if (prop != null)
+            {
+                return prop;
+            }
+
+            return null;
+        }
 
         internal class SheetProperty
         {
@@ -316,6 +346,7 @@ namespace Kipon.Excel.Reflection
             internal Type indexType { get; set; }
             internal MethodInfo indexAddMethod { get; set; }
             internal System.Text.RegularExpressions.Regex indexExpression;
+            internal string[] Alias { get; set; }
 
             private System.Reflection.PropertyInfo _property;
             internal System.Reflection.PropertyInfo property
@@ -350,6 +381,20 @@ namespace Kipon.Excel.Reflection
 
             // returns the flattner type of the property, so if is Nullable<int>, int will be returned
             internal Type PropertyType { get; private set; }
+
+            internal void ResolveAlias()
+            {
+                var aliasAttributes = this.property.GetCustomAttributes(typeof(Kipon.Excel.Attributes.AliasAttribute), false).ToArray();
+                if (aliasAttributes.Length > 0)
+                {
+                    this.Alias = new string[aliasAttributes.Count()];
+                    var ix = 0;
+                    foreach (Kipon.Excel.Attributes.AliasAttribute a in aliasAttributes)
+                    {
+                        this.Alias[ix] = a.Title;
+                    }
+                }
+            }
 
             internal void ResolveIndexer(Type sheetType)
             {

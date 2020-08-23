@@ -14,14 +14,12 @@
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/kip-dk/Kipon.Excel</RepositoryUrl>
     <PackageTags>OpenXml Excel .NET Stream</PackageTags>
-    <PackageReleaseNotes>model with multi sheets can not match each sheet using same best match algoritm as simple array/list parse.
-
-In addition and OptionalAttribute has been added to allow a property sheet to have optional properties, meaning that the sheet is considered a match even if the column is not in the sheet.</PackageReleaseNotes>
-    <Version>1.0.12-alpha</Version>
+    <PackageReleaseNotes>AliasAttribute. The alias attribute can now be added one or more time to a column property definition to allow the column to have different names in the excel, but still be parsed correctly into the same column. This allow more tolerant parsing, where names can be sligtly different when targeting the same .NET model.</PackageReleaseNotes>
+    <Version>1.0.13-alpha</Version>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>Kipon.snk</AssemblyOriginatorKeyFile>
-    <AssemblyVersion>1.0.12.0</AssemblyVersion>
-    <FileVersion>1.0.12.0</FileVersion>
+    <AssemblyVersion>1.0.13.0</AssemblyVersion>
+    <FileVersion>1.0.13.0</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>

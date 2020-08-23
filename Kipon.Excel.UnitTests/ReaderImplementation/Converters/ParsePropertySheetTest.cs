@@ -21,17 +21,17 @@ namespace Kipon.Excel.UnitTests.ReaderImplementation.Converters
                 var result = excel.ToArray<ParsePropertySheet>();
                 Assert.AreEqual(3, result.Length);
 
-                Assert.AreEqual(1, result[0].FirstField);
-                Assert.AreEqual(2, result[1].FirstField);
-                Assert.AreEqual(3, result[2].FirstField);
+                Assert.AreEqual(1, result[0].AField);
+                Assert.AreEqual(2, result[1].AField);
+                Assert.AreEqual(3, result[2].AField);
 
                 Assert.AreEqual("a", result[0].Nextfield);
                 Assert.AreEqual("b", result[1].Nextfield);
                 Assert.AreEqual("c", result[2].Nextfield);
 
-                Assert.AreEqual("1a", result[0].Another);
-                Assert.AreEqual("2b", result[1].Another);
-                Assert.AreEqual("3c", result[2].Another);
+                Assert.AreEqual("1a", result[0].WrongAnother);
+                Assert.AreEqual("2b", result[1].WrongAnother);
+                Assert.AreEqual("3c", result[2].WrongAnother);
 
                 Assert.AreEqual(60, result[0].Sum);
                 Assert.AreEqual(130, result[1].Sum);
@@ -52,17 +52,17 @@ namespace Kipon.Excel.UnitTests.ReaderImplementation.Converters
                 Assert.NotNull(result);
                 Assert.AreEqual(3, result.Length);
 
-                Assert.AreEqual(1, result[0].FirstField);
-                Assert.AreEqual(2, result[1].FirstField);
-                Assert.AreEqual(3, result[2].FirstField);
+                Assert.AreEqual(1, result[0].AField);
+                Assert.AreEqual(2, result[1].AField);
+                Assert.AreEqual(3, result[2].AField);
 
                 Assert.AreEqual("a", result[0].Nextfield);
                 Assert.AreEqual("b", result[1].Nextfield);
                 Assert.AreEqual("c", result[2].Nextfield);
 
-                Assert.AreEqual("1a", result[0].Another);
-                Assert.AreEqual("2b", result[1].Another);
-                Assert.AreEqual("3c", result[2].Another);
+                Assert.AreEqual("1a", result[0].WrongAnother);
+                Assert.AreEqual("2b", result[1].WrongAnother);
+                Assert.AreEqual("3c", result[2].WrongAnother);
 
                 Assert.AreEqual(60, result[0].Sum);
                 Assert.AreEqual(130, result[1].Sum);
@@ -77,9 +77,13 @@ namespace Kipon.Excel.UnitTests.ReaderImplementation.Converters
         [Parse(FirstColumn = 2, FirstRow = 2)]
         public class ParsePropertySheet
         {
-            public int FirstField { get; set; }
+            [Title("First field")]
+            public int AField { get; set; }
             public string Nextfield { get; set; }
-            public string Another { get; set; }
+
+
+            [Alias("Another")] 
+            public string WrongAnother { get; set; }
 
             [IndexColumn("P[123456789][0123456789]{3,7}")]
             public Dictionary<string, int> Values { get; set; }

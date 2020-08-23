@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DocumentFormat.OpenXml.Spreadsheet;
 using Kipon.Excel.Extensions.Strings;
 
 namespace Kipon.Excel.ReaderImplementation.Converters
@@ -50,14 +51,8 @@ namespace Kipon.Excel.ReaderImplementation.Converters
                 if (header.Value != null)
                 {
                     var columnIndexnumber = header.Coordinate.Point.First();
-                    var property = (from p in sheetMeta.Properties where p.title.ToRelaxedName() == header.Value.ToString().ToRelaxedName() select p).FirstOrDefault();
-                    if (property != null)
-                    {
-                        columnIndex.Add(columnIndexnumber, property);
-                        continue;
-                    }
 
-                    property = sheetMeta.GetIndexMatch(header.Value.ToString(), columnIndexnumber);
+                    var property = this.sheetMeta.Match(header.Value.ToString(), columnIndexnumber);
                     if (property != null)
                     {
                         columnIndex.Add(columnIndexnumber, property);
