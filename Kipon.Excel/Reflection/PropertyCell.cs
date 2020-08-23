@@ -38,6 +38,12 @@ namespace Kipon.Excel.Reflection
                     return true;
                 }
 
+                var indexProperty = type.GetCustomAttributes(typeof(Kipon.Excel.Attributes.IndexColumnAttribute), false).FirstOrDefault();
+                if (indexProperty != null)
+                {
+                    return true;
+                }
+
                 if (PropertyCell.IsCell(prop.PropertyType))
                 {
                     return true;

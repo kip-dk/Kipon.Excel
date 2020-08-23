@@ -14,7 +14,7 @@ Published via NuGet:
 Kipon.Excel(https://www.nuget.org/packages/Kipon.Excel/)
 
 ```console
-PM> Install-Package Kipon.Excel -Version 1.0.2-alpha
+PM> Install-Package Kipon.Excel -Version 1.0.11-alpha
 ```
 
 ### Simple usage
@@ -56,4 +56,4 @@ namespace MyExcelApp
 ```
 
 
-Last updated: 2019-08-10.
+Last updated: 2020-08-23.

@@ -49,10 +49,19 @@ namespace Kipon.Excel.ReaderImplementation.Converters
             {
                 if (header.Value != null)
                 {
+                    var columnIndexnumber = header.Coordinate.Point.First();
                     var property = (from p in sheetMeta.Properties where p.title.ToRelaxedName() == header.Value.ToString().ToRelaxedName() select p).FirstOrDefault();
                     if (property != null)
                     {
-                        columnIndex.Add(header.Coordinate.Point.First(), property);
+                        columnIndex.Add(columnIndexnumber, property);
+                        continue;
+                    }
+
+                    property = sheetMeta.GetIndexMatch(header.Value.ToString(), columnIndexnumber);
+                    if (property != null)
+                    {
+                        columnIndex.Add(columnIndexnumber, property);
+                        continue;
                     }
                 }
             }

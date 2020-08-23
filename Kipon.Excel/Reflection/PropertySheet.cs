@@ -3,7 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DocumentFormat.OpenXml.Wordprocessing;
 using Kipon.Excel.Extensions.Strings;
+using Kipon.Excel.Exceptions;
+using Kipon.Excel.Extensions;
+using System.Reflection;
 
 namespace Kipon.Excel.Reflection
 {
@@ -73,6 +77,9 @@ namespace Kipon.Excel.Reflection
                         sheetProperty.width = columnAttr.Width;
                         sheetProperty.maxlength = columnAttr.MaxLength;
                         sheetProperty.property = property;
+
+                        sheetProperty.ResolveIndexer(type);
+
                         this.Populate(sheetProperty);
                         this.properties.Add(sheetProperty);
                     }
@@ -96,7 +103,9 @@ namespace Kipon.Excel.Reflection
                         continue;
                     }
 
-                    if (!PropertyCell.IsCell(property.PropertyType))
+                    var isIndex = property.GetCustomAttributes(typeof(Kipon.Excel.Attributes.IndexColumnAttribute), false).Any();
+
+                    if (!isIndex && !PropertyCell.IsCell(property.PropertyType))
                     {
                         continue;
                     }
@@ -105,6 +114,9 @@ namespace Kipon.Excel.Reflection
                     sheetProperty.title = property.Name;
                     sheetProperty.isReadonly = property.GetSetMethod() == null;
                     sheetProperty.property =  property;
+
+                    sheetProperty.ResolveIndexer(type);
+
                     this.Populate(sheetProperty);
                     this.properties.Add(sheetProperty);
                 }
@@ -187,6 +199,43 @@ namespace Kipon.Excel.Reflection
                 }
             }
         }
+
+        private Dictionary<string, SheetProperty> indexMap = new Dictionary<string, SheetProperty>();
+
+        internal SheetProperty GetIndexMatch(string name, int? columnIndex = null)
+        {
+            if (indexMap.ContainsKey(name))
+            {
+                var map = indexMap[name];
+                if (columnIndex != null)
+                {
+                    map[columnIndex.Value] = name;
+                }
+                return map;
+            }
+
+            var indexers = (from p in this.properties
+                            where p.indexExpression != null
+                            select p).ToArray();
+
+            foreach (var index in indexers)
+            {
+                var match = index.indexExpression.Match(name);
+                if (match.Success && match.Value == name && match.NextMatch().Success == false)
+                {
+                    indexMap.Add(name, index);
+
+                    if (columnIndex.HasValue)
+                    {
+                        index[columnIndex.Value] = name;
+                    }
+                    return index;
+                }
+            }
+
+            return null;
+        }
+
         internal IEnumerable<SheetProperty> Properties => this.properties;
 
 
@@ -213,11 +262,24 @@ namespace Kipon.Excel.Reflection
 
                 if (firstRow != null && firstRow.Length > 0)
                 {
-                    var j = (from f in firstRow
-                             join p in this.properties on f.ToRelaxedName() equals p.title.ToRelaxedName()
-                             select f).ToArray();
+                    var match = 0;
+                    foreach (var f in firstRow)
+                    {
+                        var prop = this.properties.Where(p => p.title.ToRelaxedName() == f.ToRelaxedName()).SingleOrDefault();
+                        if (prop != null)
+                        {
+                            match++;
+                            continue;
+                        }
 
-                    if (j.Length == firstRow.Length && j.Length == this.properties.Count)
+                        if (this.GetIndexMatch(f, null) != null)
+                        {
+                            match++;
+                            continue;
+                        }
+                    }
+
+                    if (firstRow.Length == match)
                     {
                         // 100% match
                         return sheet;
@@ -239,6 +301,11 @@ namespace Kipon.Excel.Reflection
             internal string[] optionSetValues { get; set; }
             internal double? width { get; set; }
 
+            internal string indexPattern { get; set; }
+            internal Type indexType { get; set; }
+            internal MethodInfo indexAddMethod { get; set; }
+            internal System.Text.RegularExpressions.Regex indexExpression;
+
             private System.Reflection.PropertyInfo _property;
             internal System.Reflection.PropertyInfo property
             {
@@ -254,10 +321,65 @@ namespace Kipon.Excel.Reflection
                 }
             }
 
+            private Dictionary<int, string> indexTitleMap = new Dictionary<int, string>();
+
+            public string this[int index]
+            {
+                get
+                {
+                    return this.indexTitleMap[index];
+                }
+                set
+                {
+                    this.indexTitleMap[index] = value;
+                }
+            }
+
             internal bool canWrite { get; private set; }
 
             // returns the flattner type of the property, so if is Nullable<int>, int will be returned
             internal Type PropertyType { get; private set; }
+
+            internal void ResolveIndexer(Type sheetType)
+            {
+                var indexProperty = this.property.GetCustomAttributes(typeof(Kipon.Excel.Attributes.IndexColumnAttribute), false).FirstOrDefault() as Kipon.Excel.Attributes.IndexColumnAttribute;
+                if (indexProperty != null)
+                {
+                    bool isDict = this.property.PropertyType.IsGenericType && this.property.PropertyType.GetGenericTypeDefinition() == typeof(Dictionary<,>);
+
+                    if (!isDict)
+                    {
+                        throw new Exceptions.UnsupportedColumnIndexPropertyException(sheetType, this.property);
+                    }
+
+                    this.indexPattern = indexProperty.Pattern;
+                    this.indexExpression = indexProperty.Expression;
+
+                    var args = this.PropertyType.GetGenericArguments();
+
+                    if (args[0] != typeof(string))
+                    {
+                        throw new Exceptions.UnsupportedColumnIndexPropertyException(sheetType, this.property);
+                    }
+                    this.indexType = args[1];
+
+                    if (!PropertyCell.IsCell(this.indexType))
+                    {
+                        throw new Exceptions.UnsupportedColumnIndexPropertyException(sheetType, this.property);
+                    }
+
+                    this.indexAddMethod = this.property.PropertyType.GetMethod("Add", new Type[] { typeof(string), this.indexType });
+                }
+            }
+
+            internal object ValueOf(object value)
+            {
+                if (this.indexExpression != null)
+                {
+                    return value.ToValue(this.indexType);
+                }
+                return value.ToValue(this.PropertyType);
+            }
         }
     }
 }

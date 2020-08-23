@@ -14,13 +14,14 @@
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/kip-dk/Kipon.Excel</RepositoryUrl>
     <PackageTags>OpenXml Excel .NET Stream</PackageTags>
-    <PackageReleaseNotes>Kipon.Api.IStyle interface, very first and draft model to allow styling from outside the framework.
-Supported styles can be found in Kipon.Api.Style.Styles</PackageReleaseNotes>
-    <Version>1.0.10-alpha</Version>
+    <PackageReleaseNotes>Support for dictionary properties to allow dynamics columns.  Add the IndexColumn property to your sheet object definition, and define the colum as a Dictionary&lt;string,type&gt; where type is one of the simple types, also supported for cells.
+
+Parseattribute allow you to start parse of a table in a specific row and specific column.  Add the [Parse] attribute to you Sheet class and set then row and column. The index starts at 1 as in excel.</PackageReleaseNotes>
+    <Version>1.0.11-alpha</Version>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>Kipon.snk</AssemblyOriginatorKeyFile>
-    <AssemblyVersion>1.0.10.0</AssemblyVersion>
-    <FileVersion>1.0.10.0</FileVersion>
+    <AssemblyVersion>1.0.11.0</AssemblyVersion>
+    <FileVersion>1.0.11.0</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>
