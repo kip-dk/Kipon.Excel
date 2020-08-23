@@ -65,6 +65,12 @@ namespace Kipon.Excel.ReaderImplementation.Converters
             foreach (var data in datas)
             {
                 var next = Activator.CreateInstance(this.elementType);
+
+                if (next is Kipon.Excel.Api.IRowAware ra)
+                {
+                    ra.SetRowNo(data.Row + 1);
+                }
+
                 instance.Add(next);
                 var cellConverter = new PropertyCellConverter(next);
 

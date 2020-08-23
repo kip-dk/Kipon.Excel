@@ -69,13 +69,15 @@ namespace Kipon.Excel.UnitTests.ReaderImplementation.Converters
                 Assert.AreEqual(180, result[2].Sum);
 
                 Assert.AreEqual(50, result[1].Values["P123662"]);
+
+                Assert.AreEqual(3, result[0].Row);
+                Assert.AreEqual(4, result[1].Row);
+                Assert.AreEqual(5, result[2].Row);
             }
         }
 
-
-
         [Parse(FirstColumn = 2, FirstRow = 2)]
-        public class ParsePropertySheet
+        public class ParsePropertySheet : Kipon.Excel.Api.IRowAware
         {
             [Title("First field")]
             public int AField { get; set; }
@@ -101,6 +103,17 @@ namespace Kipon.Excel.UnitTests.ReaderImplementation.Converters
                     }
                     return 0;
                 }
+            }
+
+            [Kipon.Excel.Attributes.Ignore]
+            public int Row
+            {
+                get; set;
+            }
+
+            public void SetRowNo(int excelRowNumber)
+            {
+                this.Row = excelRowNumber;
             }
         }
 

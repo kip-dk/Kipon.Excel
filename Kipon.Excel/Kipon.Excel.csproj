@@ -14,12 +14,12 @@
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/kip-dk/Kipon.Excel</RepositoryUrl>
     <PackageTags>OpenXml Excel .NET Stream</PackageTags>
-    <PackageReleaseNotes>AliasAttribute. The alias attribute can now be added one or more time to a column property definition to allow the column to have different names in the excel, but still be parsed correctly into the same column. This allow more tolerant parsing, where names can be sligtly different when targeting the same .NET model.</PackageReleaseNotes>
-    <Version>1.0.13-alpha</Version>
+    <PackageReleaseNotes>IRowAware interface to allow a model class to get a notification on what row number in the excel sheet the instance is representing. That will make it easier to give users valid messages on where to look in the sheet on troubleshooting</PackageReleaseNotes>
+    <Version>1.0.14-alpha</Version>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>Kipon.snk</AssemblyOriginatorKeyFile>
-    <AssemblyVersion>1.0.13.0</AssemblyVersion>
-    <FileVersion>1.0.13.0</FileVersion>
+    <AssemblyVersion>1.0.14.0</AssemblyVersion>
+    <FileVersion>1.0.14.0</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>
