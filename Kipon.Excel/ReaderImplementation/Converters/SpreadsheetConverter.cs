@@ -26,18 +26,18 @@ namespace Kipon.Excel.ReaderImplementation.Converters
 
             var result = (T)tConstructor.Invoke(new object[0]);
 
-            this.Convert(result, spreadsheet);
+            this.Convert(result, spreadsheet, false);
             return result;
         }
 
-        internal void ConvertInto<T>(T instance, System.IO.Stream excelStream)
+        internal void ConvertInto<T>(T instance, System.IO.Stream excelStream, bool mergeAll)
         {
             var reader = new OpenXml.OpenXmlReader();
             var spreadsheet = reader.Parse(excelStream);
-            this.Convert(instance, spreadsheet);
+            this.Convert(instance, spreadsheet, mergeAll);
         }
 
-        private void Convert<T>(T target, Models.Spreadsheet spreadsheet)
+        private void Convert<T>(T target, Models.Spreadsheet spreadsheet, bool mergeAll)
         {
             var targetType = typeof(T);
 
@@ -58,18 +58,25 @@ namespace Kipon.Excel.ReaderImplementation.Converters
                 if (elementType != null && Kipon.Excel.Reflection.PropertySheet.IsPropertySheet(elementType))
                 {
                     var propertySheetMeta = Kipon.Excel.Reflection.PropertySheet.ForType(elementType);
-                    var sheet = propertySheetMeta.BestMatch(spreadsheet.Sheets);
-                    if (sheet != null)
+                    var sheets = propertySheetMeta.AllMatch(spreadsheet.Sheets);
+                    if (sheets != null && sheets.Length > 0)
                     {
-                        var converter = new Kipon.Excel.ReaderImplementation.Converters.PropertySheetConverter(elementType, propertySheetMeta);
-                        var result = converter.Convert(sheet);
-
-                        var resultList = target as System.Collections.IList;
-                        for (var i = 0; i < result.Count; i++)
+                        foreach (var sheet in sheets)
                         {
-                            resultList.Add(result[i]);
+                            var converter = new Kipon.Excel.ReaderImplementation.Converters.PropertySheetConverter(elementType, propertySheetMeta);
+                            var result = converter.Convert(sheet);
+
+                            var resultList = target as System.Collections.IList;
+                            for (var i = 0; i < result.Count; i++)
+                            {
+                                resultList.Add(result[i]);
+                            }
+
+                            if (!mergeAll)
+                            {
+                                return;
+                            }
                         }
-                        return;
                     }
                 }
             }
@@ -87,7 +94,7 @@ namespace Kipon.Excel.ReaderImplementation.Converters
                             continue;
                         }
 
-                        var sheet = sheetsPropertyMeta.BestMatch(spreadsheet.Sheets);
+                        var sheet = sheetsPropertyMeta.AllMatch(spreadsheet.Sheets)?.FirstOrDefault();
 
                         if (sheet != null)
                         {

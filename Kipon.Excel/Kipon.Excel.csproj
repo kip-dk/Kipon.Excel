@@ -14,12 +14,13 @@
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/kip-dk/Kipon.Excel</RepositoryUrl>
     <PackageTags>OpenXml Excel .NET Stream</PackageTags>
-    <PackageReleaseNotes>IRowAware interface to allow a model class to get a notification on what row number in the excel sheet the instance is representing. That will make it easier to give users valid messages on where to look in the sheet on troubleshooting</PackageReleaseNotes>
-    <Version>1.0.14-alpha</Version>
+    <PackageReleaseNotes>linq reader now allow parsing multi tabs from same sheet into a single list of elements.
+if stream.ToArray&lt;objecttype&gt;(true)   by parsing true to this method, each tab in the workbook that match the objecttype on columns will be returned in the result enumeable.</PackageReleaseNotes>
+    <Version>1.0.15-alpha</Version>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>Kipon.snk</AssemblyOriginatorKeyFile>
-    <AssemblyVersion>1.0.14.0</AssemblyVersion>
-    <FileVersion>1.0.14.0</FileVersion>
+    <AssemblyVersion>1.0.15.0</AssemblyVersion>
+    <FileVersion>1.0.15.0</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>

@@ -164,6 +164,11 @@ namespace Kipon.Excel.Reflection
 
                 }
             }
+
+            {
+                var anyAttr = (Kipon.Excel.Attributes.AnyAttribute)property.property.GetCustomAttributes(typeof(Kipon.Excel.Attributes.AnyAttribute), true).FirstOrDefault();
+                property.Any = anyAttr != null;
+            }
         }
 
         internal class SheetsProperty
@@ -174,7 +179,9 @@ namespace Kipon.Excel.Reflection
             internal System.Reflection.PropertyInfo property { get; set; }
             internal Type ElementType { get; set; }
 
-            internal Kipon.Excel.Api.ISheet BestMatch(IEnumerable<Kipon.Excel.Api.ISheet> sheets)
+            internal bool Any { get; set; }
+
+            internal Kipon.Excel.Api.ISheet[] AllMatch(IEnumerable<Kipon.Excel.Api.ISheet> sheets)
             {
                 if (sheets == null)
                 {
@@ -184,21 +191,21 @@ namespace Kipon.Excel.Reflection
                 var titleMatch = (from t in sheets where t.Title == this.Title select t).ToArray();
                 if (titleMatch.Length == 1)
                 {
-                    return titleMatch[0];
+                    return new Api.ISheet[] { titleMatch[0] };
                 }
 
                 titleMatch = (from t in sheets where t.Title.ToRelaxedName() == this.Title.ToRelaxedName() select t).ToArray();
                 if (titleMatch.Length == 1)
                 {
-                    return titleMatch[0];
+                    return new Api.ISheet[] { titleMatch[0] };
                 }
 
                 if (PropertySheet.IsPropertySheet(ElementType))
                 {
                     var sheet = PropertySheet.ForType(ElementType);
-                    var matchSheet = sheet.BestMatch(sheets);
+                    var matchSheet = sheet.AllMatch(sheets);
 
-                    if (matchSheet != null)
+                    if (matchSheet != null && matchSheet.Length > 0)
                     {
                         return matchSheet;
                     }

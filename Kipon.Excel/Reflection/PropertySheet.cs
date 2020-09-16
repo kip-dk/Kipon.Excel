@@ -251,8 +251,10 @@ namespace Kipon.Excel.Reflection
             }
         }
 
-        internal Kipon.Excel.Api.ISheet BestMatch(IEnumerable<Kipon.Excel.Api.ISheet> sheets)
+        internal Kipon.Excel.Api.ISheet[] AllMatch(IEnumerable<Kipon.Excel.Api.ISheet> sheets)
         {
+            var result = new List<Api.ISheet>();
+
             var firstRowNumber = this.HeaderRow - 1;
             var firstColumnNumber = this.HeaderColumn - 1;
 
@@ -280,7 +282,8 @@ namespace Kipon.Excel.Reflection
                     if (firstRow.Length == match)
                     {
                         // 100% match
-                        return sheet;
+                        result.Add(sheet);
+                        continue;
                     }
 
                     var foundfields = firstRow.Select(r => r.ToRelaxedName()).ToArray();
@@ -288,11 +291,12 @@ namespace Kipon.Excel.Reflection
 
                     if (!missings)
                     {
-                        return sheet;
+                        result.Add(sheet);
+                        continue;
                     }
                 }
             }
-            return null;
+            return result.ToArray(); ;
         }
 
         internal SheetProperty Match(string name, int? columnIndexNumber = null)

@@ -81,6 +81,22 @@ namespace Kipon.Excel.UnitTests.Linq
             }
         }
 
+        [Test]
+        public void MultiArkTest()
+        {
+            using (var excel = this.GetType().Assembly.GetManifestResourceStream("Kipon.Excel.UnitTests.Resources.MultiArkTest.xlsx"))
+            {
+                var result = excel.ToArray<MultiArk>(true);
+                Assert.AreEqual(result.Length, 9);
+            }
+        }
+
+        public class MultiArk
+        {
+            public string K1 { get; set; }
+            public int K2 { get; set; }
+        }
+
         public class PropertySheets
         {
             public Fake.Data.ValueProperty[] S1 { get; set; }

@@ -25,10 +25,10 @@ namespace Kipon.Excel.Linq
         /// <typeparam name="T">The type to resolve</typeparam>
         /// <param name="excel">The excel stream data</param>
         /// <returns>IEnumerable of T </returns>
-        public static IEnumerable<T> ToEnumerable<T>(this System.IO.Stream excel) where T : new()
+        public static IEnumerable<T> ToEnumerable<T>(this System.IO.Stream excel, bool mergeAll = false) where T : new()
         {
             var result = new List<T>();
-            result.From(excel);
+            result.From(excel, mergeAll);
             return result;
         }
 
@@ -39,9 +39,9 @@ namespace Kipon.Excel.Linq
         /// <typeparam name="T">The type to resolve</typeparam>
         /// <param name="excel">The excel stream data</param>
         /// <returns>array of T</returns>
-        public static T[] ToArray<T>(this System.IO.Stream excel) where T : new()
+        public static T[] ToArray<T>(this System.IO.Stream excel, bool mergeAll = false) where T : new()
         {
-            return LinqReaderInterface.ToEnumerable<T>(excel).ToArray();
+            return LinqReaderInterface.ToEnumerable<T>(excel, mergeAll).ToArray();
         }
 
         /// <summary>
@@ -51,9 +51,9 @@ namespace Kipon.Excel.Linq
         /// <typeparam name="T">The type to resolve</typeparam>
         /// <param name="excel">The excel stream data</param>
         /// <returns>List of T</returns>
-        public static List<T> ToList<T>(this System.IO.Stream excel) where T : new()
+        public static List<T> ToList<T>(this System.IO.Stream excel, bool mergeAll = false) where T : new()
         {
-            return LinqReaderInterface.ToEnumerable<T>(excel).ToList();
+            return LinqReaderInterface.ToEnumerable<T>(excel, mergeAll).ToList();
         }
 
 
@@ -83,10 +83,10 @@ namespace Kipon.Excel.Linq
         /// <param name="t"></param>
         /// <param name="excel"></param>
         /// <returns></returns>
-        public static void From<T>(this T t, System.IO.Stream excel)
+        public static void From<T>(this T t, System.IO.Stream excel, bool mergeAll = false)
         {
             var parser = new Kipon.Excel.ReaderImplementation.Converters.SpreadsheetConverter();
-            parser.ConvertInto(t, excel);
+            parser.ConvertInto(t, excel, mergeAll);
         }
         #endregion
 
