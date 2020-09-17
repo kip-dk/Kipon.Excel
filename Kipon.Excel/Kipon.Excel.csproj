@@ -5,7 +5,7 @@
     <Authors>Kjeld Ingemann Poulsen</Authors>
     <Company>Kipon ApS</Company>
     <Description>Library to stream .NET data to and from Excel (OpenXml)</Description>
-    <Copyright>Kipon ApS 2019</Copyright>
+    <Copyright>Kipon ApS 2019,2020</Copyright>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
@@ -16,11 +16,11 @@
     <PackageTags>OpenXml Excel .NET Stream</PackageTags>
     <PackageReleaseNotes>linq reader now allow parsing multi tabs from same sheet into a single list of elements.
 if stream.ToArray&lt;objecttype&gt;(true)   by parsing true to this method, each tab in the workbook that match the objecttype on columns will be returned in the result enumeable.</PackageReleaseNotes>
-    <Version>1.0.15-alpha</Version>
+    <Version>1.0.16-alpha</Version>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>Kipon.snk</AssemblyOriginatorKeyFile>
-    <AssemblyVersion>1.0.15.0</AssemblyVersion>
-    <FileVersion>1.0.15.0</FileVersion>
+    <AssemblyVersion>1.0.16.0</AssemblyVersion>
+    <FileVersion>1.0.16.0</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>
