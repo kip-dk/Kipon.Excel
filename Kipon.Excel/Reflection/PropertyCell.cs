@@ -19,6 +19,7 @@ namespace Kipon.Excel.Reflection
             typeof(System.Boolean),
             typeof(System.Decimal),
             typeof(System.Double),
+            typeof(System.Single),
             typeof(System.Enum),
             typeof(System.String),
             typeof(System.DateTime),

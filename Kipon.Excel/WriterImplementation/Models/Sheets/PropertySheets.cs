@@ -49,6 +49,7 @@ namespace Kipon.Excel.WriterImplementation.Models.Sheets
 
                 var attr = (Kipon.Excel.Attributes.SheetAttribute)prop.GetCustomAttributes(typeof(Kipon.Excel.Attributes.SheetAttribute), true).First();
                 var title = attr.Title;
+
                 if (string.IsNullOrEmpty(title))
                 {
                     title = prop.Name;
@@ -73,6 +74,14 @@ namespace Kipon.Excel.WriterImplementation.Models.Sheets
             {
                 var order = ix++;
                 var title = prop.Name;
+
+                var titleAttr = (Kipon.Excel.Attributes.TitleAttribute)prop.GetCustomAttributes(typeof(Kipon.Excel.Attributes.TitleAttribute), true).FirstOrDefault();
+
+                if (titleAttr != null)
+                {
+                    title = titleAttr.Value;
+                }
+
                 sheetMetas.Add(new SheetMeta { title = title, order = order, Property = prop });
             }
             propertyCache[type] = sheetMetas.ToArray();
