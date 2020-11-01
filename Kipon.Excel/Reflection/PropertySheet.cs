@@ -21,7 +21,6 @@ namespace Kipon.Excel.Reflection
         internal int HeaderRow { get; private set; } = 1;
         internal int HeaderColumn { get; private set; } = 1;
 
-
         internal static PropertySheet ForType(Type type)
         {
             if (sheets.ContainsKey(type))
@@ -251,12 +250,14 @@ namespace Kipon.Excel.Reflection
             }
         }
 
-        internal Kipon.Excel.Api.ISheet[] AllMatch(IEnumerable<Kipon.Excel.Api.ISheet> sheets)
+        internal Kipon.Excel.Api.ISheet[] AllMatch(IEnumerable<Kipon.Excel.Api.ISheet> sheets, Api.ILog log)
         {
             var result = new List<Api.ISheet>();
 
             var firstRowNumber = this.HeaderRow - 1;
             var firstColumnNumber = this.HeaderColumn - 1;
+
+            var nomatch = new Dictionary<string, string[]>();
 
             foreach (var sheet in sheets)
             {
@@ -287,16 +288,30 @@ namespace Kipon.Excel.Reflection
                     }
 
                     var foundfields = firstRow.Select(r => r.ToRelaxedName()).ToArray();
-                    var missings = this.properties.Where(r => !r.optional && !foundfields.Contains(r.title.ToRelaxedName())).Any();
+                    var missings = this.properties.Where(r => !r.optional && !foundfields.Contains(r.title.ToRelaxedName())).ToArray();
 
-                    if (!missings)
+                    if (missings.Length == 0)
                     {
                         result.Add(sheet);
+                        continue;
+                    } else
+                    {
+                        nomatch.Add(sheet.Title, missings.Select(r => r.title).ToArray());
                         continue;
                     }
                 }
             }
-            return result.ToArray(); ;
+
+            if (result.Count == 0 && log != null)
+            {
+                foreach (var key in nomatch.Keys)
+                {
+                    var missings = nomatch[key];
+                    log.Log($"{key} missing: {string.Join(",", missings)}");
+                }
+            }
+
+            return result.ToArray();
         }
 
         internal SheetProperty Match(string name, int? columnIndexNumber = null)

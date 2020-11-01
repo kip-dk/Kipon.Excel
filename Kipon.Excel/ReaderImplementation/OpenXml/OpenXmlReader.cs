@@ -9,6 +9,13 @@ namespace Kipon.Excel.ReaderImplementation.OpenXml
 {
     internal class OpenXmlReader
     {
+        private Api.ExcelStream context;
+
+        internal OpenXmlReader(Api.ExcelStream context)
+        {
+            this.context = context;
+        }
+
         internal Models.Spreadsheet Parse(System.IO.Stream stream)
         {
             var result = new Models.Spreadsheet();

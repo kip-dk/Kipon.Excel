@@ -181,7 +181,7 @@ namespace Kipon.Excel.Reflection
 
             internal bool Any { get; set; }
 
-            internal Kipon.Excel.Api.ISheet[] AllMatch(IEnumerable<Kipon.Excel.Api.ISheet> sheets)
+            internal Kipon.Excel.Api.ISheet[] AllMatch(IEnumerable<Kipon.Excel.Api.ISheet> sheets, Api.ILog log)
             {
                 if (sheets == null)
                 {
@@ -203,7 +203,7 @@ namespace Kipon.Excel.Reflection
                 if (PropertySheet.IsPropertySheet(ElementType))
                 {
                     var sheet = PropertySheet.ForType(ElementType);
-                    var matchSheet = sheet.AllMatch(sheets);
+                    var matchSheet = sheet.AllMatch(sheets, log);
 
                     if (matchSheet != null && matchSheet.Length > 0)
                     {

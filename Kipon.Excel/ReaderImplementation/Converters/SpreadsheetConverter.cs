@@ -8,9 +8,21 @@ namespace Kipon.Excel.ReaderImplementation.Converters
 {
     internal class SpreadsheetConverter
     {
+        private Api.ExcelStream context;
+
+        internal SpreadsheetConverter()
+        {
+            this.context = new Api.ExcelStream();
+        }
+
+        internal SpreadsheetConverter(Api.ExcelStream context)
+        {
+            this.context = context;
+        }
+
         internal T Convert<T>(System.IO.Stream excelStream) where T: class
         {
-            var reader = new OpenXml.OpenXmlReader();
+            var reader = new OpenXml.OpenXmlReader(this.context);
             var spreadsheet = reader.Parse(excelStream);
 
             if (typeof(T).IsAssignableFrom(typeof(Kipon.Excel.Api.ISpreadsheet)))
@@ -32,7 +44,7 @@ namespace Kipon.Excel.ReaderImplementation.Converters
 
         internal void ConvertInto<T>(T instance, System.IO.Stream excelStream, bool mergeAll)
         {
-            var reader = new OpenXml.OpenXmlReader();
+            var reader = new OpenXml.OpenXmlReader(this.context);
             var spreadsheet = reader.Parse(excelStream);
             this.Convert(instance, spreadsheet, mergeAll);
         }
@@ -58,7 +70,7 @@ namespace Kipon.Excel.ReaderImplementation.Converters
                 if (elementType != null && Kipon.Excel.Reflection.PropertySheet.IsPropertySheet(elementType))
                 {
                     var propertySheetMeta = Kipon.Excel.Reflection.PropertySheet.ForType(elementType);
-                    var sheets = propertySheetMeta.AllMatch(spreadsheet.Sheets);
+                    var sheets = propertySheetMeta.AllMatch(spreadsheet.Sheets, this.context.Log);
                     if (sheets != null && sheets.Length > 0)
                     {
                         foreach (var sheet in sheets)
@@ -94,7 +106,7 @@ namespace Kipon.Excel.ReaderImplementation.Converters
                             continue;
                         }
 
-                        var sheet = sheetsPropertyMeta.AllMatch(spreadsheet.Sheets)?.FirstOrDefault();
+                        var sheet = sheetsPropertyMeta.AllMatch(spreadsheet.Sheets, this.context.Log)?.FirstOrDefault();
 
                         if (sheet != null)
                         {
