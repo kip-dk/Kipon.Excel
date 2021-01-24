@@ -5,7 +5,7 @@
     <Authors>Kjeld Ingemann Poulsen</Authors>
     <Company>Kipon ApS</Company>
     <Description>Library to stream .NET data to and from Excel (OpenXml)</Description>
-    <Copyright>Kipon ApS 2019,2020</Copyright>
+    <Copyright>Kipon ApS 2019,2020,2021</Copyright>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
@@ -14,8 +14,8 @@
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/kip-dk/Kipon.Excel</RepositoryUrl>
     <PackageTags>OpenXml Excel .NET Stream</PackageTags>
-    <PackageReleaseNotes>Api.ExcelStream added as a beginning to add a context, where more customizations from outside can be injected.</PackageReleaseNotes>
-    <Version>1.0.18-alpha</Version>
+    <PackageReleaseNotes>Support for writing dictionary properties</PackageReleaseNotes>
+    <Version>1.0.19-alpha</Version>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>Kipon.snk</AssemblyOriginatorKeyFile>
     <AssemblyVersion>1.0.19.0</AssemblyVersion>

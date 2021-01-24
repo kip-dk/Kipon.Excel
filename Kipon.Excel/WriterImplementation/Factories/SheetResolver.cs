@@ -82,9 +82,16 @@ namespace Kipon.Excel.WriterImplementation.Factories
                         continue;
                     }
 
+                    var isIndex = prop.GetCustomAttributes(typeof(Kipon.Excel.Attributes.IndexColumnAttribute), false).Any();
+                    if (isIndex)
+                    {
+                        result.Add(prop);
+                    }
+
                     if (cellsResolver.IsCell(prop.PropertyType))
                     {
                         result.Add(prop);
+                        continue;
                     }
                 }
                 if (result.Count > 0)

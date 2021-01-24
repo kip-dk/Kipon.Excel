@@ -11,6 +11,8 @@ namespace Kipon.Excel.WriterImplementation.Serialization
         double? Width { get; }
         int? MaxLength { get; }
         bool? Hidden { get; }
+        bool? IsIndex { get; }
+        object[] IndexValues { get; }
         string[] OptionSetValue { get; }
     }
 }

@@ -1,5 +1,4 @@
 ﻿using NUnit.Framework;
-using System;
 using Kipon.Excel.WriterImplementation.OpenXml.Types;
 
 namespace Kipon.Excel.UnitTests.WriterImplementation.OpenXml.Types
@@ -12,8 +11,8 @@ namespace Kipon.Excel.UnitTests.WriterImplementation.OpenXml.Types
             Assert.AreEqual(new Range("A1:B2"), new Range("B2:A1"));
             Assert.AreEqual(new Range("A1", "B2"), new Range("B2", "A1"));
 
-            Assert.Throws<NullReferenceException>(() => new Range(null));
-            Assert.Throws<FormatException>(() => new Range("FEJL"));
+            Assert.Throws<System.NullReferenceException>(() => new Range(null));
+            Assert.Throws<System.FormatException>(() => new Range("FEJL"));
         }
 
         [Test]

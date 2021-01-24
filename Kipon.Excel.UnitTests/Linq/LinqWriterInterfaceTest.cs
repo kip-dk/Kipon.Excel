@@ -33,7 +33,6 @@ namespace Kipon.Excel.UnitTests.Linq
                     Assert.AreEqual(0, errors.Length);
                 }
             }
-
         }
 
 

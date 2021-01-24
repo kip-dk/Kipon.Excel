@@ -56,5 +56,12 @@ namespace MyExcelApp
 ```
 
 
+### Changelog
 
-Last updated: 2020-09-16.
+#### 11.0.19-alpha
+
+Support write of Dictionary properties, A dictionary property must be ether defined with ColumnAttribute (IsIndex = true) or decorated with IndexColumnAttribute
+
+
+
+Last updated: 2021-01-24.

@@ -18,6 +18,8 @@ namespace Kipon.Excel.WriterImplementation.Models.Sheet
         #region fields
         private System.Collections.IEnumerator rows;
         private int column = -1;
+        private int columnPosition = -1;
+        private int indexPosition = -1;
         private int row = -1;
         private SheetMeta[] sheetMetas;
         private ICell _current;
@@ -54,6 +56,56 @@ namespace Kipon.Excel.WriterImplementation.Models.Sheet
                 }
 
                 this.rows = ((System.Collections.IEnumerable)instance).GetEnumerator();
+
+                #region calculate columns for index columns
+                var indexes = this.sheetMetas.Where(r => r.isIndex).ToArray();
+                if (indexes.Length > 0)
+                {
+                    while (rows.MoveNext())
+                    {
+                        var row = rows.Current;
+                        if (row != null)
+                        {
+                            foreach (var index in indexes)
+                            {
+                                var indexValues = index.property.GetValue(row) as IDictionary;
+                                if (indexValues != null)
+                                {
+                                    var keys = indexValues.Keys;
+                                    if (keys != null)
+                                    {
+                                        if (index.indexValues == null)
+                                        {
+                                            index.indexValues = new List<object>();
+                                        }
+                                        foreach (var key in keys)
+                                        {
+                                            if (key != null)
+                                            {
+                                                if (!index.indexValues.Contains(key))
+                                                {
+                                                    index.indexValues.Add(key);
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    foreach (var index in indexes)
+                    {
+                        if (index.indexValues != null)
+                        {
+                            index._indexValues = index.indexValues.OrderBy(r => r.ToString()).ToArray();
+                        }
+                    }
+
+                    this.rows.Reset();
+                }
+                #endregion
+
                 this.Cells = this;
                 return;
             }
@@ -82,14 +134,31 @@ namespace Kipon.Excel.WriterImplementation.Models.Sheet
 
         public bool MoveNext()
         {
+            if (this.column >= 0)
+            {
+                var col = this.sheetMetas[this.column];
+                if (col.isIndex && this.indexPosition < (col._indexValues.Length - 1))
+                {
+                    this.indexPosition++;
+                    this.columnPosition++;
+                    this.SetCurrent();
+                    return true;
+                }
+            }
+
+            this.indexPosition = 0;
+
             if (this.column < (this.sheetMetas.Length - 1))
             {
                 this.column++;
+                this.columnPosition++;
                 this.SetCurrent();
                 return true;
             }
 
             this.column = 0;
+            this.columnPosition = 0;
+
             var hasNext = this.rows.MoveNext();
             if (hasNext)
             {
@@ -103,7 +172,7 @@ namespace Kipon.Excel.WriterImplementation.Models.Sheet
 
         private void SetCurrent()
         {
-            var key = this.column.ToString() + ":" + (this.row + 1).ToString();
+            var key = this.columnPosition.ToString() + ":" + (this.row + 1).ToString();
             if (this.resolvedCells.ContainsKey(key))
             {
                 this._current = this.resolvedCells[key];
@@ -113,7 +182,15 @@ namespace Kipon.Excel.WriterImplementation.Models.Sheet
             var meta = this.sheetMetas[this.column];
             if (this.row < 0)
             {
-                var cell = new Kipon.Excel.WriterImplementation.Models.Cell.Cell(this.column, this.row + 1, meta.title);
+                var title = meta.title;
+
+                if (meta.isIndex)
+                {
+                    title = meta._indexValues[this.indexPosition].ToString();
+                }
+
+                var cell = new Kipon.Excel.WriterImplementation.Models.Cell.Cell(this.columnPosition, this.row + 1, title);
+
                 cell.IsHidden = meta.isHidden;
                 cell.IsReadonly = true;
                 cell.ValueType = typeof(string);
@@ -124,19 +201,51 @@ namespace Kipon.Excel.WriterImplementation.Models.Sheet
             }
 
             {
-                var nextValue = meta.property.GetValue(this._currentRow);
-                var cell = new Kipon.Excel.WriterImplementation.Models.Cell.Cell(this.column, this.row + 1, nextValue);
-                cell.IsHidden = meta.isHidden;
-                cell.IsReadonly = meta.isReadonly;
-                cell.ValueType = meta.property.PropertyType;
-                if (meta.property.PropertyType.IsGenericType)
+                if (meta.isIndex)
                 {
-                    cell.ValueType = meta.property.PropertyType.GetGenericArguments()[0];
-                }
+                    object nextValue = null;
+                    var indexColumn = meta.property.GetValue(this._currentRow) as IDictionary;
 
-                this._current = cell;
-                this.resolvedCells[key] = this._current;
-                return;
+                    if (indexColumn != null)
+                    {
+                        var indexKey = meta._indexValues[indexPosition];
+                        if (indexColumn.Contains(indexKey))
+                        {
+                            nextValue = indexColumn[indexKey];
+                        }
+                    }
+
+                    var cell = new Kipon.Excel.WriterImplementation.Models.Cell.Cell(this.columnPosition, this.row + 1, nextValue);
+                    cell.IsHidden = meta.isHidden;
+                    cell.IsReadonly = meta.isReadonly;
+                    if (nextValue != null)
+                    {
+                        cell.ValueType = nextValue.GetType();
+                    } else
+                    {
+                        cell.ValueType = typeof(string);
+                    }
+
+                    this._current = cell;
+                    this.resolvedCells[key] = this._current;
+                    return;
+                }
+                else
+                { 
+                    var nextValue = meta.property.GetValue(this._currentRow);
+                    var cell = new Kipon.Excel.WriterImplementation.Models.Cell.Cell(this.columnPosition, this.row + 1, nextValue);
+                    cell.IsHidden = meta.isHidden;
+                    cell.IsReadonly = meta.isReadonly;
+                    cell.ValueType = meta.property.PropertyType;
+                    if (meta.property.PropertyType.IsGenericType)
+                    {
+                        cell.ValueType = meta.property.PropertyType.GetGenericArguments()[0];
+                    }
+
+                    this._current = cell;
+                    this.resolvedCells[key] = this._current;
+                    return;
+                }
             }
         }
 
@@ -222,6 +331,11 @@ namespace Kipon.Excel.WriterImplementation.Models.Sheet
                 {
                     sheetMeta.optionSetValues = columnAttr.OptionSetValues;
                 }
+
+                if (prop.PropertyType.IsGenericType && prop.PropertyType.GetGenericTypeDefinition() == typeof(Dictionary<,>))
+                {
+                    sheetMeta.isIndex = true;
+                }
             }
 
             if (sheetMeta.isHidden == false)
@@ -290,6 +404,14 @@ namespace Kipon.Excel.WriterImplementation.Models.Sheet
                 }
             }
 
+            {
+                var indexAttr = (Kipon.Excel.Attributes.IndexColumnAttribute)prop.GetCustomAttributes(typeof(Kipon.Excel.Attributes.IndexColumnAttribute), true).FirstOrDefault();
+                if (indexAttr != null)
+                {
+                    sheetMeta.isIndex = true;
+                }
+            }
+
             return sheetMeta;
         }
         #endregion
@@ -303,10 +425,42 @@ namespace Kipon.Excel.WriterImplementation.Models.Sheet
             internal bool isHidden { get; set; }
             internal int? decimals { get; set; }
 
+            internal bool isIndex { get; set; }
+
             internal double? width { get; set; }
             internal int? maxLength { get; set; }
             internal string[] optionSetValues { get; set; }
             internal System.Reflection.PropertyInfo property { get; set; }
+
+            internal List<object> indexValues { get; set; }
+            internal object[] _indexValues;
+
+            private System.Reflection.PropertyInfo keysProperty;
+
+            internal System.Reflection.PropertyInfo KeyProperty
+            {
+                get
+                {
+                    if (keysProperty == null)
+                    {
+                        keysProperty = this.property.PropertyType.GetProperty("Keys");
+                    }
+                    return keysProperty;
+                }
+            }
+
+            private System.Reflection.MethodInfo containsKey;
+            internal System.Reflection.MethodInfo ContainsKey
+            {
+                get
+                {
+                    if (containsKey == null)
+                    {
+                        containsKey = this.property.PropertyType.GetMethod("ContainsKey");
+                    }
+                    return containsKey;
+                }
+            }
 
             #region icolumn impl
             double? IColumn.Width => this.width;
@@ -314,6 +468,10 @@ namespace Kipon.Excel.WriterImplementation.Models.Sheet
             int? IColumn.MaxLength => this.maxLength;
 
             bool? IColumn.Hidden => this.isHidden;
+
+            bool? IColumn.IsIndex => this.isIndex;
+
+            object[] IColumn.IndexValues => this._indexValues;
 
             string[] IColumn.OptionSetValue => this.optionSetValues;
             #endregion
