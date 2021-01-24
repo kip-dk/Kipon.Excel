@@ -19,7 +19,8 @@ namespace Kipon.Excel.UnitTests.WriterTest
                 Name = "R1",
                 ["A-Date"] = System.DateTime.Now,
                 ["A-int"] = 10,
-                ["A-decimal"] = 12.2M
+                ["A-decimal"] = 12.2M,
+                ["B-decimal"] = 345.2M
             };
 
             rows[1] = new DicClass
@@ -27,7 +28,8 @@ namespace Kipon.Excel.UnitTests.WriterTest
                 Name = "R2",
                 ["A-Date"] = System.DateTime.Now.AddHours(10),
                 ["A-int"] = 20,
-                ["A-decimal"] = 22.2M
+                ["A-decimal"] = 22.2M,
+                ["C-decimal"] = 541M
             };
 
             rows[2] = new DicClass
@@ -53,7 +55,7 @@ namespace Kipon.Excel.UnitTests.WriterTest
             public string Name { get; set; }
 
             [Sort(2)]
-            [IndexColumn("[AB]-.*")]
+            [IndexColumn("[ABC]-.*")]
             public Dictionary<string, object> Fields { get; set; }
 
             internal object this[string name]
