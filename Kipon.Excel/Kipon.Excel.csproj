@@ -14,12 +14,14 @@
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/kip-dk/Kipon.Excel</RepositoryUrl>
     <PackageTags>OpenXml Excel .NET Stream</PackageTags>
-    <PackageReleaseNotes>Support for writing dictionary properties</PackageReleaseNotes>
-    <Version>1.0.20-alpha</Version>
+    <PackageReleaseNotes>https://kipon.dk;Text 
+will be rendered as url
+Sheet protection as default has been removed. Guidance on reestablish will follow. Do not take this package if the feature is important to you.</PackageReleaseNotes>
+    <Version>1.0.22</Version>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>Kipon.snk</AssemblyOriginatorKeyFile>
-    <AssemblyVersion>1.0.20.0</AssemblyVersion>
-    <FileVersion>1.0.20.0</FileVersion>
+    <AssemblyVersion>1.0.22.0</AssemblyVersion>
+    <FileVersion>1.0.22.0</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>

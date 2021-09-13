@@ -20,6 +20,8 @@ namespace Kipon.Excel.WriterImplementation.OpenXml
         private Kipon.Excel.Api.IStyle _style;
         private ILocalization _localization;
         private IDataTypeResolver _datatypeResolver;
+        private ISheetProtection _sheetProtection;
+        private ISheetProtectionProperties _sheetProtectionProperties;
 
         private NumberFormatInfo valueNumberFormatInfo = new NumberFormatInfo() { NumberDecimalSeparator = ".", NumberGroupSeparator = string.Empty };
 
@@ -38,6 +40,21 @@ namespace Kipon.Excel.WriterImplementation.OpenXml
 
             this._datatypeResolver = new Kipon.Excel.WriterImplementation.OpenXml.DataTypeResolver();
             this._style = style;
+
+            if (spreadsheet is ISheetProtection sp)
+            {
+                this._sheetProtection = sp;
+
+                if (sp.Type == SheetProtectionType.Custom)
+                {
+                    _sheetProtectionProperties = spreadsheet as ISheetProtectionProperties;
+                    if (_sheetProtectionProperties == null)
+                    {
+                        throw new Kipon.Excel.Exceptions.MissingImplementationException(typeof(ISheetProtectionProperties));
+                    }
+                }
+
+            }
         }
 
         internal void Serialize(System.IO.Stream stream)
@@ -199,8 +216,26 @@ namespace Kipon.Excel.WriterImplementation.OpenXml
                                 }
                             case CellValues.String:
                                 {
-                                    var excelValue = new CellValue(dataCell.Value.ToString());
-                                    excelCell.Append(excelValue);
+                                    var value = dataCell.Value.ToString();
+                                    if (value.ToLower().StartsWith("https://") && value.Contains(";"))
+                                    {
+                                        excelCell.DataType = CellValues.InlineString;
+                                        var spl = value.Split(';');
+                                        var url = spl[0];
+                                        var txt = spl[1];
+
+                                        var excelValue = new CellValue(value);
+                                        CellFormula hyperlink = new CellFormula() { Space = SpaceProcessingModeValues.Preserve };
+                                        hyperlink.Text = $@"HYPERLINK(""{ url }"", ""{ txt }"")";
+                                        excelValue.Text = txt;
+                                        excelCell.Append(hyperlink);
+                                        excelCell.Append(excelValue);
+                                    }
+                                    else
+                                    {
+                                        var excelValue = new CellValue(value);
+                                        excelCell.Append(excelValue);
+                                    }
                                     break;
                                 }
                             default:
@@ -229,26 +264,43 @@ namespace Kipon.Excel.WriterImplementation.OpenXml
 
             worksheet.Append(sheetData);
 
-            var sheetProtection = new SheetProtection()
+            if (this._sheetProtection != null && this._sheetProtection.Type == SheetProtectionType.Default)
             {
-                Sheet = true,
-                Objects = true,
-                Scenarios = true,
-                FormatCells = false,
-                FormatRows = false,
-                FormatColumns = false,
-                InsertRows = false,
-                DeleteRows = false,
-                Sort = false
-                /*
-                AlgorithmName = "SHA-512",
-                HashValue = "LObiQjq3cB5dG7o09BKWcaYSv5yZM6zvIZNrp0uqAttdaXnL7yLEr6OowSX4luXNDI5eMjtAaoF6qIYbIVKe9w==",
-                SaltValue = "AvT9iRlToC0sfmW2ocVDDQ==",
-                SpinCount = 100000
-                */
-            };
-            worksheet.Append(sheetProtection);
+                var sheetProtection = new SheetProtection()
+                {
+                    Sheet = true,
+                    Objects = true,
+                    Scenarios = true,
+                    FormatCells = false,
+                    FormatRows = false,
+                    FormatColumns = false,
+                    InsertRows = false,
+                    DeleteRows = false,
+                    Sort = false
+                };
+                worksheet.Append(sheetProtection);
+            }
 
+            if (this._sheetProtection != null && this._sheetProtection.Type == SheetProtectionType.Custom)
+            {
+                var sheetProtection = new SheetProtection()
+                {
+                    Sheet = true,
+                    Objects = true,
+                    Scenarios = true,
+                    FormatCells = false,
+                    FormatRows = false,
+                    FormatColumns = false,
+                    InsertRows = false,
+                    DeleteRows = false,
+                    Sort = false,
+                    AlgorithmName = this._sheetProtectionProperties.AlgorithmName,
+                    HashValue = this._sheetProtectionProperties.HashValue,
+                    SaltValue = this._sheetProtectionProperties.SaltValue,
+                    SpinCount = this._sheetProtectionProperties.SpinCount
+                };
+                worksheet.Append(sheetProtection);
+            }
 
             if (validates != null)
             {
