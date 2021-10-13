@@ -14,12 +14,14 @@
     <None Remove="Resources\LogTest.xlsx" />
     <None Remove="Resources\MultiArkTest.xlsx" />
     <None Remove="Resources\ParsePropertySheetTest.xlsx" />
+    <None Remove="Resources\Prisrobot.xlsx" />
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Include="Resources\LogTest.xlsx" />
     <EmbeddedResource Include="Resources\MultiArkTest.xlsx" />
     <EmbeddedResource Include="Resources\ParsePropertySheetTest.xlsx" />
+    <EmbeddedResource Include="Resources\Prisrobot.xlsx" />
   </ItemGroup>
 
   <ItemGroup>
