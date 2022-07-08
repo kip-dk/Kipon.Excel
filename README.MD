@@ -1,11 +1,14 @@
-# Library for streaming .NET object data between .NET and Excel
+# Library for streaming .NET object data between .NET and Excel, 2022-08-07
 
-## Version alfa 1.
-The very first alfa version of this library is taken form.
+## C# to Excel, with a streaming approach.
+This library aim to add simplicity in the process of taging C# data, and put them into editable excel sheets, and the get the data back into a C# context without to much of an effort.
 
-The aim for the project is to make it extreamly easy to take any tabular object data in .NET, stream these data to Excel, allow simple editing, and then get the data
-back into .NET code.
+The streaming should be as simple as using any other sereializer.
 
+The library is build on top of DocumentFormat.OpenXml. This library allow you to interact with excel data, but it is a very raw impl. the simply maps the XML structure of an excel sheet into a 
+rather generic C# model. It is hard to work with, and full of strange pitfalls.
+
+This library tries to fit that gab. 
 
 ### Installation (NuGet)
 
