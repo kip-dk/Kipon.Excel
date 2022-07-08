@@ -47,36 +47,43 @@ namespace Kipon.Excel.WriterImplementation.OpenXml.Types
         /// <param name="value">Natural name of cell,  ex A1 for the first cell in the sheet</param>
         private Cell(string value)
         {
-            if (value == null) throw new NullReferenceException("value cannot be null");
-            if (value.Length < 2) throw new ArgumentException("length of value cannot be less than 2");
-
-            var columnName = new System.Text.StringBuilder();
-            var ix = 0;
-            while (!Char.IsNumber(value[ix]))
+            try
             {
-                columnName.Append(value[ix]);
-                ix++;
+                if (value == null) throw new NullReferenceException("value cannot be null");
+                if (value.Length < 2) throw new ArgumentException("length of value cannot be less than 2");
+
+                var columnName = new System.Text.StringBuilder();
+                var ix = 0;
+                while (!Char.IsNumber(value[ix]))
+                {
+                    columnName.Append(value[ix]);
+                    ix++;
+                }
+
+                if (columnName.Length < 1) throw new ArgumentException("value must start with valid column ref, ex A or BA etc.");
+
+                var rowNumber = new System.Text.StringBuilder();
+                while (ix < value.Length)
+                {
+                    rowNumber.Append(value[ix]);
+                    ix++;
+                }
+
+                int lineNo = 0;
+                if (!Int32.TryParse(rowNumber.ToString(), out lineNo))
+                {
+                    throw new ArgumentException("value must contain a valid row reference after the column name");
+                }
+
+                this._column = Column.getColumn(columnName.ToString());
+                this._row = Row.getRow(lineNo - 1);
+                this._value = value;
+                _cells[this._value] = this;
             }
-
-            if (columnName.Length < 1) throw new ArgumentException("value must start with valid column ref, ex A or BA etc.");
-
-            var rowNumber = new System.Text.StringBuilder();
-            while (ix < value.Length)
+            catch (IndexOutOfRangeException ior)
             {
-                rowNumber.Append(value[ix]);
-                ix++;
+                throw new IndexOutOfRangeException($"Unable to add cell [{ value }] to index. { ior.Message }");
             }
-
-            int lineNo = 0;
-            if (!Int32.TryParse(rowNumber.ToString(), out lineNo))
-            {
-                throw new ArgumentException("value must contain a valid row reference after the column name");
-            }
-
-            this._column = Column.getColumn(columnName.ToString());
-            this._row = Row.getRow(lineNo - 1);
-            this._value = value;
-            _cells[this._value] = this;
         }
 
         internal static Cell getCell(uint column, uint row)

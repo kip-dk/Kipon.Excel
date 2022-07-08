@@ -14,6 +14,43 @@ namespace Kipon.Excel.WriterImplementation.OpenXml.Styles
         #region the stylesheet
         public DefaultStylesheet()
         {
+            NumberingFormats numberingFormats1 = new NumberingFormats() { Count = (UInt32Value)5U };
+
+            {
+                NumberingFormat numberingFormat1 = new NumberingFormat() { NumberFormatId = (UInt32Value)164U, FormatCode = "0" };
+                numberingFormats1.Append(numberingFormat1);
+            }
+
+            {
+                NumberingFormat numberingFormat1 = new NumberingFormat() { NumberFormatId = (UInt32Value)165U, FormatCode = "0.0" };
+                numberingFormats1.Append(numberingFormat1);
+            }
+
+            {
+                NumberingFormat numberingFormat1 = new NumberingFormat() { NumberFormatId = (UInt32Value)166U, FormatCode = "0.000" };
+                numberingFormats1.Append(numberingFormat1);
+            }
+
+            {
+                NumberingFormat numberingFormat1 = new NumberingFormat() { NumberFormatId = (UInt32Value)167U, FormatCode = "0.0000" };
+                numberingFormats1.Append(numberingFormat1);
+            }
+
+            {
+                NumberingFormat numberingFormat1 = new NumberingFormat() { NumberFormatId = (UInt32Value)168U, FormatCode = "0.00000" };
+                numberingFormats1.Append(numberingFormat1);
+            }
+
+            /*
+            for (var i = (UInt32Value)165U; i <= (UInt32Value)169U; i++)
+            {
+                var x = (int)i.Value;
+                var decs = "0".PadLeft(x, '0');
+                numberingFormat1 = new NumberingFormat() { NumberFormatId = i, FormatCode = $"0.{ decs }" };
+                numberingFormats1.Append(numberingFormat1);
+            }
+            */
+
             Fonts fonts = new Fonts() { Count = (UInt32Value)2U };
             Font normalFont = new Font();
 
@@ -53,22 +90,36 @@ namespace Kipon.Excel.WriterImplementation.OpenXml.Styles
             Borders borders = new Borders() { Count = (UInt32Value)1U };
             borders.Append(new Border());
 
-            CellFormat evenFontUnlocked = new CellFormat() { NumberFormatId = (UInt32Value)0U, FontId = (UInt32Value)0U, FillId = (UInt32Value)0U, BorderId = (UInt32Value)0U };
-            evenFontUnlocked.Append(new Protection { Locked = false });
+            CellFormats cellFormats = new CellFormats() { Count = 34 };
+            cellFormats.Append(new CellFormat());
 
-            CellFormat oddFontUnlocked = new CellFormat() { NumberFormatId = (UInt32Value)0U, FontId = (UInt32Value)0U, FillId = (UInt32Value)2U, BorderId = (UInt32Value)0U };
-            oddFontUnlocked.Append(new Protection { Locked = false });
+            void AddStyles(UInt32Value lowNumberFormat)
+            {
+                CellFormat evenFontUnlocked = new CellFormat() { NumberFormatId = lowNumberFormat, FontId = (UInt32Value)0U, FillId = (UInt32Value)0U, BorderId = (UInt32Value)0U };
+                evenFontUnlocked.Append(new Protection { Locked = false });
 
-            CellFormat evenFontLocked = new CellFormat() { NumberFormatId = (UInt32Value)0U, FontId = (UInt32Value)0U, FillId = (UInt32Value)0U, BorderId = (UInt32Value)0U };
-            evenFontLocked.Append(new Protection { Locked = true });
+                CellFormat oddFontUnlocked = new CellFormat() { NumberFormatId = lowNumberFormat, FontId = (UInt32Value)0U, FillId = (UInt32Value)2U, BorderId = (UInt32Value)0U };
+                oddFontUnlocked.Append(new Protection { Locked = false });
 
-            CellFormat oddFontLocked = new CellFormat() { NumberFormatId = (UInt32Value)0U, FontId = (UInt32Value)0U, FillId = (UInt32Value)2U, BorderId = (UInt32Value)0U };
-            oddFontLocked.Append(new Protection { Locked = true });
+                CellFormat evenFontLocked = new CellFormat() { NumberFormatId = lowNumberFormat, FontId = (UInt32Value)0U, FillId = (UInt32Value)0U, BorderId = (UInt32Value)0U };
+                evenFontLocked.Append(new Protection { Locked = true });
+
+                CellFormat oddFontLocked = new CellFormat() { NumberFormatId = lowNumberFormat, FontId = (UInt32Value)0U, FillId = (UInt32Value)2U, BorderId = (UInt32Value)0U };
+                oddFontLocked.Append(new Protection { Locked = true });
+
+                cellFormats.Append(evenFontUnlocked);
+                cellFormats.Append(oddFontUnlocked);
+
+                cellFormats.Append(evenFontLocked);
+                cellFormats.Append(oddFontLocked);
+            }
+
+            AddStyles((UInt32Value)0U);
 
             CellFormat boldFormat = new CellFormat() { NumberFormatId = (UInt32Value)0U, FontId = (UInt32Value)1U, FillId = (UInt32Value)3U, BorderId = (UInt32Value)0U, ApplyFont = true };
             boldFormat.Append(new Protection { Locked = true });
 
-            CellFormat evenDateUnlocked = new CellFormat() { NumberFormatId = (UInt32Value)14U, FontId = (UInt32Value)0U, FillId = (UInt32Value)0U, BorderId = (UInt32Value)0U,  ApplyNumberFormat = true };
+            CellFormat evenDateUnlocked = new CellFormat() { NumberFormatId = (UInt32Value)14U, FontId = (UInt32Value)0U, FillId = (UInt32Value)0U, BorderId = (UInt32Value)0U, ApplyNumberFormat = true };
             evenDateUnlocked.Append(new Protection { Locked = false });
 
             CellFormat oddDateUnlocked = new CellFormat() { NumberFormatId = (UInt32Value)14U, FontId = (UInt32Value)0U, FillId = (UInt32Value)2U, BorderId = (UInt32Value)0U, ApplyNumberFormat = true };
@@ -80,25 +131,28 @@ namespace Kipon.Excel.WriterImplementation.OpenXml.Styles
             CellFormat oddDateLocked = new CellFormat() { NumberFormatId = (UInt32Value)14U, FontId = (UInt32Value)0U, FillId = (UInt32Value)2U, BorderId = (UInt32Value)0U, ApplyNumberFormat = true };
             oddDateLocked.Append(new Protection { Locked = true });
 
-
-            CellFormats cellFormats = new CellFormats() { Count = 10 };
-
-            cellFormats.Append(new CellFormat());
-
-            cellFormats.Append(evenFontUnlocked);
-            cellFormats.Append(oddFontUnlocked);
-
-            cellFormats.Append(evenFontLocked);
-            cellFormats.Append(oddFontLocked);
-
             cellFormats.Append(boldFormat);
-
             cellFormats.Append(evenDateUnlocked);
             cellFormats.Append(oddDateUnlocked);
-
             cellFormats.Append(evenDateLocked);
             cellFormats.Append(oddDateLocked);
 
+            AddStyles((UInt32Value)164U); // 0 decimals
+            AddStyles((UInt32Value)165U); // 1 decimals
+            AddStyles((UInt32Value)2U); // 2 decimals
+            AddStyles((UInt32Value)166U); // 3 decimals
+            AddStyles((UInt32Value)167U); // 4 decimals
+            AddStyles((UInt32Value)168U); // 5 decimals
+
+            /*
+            for (var i = (UInt32Value)164U; i <= (UInt32Value)169U; i++)
+            {
+                AddStyles(i, i);
+            }
+            */
+
+
+            Append(numberingFormats1);
             Append(fonts);
             Append(fills);
             Append(borders);

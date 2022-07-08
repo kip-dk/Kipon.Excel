@@ -194,6 +194,7 @@ namespace Kipon.Excel.WriterImplementation.Models.Sheet
                 cell.IsHidden = meta.isHidden;
                 cell.IsReadonly = true;
                 cell.ValueType = typeof(string);
+                cell.Decimals = meta.decimals;
 
                 this._current = cell;
                 this.resolvedCells[key] = this._current;
@@ -218,6 +219,7 @@ namespace Kipon.Excel.WriterImplementation.Models.Sheet
                     var cell = new Kipon.Excel.WriterImplementation.Models.Cell.Cell(this.columnPosition, this.row + 1, nextValue);
                     cell.IsHidden = meta.isHidden;
                     cell.IsReadonly = meta.isReadonly;
+                    cell.Decimals = meta.decimals;
                     if (nextValue != null)
                     {
                         cell.ValueType = nextValue.GetType();
@@ -237,6 +239,8 @@ namespace Kipon.Excel.WriterImplementation.Models.Sheet
                     cell.IsHidden = meta.isHidden;
                     cell.IsReadonly = meta.isReadonly;
                     cell.ValueType = meta.property.PropertyType;
+                    cell.Decimals = meta.decimals;
+
                     if (meta.property.PropertyType.IsGenericType)
                     {
                         cell.ValueType = meta.property.PropertyType.GetGenericArguments()[0];

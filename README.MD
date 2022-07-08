@@ -58,7 +58,12 @@ namespace MyExcelApp
 
 ### Changelog
 
-#### 11.0.19-alpha
+#### 1.0.24
+Fixed decimals format. If a property as marked with Decimals attribute, the content of the cell will be number styled accordingly.  0 .. 5 decimals is supported. Beyond 5 decimals, default number format will be used.
+
+### 1.0.21 First official release
+
+#### 1.0.19-alpha
 
 Support write of Dictionary properties, A dictionary property must be ether defined with ColumnAttribute (IsIndex = true) or decorated with IndexColumnAttribute
 

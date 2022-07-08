@@ -55,22 +55,34 @@ namespace Kipon.Excel.Api.Style
                 return Kipon.Excel.Api.Style.Styles.ODD_DATE_LOCKED;
             }
 
-            if (isEven && !isreadonly)
+
+            UInt32Value BaseValue()
             {
-                return Kipon.Excel.Api.Style.Styles.EVEN_STYLE_INDEX_UNLOCKED;
+                if (isEven && !isreadonly)
+                {
+                    return Kipon.Excel.Api.Style.Styles.EVEN_STYLE_INDEX_UNLOCKED;
+                }
+
+                if (isEven && isreadonly)
+                {
+                    return Kipon.Excel.Api.Style.Styles.EVEN_STYLE_INDEX_LOCKED;
+                }
+
+                if (!isreadonly)
+                {
+                    return Kipon.Excel.Api.Style.Styles.ODD_STYLE_INDEX_UNLOCKED;
+                }
+
+                return Kipon.Excel.Api.Style.Styles.ODD_STYLE_INDEX_LOCKED;
             }
 
-            if (isEven && isreadonly)
+            var decs = cell as Kipon.Excel.Api.Cell.IDecimals;
+            if (decs != null && decs.Decimals != null && decs.Decimals.Value >= 0 && decs.Decimals.Value <= 5)
             {
-                return Kipon.Excel.Api.Style.Styles.EVEN_STYLE_INDEX_LOCKED;
+                return (UInt32)(BaseValue() + 5 + ((decs.Decimals.Value + 1) * 4));
             }
 
-            if (!isreadonly)
-            {
-                return Kipon.Excel.Api.Style.Styles.ODD_STYLE_INDEX_UNLOCKED;
-            }
-
-            return Kipon.Excel.Api.Style.Styles.ODD_STYLE_INDEX_LOCKED;
+            return BaseValue();
         }
     }
 }

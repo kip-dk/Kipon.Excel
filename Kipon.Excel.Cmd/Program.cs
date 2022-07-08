@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Kipon.Excel.Linq;
 
 namespace Kipon.Excel.Cmd
@@ -7,21 +8,14 @@ namespace Kipon.Excel.Cmd
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Here we are");
+            var data = new List<Model.DecimalNumber>();
 
-            /*
-            var empls = Model.SkatField.FromExcel();
+            data.Add(new Model.DecimalNumber { Name = "r1", Value0 = 10M, Value1 = 1.1M, Value2 = 2.2M, Value3 = 3.3M, Value4 = 4.4M, Value5 = 5.5M });
+            data.Add(new Model.DecimalNumber { Name = "r2", Value0 = 10M, Value1 = 10.1M, Value2 = 20.2M, Value3 = 30.3M, Value4 = 40.4M, Value5 = 50.5M });
 
-            foreach (var empl in empls)
-            {
-                Console.WriteLine(empl.Name + " " + empl.Level1 + " " + empl.Level2 + " " + empl.Level3 + " " + empl.Level4 + " " + empl.Description + " " + empl.Subscribe);
-            }
-            */
+            var excel = data.ToExcel();
+            System.IO.File.WriteAllBytes(@"C:\Temp\decimal-test.xlsx", excel);
 
-            using (var file = new System.IO.FileStream(@"C:\Temp\arbo-phone.xlsx", System.IO.FileMode.Open))
-            {
-                var phonedata = file.ToObject<Arbodania.Crm.Portal.Model.AppPhoneExport>();
-            }
         }
     }
 }

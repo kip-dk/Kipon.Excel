@@ -5,7 +5,7 @@
     <Authors>Kjeld Ingemann Poulsen</Authors>
     <Company>Kipon ApS</Company>
     <Description>Library to stream .NET data to and from Excel (OpenXml)</Description>
-    <Copyright>Kipon ApS 2019,2020,2021</Copyright>
+    <Copyright>Kipon ApS 2019,2020,2021,2022</Copyright>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
@@ -15,13 +15,12 @@
     <RepositoryUrl>https://github.com/kip-dk/Kipon.Excel</RepositoryUrl>
     <PackageTags>OpenXml Excel .NET Stream</PackageTags>
     <PackageReleaseNotes>https://kipon.dk;Text 
-will be rendered as url
-Sheet protection as default has been removed. Guidance on reestablish will follow. Do not take this package if the feature is important to you.</PackageReleaseNotes>
-    <Version>1.0.22</Version>
+Capture indexoutofrange exception in Cell constructor to notify on actual cell value</PackageReleaseNotes>
+    <Version>1.0.24</Version>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>Kipon.snk</AssemblyOriginatorKeyFile>
-    <AssemblyVersion>1.0.22.0</AssemblyVersion>
-    <FileVersion>1.0.22.0</FileVersion>
+    <AssemblyVersion>1.0.23.0</AssemblyVersion>
+    <FileVersion>1.0.23.0</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>
