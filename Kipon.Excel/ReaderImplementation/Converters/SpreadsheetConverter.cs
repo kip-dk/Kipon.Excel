@@ -69,7 +69,7 @@ namespace Kipon.Excel.ReaderImplementation.Converters
 
                 if (elementType != null && Kipon.Excel.Reflection.PropertySheet.IsPropertySheet(elementType))
                 {
-                    var propertySheetMeta = Kipon.Excel.Reflection.PropertySheet.ForType(elementType);
+                    var propertySheetMeta = Kipon.Excel.Reflection.PropertySheet.ForType(elementType, string.Empty);
                     var sheets = propertySheetMeta.AllMatch(spreadsheet.Sheets, this.context.Log);
                     if (sheets != null && sheets.Length > 0)
                     {
@@ -119,7 +119,7 @@ namespace Kipon.Excel.ReaderImplementation.Converters
                             var isPropertySheet = Kipon.Excel.Reflection.PropertySheet.IsPropertySheet(sheetsPropertyMeta.ElementType);
                             if (isPropertySheet)
                             {
-                                var sheetMeta = Kipon.Excel.Reflection.PropertySheet.ForType(sheetsPropertyMeta.ElementType);
+                                var sheetMeta = Kipon.Excel.Reflection.PropertySheet.ForType(sheetsPropertyMeta.ElementType, sheetsPropertyMeta.Title);
                                 var converter = new Kipon.Excel.ReaderImplementation.Converters.PropertySheetConverter(sheetsPropertyMeta.ElementType, sheetMeta);
                                 var result = converter.Convert(sheet);
 

@@ -14,21 +14,22 @@ namespace Kipon.Excel.Reflection
 {
     internal class PropertySheet
     {
-        private static Dictionary<Type, PropertySheet> sheets = new Dictionary<Type, PropertySheet>();
+        private static Dictionary<string, PropertySheet> sheets = new Dictionary<string, PropertySheet>();
 
         private List<SheetProperty> properties = new List<SheetProperty>();
 
         internal int HeaderRow { get; private set; } = 1;
         internal int HeaderColumn { get; private set; } = 1;
 
-        internal static PropertySheet ForType(Type type)
+        internal static PropertySheet ForType(Type type, string propertyName)
         {
-            if (sheets.ContainsKey(type))
+            var name = $"{ type.FullName }.{propertyName}";
+            if (sheets.ContainsKey(name))
             {
-                return sheets[type];
+                return sheets[name];
             }
             var sheet = new PropertySheet(type);
-            sheets[type] = sheet;
+            sheets[name] = sheet;
             return sheet;
         }
 

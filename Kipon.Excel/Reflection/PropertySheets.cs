@@ -202,7 +202,7 @@ namespace Kipon.Excel.Reflection
 
                 if (PropertySheet.IsPropertySheet(ElementType))
                 {
-                    var sheet = PropertySheet.ForType(ElementType);
+                    var sheet = PropertySheet.ForType(ElementType, string.Empty);
                     var matchSheet = sheet.AllMatch(sheets, log);
 
                     if (matchSheet != null && matchSheet.Length > 0)

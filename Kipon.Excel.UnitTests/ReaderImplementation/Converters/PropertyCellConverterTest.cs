@@ -12,7 +12,7 @@ namespace Kipon.Excel.UnitTests.ReaderImplementation.Converters
     public class PropertyCellConverterTest
     {
 
-        private Kipon.Excel.Reflection.PropertySheet ps = Kipon.Excel.Reflection.PropertySheet.ForType(typeof(Fake.Data.ValueProperty));
+        private Kipon.Excel.Reflection.PropertySheet ps = Kipon.Excel.Reflection.PropertySheet.ForType(typeof(Fake.Data.ValueProperty), string.Empty);
 
         [Test]
         public void ConverterTest()

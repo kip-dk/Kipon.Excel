@@ -19,7 +19,7 @@ namespace Kipon.Excel.UnitTests.ReaderImplementation.Converters
             var spreadsheetResolver = new Kipon.Excel.WriterImplementation.Factories.SpreadsheetResolver();
             var spreadsheet = spreadsheetResolver.Resolve(rows);
 
-            var ps = Kipon.Excel.Reflection.PropertySheet.ForType(typeof(Fake.Data.ValueProperty));
+            var ps = Kipon.Excel.Reflection.PropertySheet.ForType(typeof(Fake.Data.ValueProperty), string.Empty);
             var psConverter = new Kipon.Excel.ReaderImplementation.Converters.PropertySheetConverter(typeof(Fake.Data.ValueProperty), ps);
 
             var result = psConverter.Convert(spreadsheet.Sheets.First());

@@ -14,8 +14,8 @@ namespace Kipon.Excel.UnitTests.Reflection
         [Test]
         public void ForTypeTest()
         {
-            var t1 = Kipon.Excel.Reflection.PropertySheet.ForType(typeof(DuckSheet));
-            var t2 = Kipon.Excel.Reflection.PropertySheet.ForType(typeof(DuckSheet));
+            var t1 = Kipon.Excel.Reflection.PropertySheet.ForType(typeof(DuckSheet), string.Empty);
+            var t2 = Kipon.Excel.Reflection.PropertySheet.ForType(typeof(DuckSheet), string.Empty);
             Assert.AreEqual(t2, t1);
         }
 
@@ -31,7 +31,7 @@ namespace Kipon.Excel.UnitTests.Reflection
         [Test]
         public void IgnorePropertyTest()
         {
-            var duckSheet = Kipon.Excel.Reflection.PropertySheet.ForType(typeof(DuckSheet));
+            var duckSheet = Kipon.Excel.Reflection.PropertySheet.ForType(typeof(DuckSheet), string.Empty);
 
             var ignore = duckSheet.Properties.Where(r => r.title == nameof(DuckSheet.IgnoreMe)).SingleOrDefault();
             Assert.IsNull(ignore);
@@ -40,7 +40,7 @@ namespace Kipon.Excel.UnitTests.Reflection
         [Test]
         public void PropertiesTest()
         {
-            var ps = Kipon.Excel.Reflection.PropertySheet.ForType(typeof(DuckSheet));
+            var ps = Kipon.Excel.Reflection.PropertySheet.ForType(typeof(DuckSheet), string.Empty);
             Assert.AreEqual(6, ps.Properties.Count());
 
             // sort
