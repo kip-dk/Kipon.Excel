@@ -6,21 +6,21 @@
     <Company>Kipon ApS</Company>
     <Description>Library to stream .NET data to and from Excel (OpenXml)</Description>
     <Copyright>Kipon ApS 2019,2020,2021,2022</Copyright>
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <PackageProjectUrl>https://github.com/kip-dk/Kipon.Excel</PackageProjectUrl>
     <PackageIconUrl>https://s.gravatar.com/avatar/48d1270fbf870a670d20844eda19e3bf</PackageIconUrl>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/kip-dk/Kipon.Excel</RepositoryUrl>
     <PackageTags>OpenXml Excel .NET Stream</PackageTags>
     <PackageReleaseNotes>https://kipon.dk;Text 
-Capture indexoutofrange exception in Cell constructor to notify on actual cell value</PackageReleaseNotes>
-    <Version>1.0.24</Version>
+Always thousands sep. on columns marked with decimal attribute</PackageReleaseNotes>
+    <Version>1.0.25</Version>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>Kipon.snk</AssemblyOriginatorKeyFile>
-    <AssemblyVersion>1.0.23.0</AssemblyVersion>
-    <FileVersion>1.0.23.0</FileVersion>
+    <AssemblyVersion>1.0.25.0</AssemblyVersion>
+    <FileVersion>1.0.25.0</FileVersion>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
   </PropertyGroup>
 
   <ItemGroup>

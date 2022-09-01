@@ -19,8 +19,15 @@ namespace Kipon.Excel.Cmd.Model
             [Sort(1)]
             public string Name { get; set; }
 
-            [IndexColumn("[ab]-")]
             [Sort(2)]
+            [Decimals(2)]
+            public decimal Explicit { get; set; }
+
+            [Sort(3)]
+            public decimal Implicit { get; set; }
+
+            [IndexColumn("[ab]-")]
+            [Sort(3)]
             public Dictionary<string, int> Counts { get; set; } = new Dictionary<string, int>(); 
 
             [Ignore]

@@ -14,30 +14,35 @@ namespace Kipon.Excel.WriterImplementation.OpenXml.Styles
         #region the stylesheet
         public DefaultStylesheet()
         {
-            NumberingFormats numberingFormats1 = new NumberingFormats() { Count = (UInt32Value)5U };
+            NumberingFormats numberingFormats1 = new NumberingFormats() { Count = (UInt32Value)6U };
 
             {
-                NumberingFormat numberingFormat1 = new NumberingFormat() { NumberFormatId = (UInt32Value)164U, FormatCode = "0" };
+                NumberingFormat numberingFormat1 = new NumberingFormat() { NumberFormatId = (UInt32Value)164U, FormatCode = "#,##0" };
                 numberingFormats1.Append(numberingFormat1);
             }
 
             {
-                NumberingFormat numberingFormat1 = new NumberingFormat() { NumberFormatId = (UInt32Value)165U, FormatCode = "0.0" };
+                NumberingFormat numberingFormat1 = new NumberingFormat() { NumberFormatId = (UInt32Value)165U, FormatCode = "#,##0.0" };
                 numberingFormats1.Append(numberingFormat1);
             }
 
             {
-                NumberingFormat numberingFormat1 = new NumberingFormat() { NumberFormatId = (UInt32Value)166U, FormatCode = "0.000" };
+                NumberingFormat numberingFormat1 = new NumberingFormat() { NumberFormatId = (UInt32Value)166U, FormatCode = "#,##0.00" };
                 numberingFormats1.Append(numberingFormat1);
             }
 
             {
-                NumberingFormat numberingFormat1 = new NumberingFormat() { NumberFormatId = (UInt32Value)167U, FormatCode = "0.0000" };
+                NumberingFormat numberingFormat1 = new NumberingFormat() { NumberFormatId = (UInt32Value)167U, FormatCode = "#,##0.000" };
                 numberingFormats1.Append(numberingFormat1);
             }
 
             {
-                NumberingFormat numberingFormat1 = new NumberingFormat() { NumberFormatId = (UInt32Value)168U, FormatCode = "0.00000" };
+                NumberingFormat numberingFormat1 = new NumberingFormat() { NumberFormatId = (UInt32Value)168U, FormatCode = "#,##0.0000" };
+                numberingFormats1.Append(numberingFormat1);
+            }
+
+            {
+                NumberingFormat numberingFormat1 = new NumberingFormat() { NumberFormatId = (UInt32Value)169U, FormatCode = "#,##0.00000" };
                 numberingFormats1.Append(numberingFormat1);
             }
 
@@ -139,10 +144,10 @@ namespace Kipon.Excel.WriterImplementation.OpenXml.Styles
 
             AddStyles((UInt32Value)164U); // 0 decimals
             AddStyles((UInt32Value)165U); // 1 decimals
-            AddStyles((UInt32Value)2U); // 2 decimals
-            AddStyles((UInt32Value)166U); // 3 decimals
-            AddStyles((UInt32Value)167U); // 4 decimals
-            AddStyles((UInt32Value)168U); // 5 decimals
+            AddStyles((UInt32Value)166U); // 2 decimals
+            AddStyles((UInt32Value)167U); // 3 decimals
+            AddStyles((UInt32Value)168U); // 4 decimals
+            AddStyles((UInt32Value)169U); // 5 decimals
 
             /*
             for (var i = (UInt32Value)164U; i <= (UInt32Value)169U; i++)

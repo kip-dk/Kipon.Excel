@@ -13,11 +13,11 @@ namespace Kipon.Excel.Cmd.Test
             {
                 Sheet1 = new Model.MultiIndexSheet.Index[]
                 {
-                    new Model.MultiIndexSheet.Index{ Name = "index 1 - Row 1", ["a-1"] = 1, ["a-2"] = 2 },
+                    new Model.MultiIndexSheet.Index{ Name = "index 1 - Row 1", ["a-1"] = 1, ["a-2"] = 2, Explicit = 1234567.78M, Implicit = 23423.7M },
                 },
                 Sheet2 = new Model.MultiIndexSheet.Index[]
                 {
-                    new Model.MultiIndexSheet.Index{ Name = "index 2 - Row 1", ["b-1"] = 1, ["b-2"] = 2 }
+                    new Model.MultiIndexSheet.Index{ Name = "index 2 - Row 1", ["b-1"] = 1, ["b-2"] = 2, Explicit = 1234567.78M, Implicit = 23423.7M }
                 }
             };
 
