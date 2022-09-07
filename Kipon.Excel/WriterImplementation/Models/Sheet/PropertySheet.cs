@@ -25,11 +25,14 @@ namespace Kipon.Excel.WriterImplementation.Models.Sheet
         private ICell _current;
         private object _currentRow;
         private Dictionary<string, ICell> resolvedCells = new Dictionary<string, ICell>();
+        private Kipon.Excel.Api.ITitleMap titleMap;
         #endregion
 
         #region populate impl.
         public override void Populate(object instance)
         {
+            this.titleMap = null;
+
             if (instance is System.Collections.IEnumerable)
             {
                 var elementType = instance.GetType();
@@ -40,6 +43,11 @@ namespace Kipon.Excel.WriterImplementation.Models.Sheet
                     if (string.IsNullOrEmpty(this.Title))
                     {
                         this.Title = eType.Name;
+                    }
+
+                    if (typeof(Kipon.Excel.Api.ITitleMap).IsAssignableFrom(eType))
+                    {
+                        this.titleMap = (Kipon.Excel.Api.ITitleMap)Activator.CreateInstance(eType);
                     }
                 }
                 else
@@ -187,6 +195,11 @@ namespace Kipon.Excel.WriterImplementation.Models.Sheet
                 if (meta.isIndex)
                 {
                     title = meta._indexValues[this.indexPosition].ToString();
+                }
+
+                if (this.titleMap != null)
+                {
+                    title = this.titleMap.MapToExcelValue(title);
                 }
 
                 var cell = new Kipon.Excel.WriterImplementation.Models.Cell.Cell(this.columnPosition, this.row + 1, title);

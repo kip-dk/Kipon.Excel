@@ -18,7 +18,7 @@ namespace Kipon.Excel.Cmd
             System.IO.File.WriteAllBytes(@"C:\Temp\decimal-test.xlsx", excel);
             */
 
-            new Test.MultiIndexSheet().Execute();
+            new Test.TitleMapTest().Execute();
         }
     }
 }
