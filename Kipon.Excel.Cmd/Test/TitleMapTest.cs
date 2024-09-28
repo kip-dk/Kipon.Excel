@@ -17,7 +17,8 @@ namespace Kipon.Excel.Cmd.Test
                      select new MySheet
                      {
                          FirstColumn = $"1: { ro }",
-                         SecondColumn = $"2: { ro }"
+                         SecondColumn = $"2: { ro }",
+                         Amount = 123.45M
                      }).ToArray();
 
             var sheets = new Sheets
@@ -61,5 +62,11 @@ namespace Kipon.Excel.Cmd.Test
         [Sort(2)]
         [Title("Second Column [X]")]
         public string SecondColumn { get; set; }
+
+
+        [Sort(3)]
+        [Title("Amount")]
+        [Decimals(0)]
+        public decimal? Amount { get; set; }
     }
 }
