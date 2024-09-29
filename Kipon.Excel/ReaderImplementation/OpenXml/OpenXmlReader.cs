@@ -74,42 +74,43 @@ namespace Kipon.Excel.ReaderImplementation.OpenXml
                             {
                                 Kipon.Excel.WriterImplementation.OpenXml.Types.Cell name = c.CellReference.ToString();
 
-                                switch (dataType)
+                                if (dataType == CellValues.SharedString)
                                 {
-                                    case CellValues.SharedString:
-                                        {
-                                            var index = Int32.Parse(c.CellValue.Text);
-                                            sheet.Add(name.Column.Index, name.Row.Value, sharedText[index]);
-                                            break;
-                                        }
-                                    case CellValues.Date:
-                                        {
-                                            var value = DateTime.Parse(c.CellValue.Text);
-                                            sheet.Add(name.Column.Index, name.Row.Value, value);
-                                            break;
-                                        }
-                                    case CellValues.Boolean:
-                                        {
-                                            var txt = c.CellValue.Text != null ? c.CellValue.Text.ToUpper() : "0";
-                                            var bol = txt == "1" || txt == "TRUE";
-                                            sheet.Add(name.Column.Index, name.Row.Value, bol);
-                                            break;
-                                        }
-                                    case CellValues.InlineString:
-                                    case CellValues.String:
-                                        {
-                                            sheet.Add(name.Column.Index, name.Row.Value, c.CellValue.Text);
-                                            break;
-                                        }
-                                    case CellValues.Number:
-                                        {
-                                            sheet.Add(name.Column.Index, name.Row.Value, c.CellValue.Text);
-                                            break;
-                                        }
-                                    case CellValues.Error:
-                                        {
-                                            break;
-                                        }
+                                    var index = Int32.Parse(c.CellValue.Text);
+                                    sheet.Add(name.Column.Index, name.Row.Value, sharedText[index]);
+                                    continue;
+                                }
+
+                                if (dataType == CellValues.Date)
+                                {
+                                    var value = DateTime.Parse(c.CellValue.Text);
+                                    sheet.Add(name.Column.Index, name.Row.Value, value);
+                                    continue;
+                                }
+
+                                if (dataType == CellValues.Boolean)
+                                {
+                                    var txt = c.CellValue.Text != null ? c.CellValue.Text.ToUpper() : "0";
+                                    var bol = txt == "1" || txt == "TRUE";
+                                    sheet.Add(name.Column.Index, name.Row.Value, bol);
+                                    continue;
+                                }
+
+                                if (dataType == CellValues.InlineString || dataType == CellValues.String)
+                                {
+                                    sheet.Add(name.Column.Index, name.Row.Value, c.CellValue.Text);
+                                    continue;
+                                }
+
+                                if (dataType == CellValues.Number)
+                                {
+                                    sheet.Add(name.Column.Index, name.Row.Value, c.CellValue.Text);
+                                    continue;
+                                }
+
+                                if (dataType == CellValues.Error)
+                                {
+                                    continue;
                                 }
                             }
                         }

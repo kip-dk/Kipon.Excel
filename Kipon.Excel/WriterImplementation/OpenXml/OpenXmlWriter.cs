@@ -159,89 +159,105 @@ namespace Kipon.Excel.WriterImplementation.OpenXml
 
                     if (dataCell.Value != null)
                     {
-                        switch (excelCell.DataType.Value)
+                        var type = excelCell.DataType.Value;
+                        var resolved = false;
+
+                        if (type == CellValues.SharedString)
                         {
-                            case CellValues.SharedString:
-                                {
-                                    throw new NotSupportedException("for now, shared string is not supported.");
-                                }
-                            case CellValues.Boolean:
-                                {
-                                    if (dataCell.Value is bool)
-                                    {
-                                        var txt = (bool)dataCell.Value ? this._localization.True : this._localization.False;
-                                        var excelValue = new CellValue(txt);
-                                        excelCell.Append(excelValue);
-                                        break;
-                                    }
-                                    throw new InvalidCastException(dataCell.Value.GetType().FullName + " cannot be converted to boolean");
-                                }
-                            case CellValues.Date:
-                                {
-                                    excelCell.DataType = CellValues.Number;
+                            throw new NotSupportedException("for now, shared string is not supported.");
+                        }
 
-                                    if (dataCell.Value is DateTime)
-                                    {
-                                        var dateValue = ((DateTime)dataCell.Value).ToOADate();
-                                        var excelValue = new CellValue(dateValue.ToString(CultureInfo.InvariantCulture));
-                                        excelCell.Append(excelValue);
-                                        break;
-                                    }
-                                    throw new InvalidCastException(dataCell.Value.GetType().FullName + " cannot be converted to DateTime");
-                                }
-                            case CellValues.Number:
-                                {
-                                    if (dataCell.Value is byte || dataCell.Value is short || dataCell.Value is int || dataCell.Value is long)
-                                    {
-                                        var excelValue = new CellValue(dataCell.Value.ToString());
-                                        excelCell.Append(excelValue);
-                                        break;
-                                    }
+                        if (type == CellValues.Boolean)
+                        {
+                            resolved = true;
+                            if (dataCell.Value is bool)
+                            {
+                                var txt = (bool)dataCell.Value ? this._localization.True : this._localization.False;
+                                var excelValue = new CellValue(txt);
+                                excelCell.Append(excelValue);
+                                break;
+                            }
+                            throw new InvalidCastException(dataCell.Value.GetType().FullName + " cannot be converted to boolean");
+                        }
 
-                                    if (dataCell.Value is double || dataCell.Value is decimal || dataCell.Value is float)
-                                    {
-                                        var decimals = _datatypeResolver.NumberOfDecimals(dataCell.Cell);
-                                        var format = "{0:0.####################}";
-                                        if (decimals != null)
-                                        {
-                                            var zeros = string.Empty.PadLeft(decimals.Value, '0');
-                                            format = format.Replace("####################", zeros);
-                                        }
-                                        var valueString = string.Format(valueNumberFormatInfo, format, dataCell.Value);
-                                        var excelValue = new CellValue(valueString);
-                                        excelCell.Append(excelValue);
-                                        break;
-                                    }
-                                    throw new InvalidCastException(dataCell.Value.GetType().FullName + " cannot be converted to number");
-                                }
-                            case CellValues.String:
-                                {
-                                    var value = dataCell.Value.ToString();
-                                    if (value.ToLower().StartsWith("https://") && value.Contains(";"))
-                                    {
-                                        excelCell.DataType = CellValues.InlineString;
-                                        var spl = value.Split(';');
-                                        var url = spl[0];
-                                        var txt = spl[1];
+                        if (type == CellValues.Date)
+                        {
+                            resolved = true;
+                            excelCell.DataType = CellValues.Number;
 
-                                        var excelValue = new CellValue(value);
-                                        CellFormula hyperlink = new CellFormula() { Space = SpaceProcessingModeValues.Preserve };
-                                        hyperlink.Text = $@"HYPERLINK(""{ url }"", ""{ txt }"")";
-                                        excelValue.Text = txt;
-                                        excelCell.Append(hyperlink);
-                                        excelCell.Append(excelValue);
-                                    }
-                                    else
-                                    {
-                                        var excelValue = new CellValue(value);
-                                        excelCell.Append(excelValue);
-                                    }
-                                    break;
-                                }
-                            default:
+                            if (dataCell.Value is DateTime)
+                            {
+                                var dateValue = ((DateTime)dataCell.Value).ToOADate();
+                                var excelValue = new CellValue(dateValue.ToString(CultureInfo.InvariantCulture));
+                                excelCell.Append(excelValue);
+                                break;
+                            }
+                            throw new InvalidCastException(dataCell.Value.GetType().FullName + " cannot be converted to DateTime");
+                        }
+
+                        if (type == CellValues.Number)
+                        {
+                            resolved = true;
+                            var done = false;
+                            if (dataCell.Value is byte || dataCell.Value is short || dataCell.Value is int || dataCell.Value is long)
+                            {
+                                var excelValue = new CellValue(dataCell.Value.ToString());
+                                excelCell.Append(excelValue);
+                                done = true;
+                            }
+
+                            if (!done)
+                            {
+                                if (dataCell.Value is double || dataCell.Value is decimal || dataCell.Value is float)
                                 {
-                                    throw new NotSupportedException("type " + excelCell.DataType.Value + " not supported.");
+                                    var decimals = _datatypeResolver.NumberOfDecimals(dataCell.Cell);
+                                    var format = "{0:0.####################}";
+                                    if (decimals != null)
+                                    {
+                                        var zeros = string.Empty.PadLeft(decimals.Value, '0');
+                                        format = format.Replace("####################", zeros);
+                                    }
+                                    var valueString = string.Format(valueNumberFormatInfo, format, dataCell.Value);
+                                    var excelValue = new CellValue(valueString);
+                                    excelCell.Append(excelValue);
+                                    done = true;
                                 }
+                            }
+
+                            if (!done)
+                            {
+                                throw new InvalidCastException(dataCell.Value.GetType().FullName + " cannot be converted to number");
+                            }
+                        }
+
+                        if (type == CellValues.String)
+                        {
+                            resolved = true;
+                            var value = dataCell.Value.ToString();
+                            if (value.ToLower().StartsWith("https://") && value.Contains(";"))
+                            {
+                                excelCell.DataType = CellValues.InlineString;
+                                var spl = value.Split(';');
+                                var url = spl[0];
+                                var txt = spl[1];
+
+                                var excelValue = new CellValue(value);
+                                CellFormula hyperlink = new CellFormula() { Space = SpaceProcessingModeValues.Preserve };
+                                hyperlink.Text = $@"HYPERLINK(""{url}"", ""{txt}"")";
+                                excelValue.Text = txt;
+                                excelCell.Append(hyperlink);
+                                excelCell.Append(excelValue);
+                            }
+                            else
+                            {
+                                var excelValue = new CellValue(value);
+                                excelCell.Append(excelValue);
+                            }
+                        }
+
+                        if (resolved == false)
+                        {
+                            throw new NotSupportedException("type " + excelCell.DataType.Value + " not supported.");
                         }
                     }
 
