@@ -9,12 +9,13 @@ namespace Kipon.Excel.UnitTests.TempTests
 {
     public class EnvelopeThing
     {
-        private const string excelfilename = @"C:\Projects\Tagion\DocuSign\Envelopes-beriget.xlsx";
+        // private const string excelfilename = @"C:\Projects\Tagion\DocuSign\Envelopes-beriget.xlsx";
 
 
         [Test]
         public void EnvelopeTest()
         {
+            /*
             using (var fs = new System.IO.FileStream(excelfilename, System.IO.FileMode.Open))
             {
                 var envelopes =  fs.ToArray<ResultEnvelope>();
@@ -22,6 +23,7 @@ namespace Kipon.Excel.UnitTests.TempTests
 
                 var count = envelopes.Length;
             }
+            */
         }
 
 
