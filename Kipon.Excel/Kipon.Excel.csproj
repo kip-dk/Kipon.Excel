@@ -6,7 +6,7 @@
     <Authors>Kjeld Ingemann Poulsen</Authors>
     <Company>Kipon ApS</Company>
     <Description>Library to stream .NET data to and from Excel (OpenXml)</Description>
-    <Copyright>Kipon ApS 2019 - 2024</Copyright>
+    <Copyright>Kipon ApS 2019 - 2025</Copyright>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageProjectUrl>https://github.com/kip-dk/Kipon.Excel</PackageProjectUrl>
     <PackageIconUrl>https://s.gravatar.com/avatar/48d1270fbf870a670d20844eda19e3bf</PackageIconUrl>
@@ -14,18 +14,18 @@
     <RepositoryUrl>https://github.com/kip-dk/Kipon.Excel</RepositoryUrl>
     <PackageTags>OpenXml Excel .NET Stream</PackageTags>
     <PackageReleaseNotes>1.1.n: Updated to target .NET 8.0</PackageReleaseNotes>
-    <Version>1.1.0</Version>
+    <Version>1.1.1</Version>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>Kipon.snk</AssemblyOriginatorKeyFile>
-    <AssemblyVersion>1.1.0.0</AssemblyVersion>
-    <FileVersion>1.1.0.0</FileVersion>
+    <AssemblyVersion>1.1.0.1</AssemblyVersion>
+    <FileVersion>1.1.0.1</FileVersion>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <PackAsTool>False</PackAsTool>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="DocumentFormat.OpenXml" Version="3.1.0" />
+    <PackageReference Include="DocumentFormat.OpenXml" Version="3.3.0" />
   </ItemGroup>
 
 </Project>
